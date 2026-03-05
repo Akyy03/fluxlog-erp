@@ -11,6 +11,8 @@ import { roleGuard } from './services/role.guard';
 import { Dashboard } from './components/dashboard/dashboard';
 import { Projects } from './components/projects/projects';
 import { LeavesComponent } from './components/leaves/leaves';
+import { MyDepartment } from './components/my-department/my-department';
+import { Reports } from './components/reports/reports';
 
 export const routes: Routes = [
   {
@@ -53,6 +55,19 @@ export const routes: Routes = [
         data: { roles: ['ADMIN'] },
         loadComponent: () =>
           import('./components/department-list/department-list').then((m) => m.DepartmentList),
+      },
+      {
+        path: 'my-department',
+        canActivate: [roleGuard],
+        data: { roles: ['MANAGER'] },
+        loadComponent: () =>
+          import('./components/my-department/my-department').then((m) => m.MyDepartment),
+      },
+      {
+        path: 'reports',
+        canActivate: [roleGuard],
+        data: { roles: ['ADMIN', 'MANAGER'] },
+        loadComponent: () => import('./components/reports/reports').then((m) => m.Reports),
       },
       {
         path: 'projects',
