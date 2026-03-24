@@ -5,7 +5,7 @@
 .quantum-sidebar {
   width: 260px;
   height: 100vh;
-  background: #020617; /* Un albastru-negru foarte închis pentru contrast */
+  background: #020617;
   border-right: 1px solid rgba(99, 102, 241, 0.1);
   display: flex;
   flex-direction: column;
@@ -14,25 +14,28 @@
   left: 0;
   top: 0;
   z-index: 1000;
+  box-sizing: border-box;
 }
 
 .brand {
   font-size: 1.5rem;
   font-weight: 900;
   color: white;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
   letter-spacing: -1px;
 }
 
-.brand span {
-  color: #6366f1;
-}
+.brand span { color: #6366f1; }
 
 .nav-menu {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
+}
+
+.sidebar-spacer {
   flex: 1;
+  min-height: 20px;
 }
 
 .nav-item {
@@ -61,166 +64,24 @@
 .icon {
   margin-right: 15px;
   font-size: 1.1rem;
-}
-
-.logout-btn {
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.2);
-  color: #f87171;
-  padding: 14px;
-  border-radius: 12px;
-  font-size: 0.75rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: 0.3s;
-  margin-top: auto;
-}
-
-.logout-btn:hover {
-  background: #ef4444;
-  color: white;
-}
-
-/* --- Overlay-ul care acoperă tot ecranul --- */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(2, 6, 23, 0.7); /* Fundal întunecat transparent */
-  backdrop-filter: blur(8px); /* Efectul de înghețare a fundalului */
+  width: 24px;
   display: flex;
   justify-content: center;
-  align-items: center;
-  z-index: 2000; /* Peste sidebar */
-  animation: fadeIn 0.3s ease-out;
 }
 
-/* --- Cardul Modal (Glassmorphism) --- */
-.modal-card {
-  background: rgba(15, 23, 42, 0.8);
-  border: 1px solid rgba(99, 102, 241, 0.2);
-  border-radius: 24px;
-  padding: 32px;
-  width: 100%;
-  max-width: 400px;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-  color: white;
-  text-align: center;
-  animation: slideUp 0.3s ease-out;
-}
-
-.modal-card h3 {
-  font-size: 1.5rem;
-  font-weight: 800;
-  margin-bottom: 12px;
-  letter-spacing: -0.5px;
-}
-
-.modal-card p {
-  color: #94a3b8;
-  margin-bottom: 24px;
-  font-size: 0.95rem;
-}
-
-/* --- Stiluri Formular (Input-uri) --- */
-.modal-input {
-  width: 100%;
-  padding: 12px 16px;
-  background: rgba(2, 6, 23, 0.5);
-  border: 1px solid rgba(99, 102, 241, 0.2);
-  border-radius: 12px;
-  color: white;
-  margin-bottom: 20px;
-  outline: none;
-  transition: 0.3s;
-}
-
-.modal-input:focus {
-  border-color: #6366f1;
-  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
-}
-
-/* --- Butoane Modal --- */
-.modal-actions {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-}
-
-.btn-secondary {
-  background: rgba(148, 163, 184, 0.1);
-  color: #94a3b8;
-  border: 1px solid rgba(148, 163, 184, 0.2);
-  padding: 12px 24px;
-  border-radius: 12px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: 0.3s;
-}
-
-.btn-secondary:hover {
-  background: rgba(148, 163, 184, 0.2);
-  color: white;
-}
-
-.btn-danger {
-  background: #ef4444;
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 12px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: 0.3s;
-}
-
-.btn-danger:hover {
-  background: #dc2626;
-  transform: translateY(-2px);
-}
-
-.btn-save {
-  background: #6366f1;
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 12px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: 0.3s;
-}
-
-.btn-save:hover {
-  background: #4f46e5;
-  transform: translateY(-2px);
-}
-
-/* --- Animații --- */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes slideUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-
+/* --- Control Panel (Bottom) --- */
 .user-control-panel {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 coloane perfect egale */
-  gap: 1px; /* Creează o linie fină de demarcație între butoane */
-  background: rgba(99, 102, 241, 0.1); /* O nuanță foarte subtilă de indigo */
+  display: flex;
+  align-items: stretch;
+  background: rgba(99, 102, 241, 0.05);
   border: 1px solid rgba(99, 102, 241, 0.2);
   border-radius: 16px;
-  overflow: hidden; /* Taie colțurile butoanelor pentru a respecta border-radius-ul părintelui */
-  margin-top: auto; /* Îl împinge jos de tot */
+  margin-bottom: 10px;
+  overflow: hidden;
 }
 
 .control-btn {
+  flex: 1;
   background: transparent;
   border: none;
   padding: 15px 0;
@@ -228,104 +89,134 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s ease;
   color: #94a3b8;
 }
 
-.control-btn:hover {
-  background: rgba(99, 102, 241, 0.2);
-  color: #6366f1;
-}
-
-/* Butonul de logout are un hover special pe roșu */
-.control-btn.logout-trigger:hover {
-  background: rgba(239, 68, 68, 0.2);
-  color: #f87171;
-}
-
-
-
-.control-btn:hover .control-icon {
-  filter: grayscale(0%) opacity(1);
-  transform: scale(1.1);
-}
-
-/* Stil pentru separatorul vertical între butoane */
 .control-btn:not(:last-child) {
   border-right: 1px solid rgba(99, 102, 241, 0.1);
 }
 
+.control-btn:hover {
+  background: rgba(99, 102, 241, 0.15);
+  color: #6366f1;
+}
+
 .control-btn.full-width {
-  grid-column: span 3;
-  width: 100%;
-  height: 50px; /* Înălțime fixă, sigură */
   background: rgba(239, 68, 68, 0.05);
-  border: 1px solid rgba(239, 68, 68, 0.1);
-  border-radius: 12px;
-  padding: 0 !important;
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  cursor: pointer;
-}
-
-.logout-content-wrapper {
-  display: flex !important;
-  align-items: center !important; /* Centrare verticală iconiță + text */
-  justify-content: center !important;
-  gap: 10px;
-  height: 100%; /* Ocupă toată înălțimea butonului pentru a putea centra în interior */
-}
-
-.logout-text {
   color: #f87171;
-  font-size: 0.8rem;
-  font-weight: 800;
-  letter-spacing: 1.5px;
-  line-height: 1 !important; /* Elimină spațiul de sub text */
-  margin: 0 !important;
-  padding: 0 !important;
-  display: inline-block;
-  /* Dacă tot pare un pic jos, de aici îl ridici manual: */
-  transform: translateY(-1px); 
-}
-
-.control-icon {
-  font-size: 1.1rem;
-  color: #f87171;
-  display: flex;
-  align-items: center;
-  line-height: 1;
-}
-
-/* Ajustăm iconița CSS să fie aliniată perfect */
-.power-icon-css {
-  display: inline-block;
-  flex-shrink: 0;
-  margin: 0 !important;
-  position: relative;
-  /* Dacă iconița pare mai sus sau mai jos decât textul, 
-     poți ajusta acest vertical-align sau folosi un mic top: 1px */
-  top: -1px; 
 }
 
 .control-btn.full-width:hover {
   background: rgba(239, 68, 68, 0.15);
-}
-
-.control-btn.full-width:hover .logout-text {
   color: white;
-  letter-spacing: 2px; /* Efect subtil de expandare la hover */
 }
 
-/* Schimbăm iconița să fie mai vizibilă la Admin */
-.control-btn.full-width .control-icon {
-  font-size: 1.3rem;
-  filter: none; /* Fără grayscale pentru Admin */
-  color: #ef4444;
+.logout-content-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.control-btn.full-width:hover .control-icon {
+.logout-text {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+/* --- Modals --- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(2, 6, 23, 0.8);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modal-card {
+  background: #0f172a;
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 28px;
+  padding: 40px;
+  width: 90%;
+  max-width: 420px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
   color: white;
-  transform: rotate(90deg); /* Se rotește ușor la hover pentru efect dinamic */
-} 
+  text-align: center;
+  animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.modal-icon-header {
+  width: 60px;
+  height: 60px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  font-size: 1.5rem;
+}
+
+.logout-warn { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); }
+.info { background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.2); }
+.security { background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); }
+
+.modal-card h3 { font-size: 1.6rem; font-weight: 800; margin-bottom: 8px; }
+.modal-card p { color: #64748b; margin-bottom: 30px; line-height: 1.5; font-size: 0.95rem; }
+
+.modal-input {
+  width: 100%;
+  padding: 14px 16px;
+  background: rgba(2, 6, 23, 0.5);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 12px;
+  color: white;
+  margin-bottom: 24px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.modal-input:focus { border-color: #6366f1; }
+
+.modal-actions { display: flex; flex-direction: column; gap: 12px; }
+.modal-actions.horizontal { flex-direction: row; }
+.modal-actions.horizontal button { flex: 1; }
+
+/* Buttons */
+.btn-ghost, .btn-primary-gradient, .btn-danger-gradient {
+  padding: 14px 24px;
+  border-radius: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.btn-ghost { background: transparent; color: #94a3b8; border: 1px solid rgba(148, 163, 184, 0.2); }
+.btn-ghost:hover { color: white; border-color: white; }
+
+.btn-primary-gradient {
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  color: white;
+}
+
+.btn-danger-gradient {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+}
+
+.btn-primary-gradient:hover, .btn-danger-gradient:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }

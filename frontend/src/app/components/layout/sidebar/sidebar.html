@@ -27,24 +27,16 @@
 
     <a routerLink="/projects" routerLinkActive="active-link" class="nav-item">
       <span class="icon">🚀</span>
-      @if (authService.isAdmin()) {
-        Projects
-      } @else if (authService.isManager()) {
-        Team Projects
-      } @else {
-        My Tasks
-      }
+      @if (authService.isAdmin()) { Projects } 
+      @else if (authService.isManager()) { Team Projects } 
+      @else { My Tasks }
     </a>
 
     <a routerLink="/leaves" routerLinkActive="active-link" class="nav-item">
       <span class="icon">📅</span>
-      @if (authService.isAdmin()) {
-        Global Leaves
-      } @else if (authService.isManager()) {
-        Approval Center
-      } @else {
-        My Requests
-      }
+      @if (authService.isAdmin()) { Global Leaves } 
+      @else if (authService.isManager()) { Approval Center } 
+      @else { My Requests }
     </a>
 
     @if (authService.isAdmin() || authService.isManager()) {
@@ -55,68 +47,67 @@
     }
   </nav>
 
-  <div class="user-control-panel">
-  
-  @if (!authService.isAdmin()) {
-    <button class="control-btn" (click)="openPhoneModal()" title="Update Phone">
-      <span class="control-icon">📞</span>
-    </button>
-    <button class="control-btn" (click)="openPasswordModal()" title="Security">
-      <span class="control-icon">🔒</span>
-    </button>
-  }
+  <div class="sidebar-spacer"></div>
 
-  <button 
-    class="control-btn" 
-    [class.full-width]="authService.isAdmin()" 
-    (click)="openLogoutConfirm()"
-    title="Logout">
-    <div class="logout-content-wrapper">
-      <span class="control-icon">➔</span>
-      @if (authService.isAdmin()) {
-        <span class="logout-text">LOG OUT</span>
-      }
-    </div>
-  </button>
-  
-</div>
+  <div class="user-control-panel">
+    @if (!authService.isAdmin()) {
+      <button class="control-btn" (click)="openPhoneModal()" title="Update Phone">
+        <span class="control-icon">📞</span>
+      </button>
+      <button class="control-btn" (click)="openPasswordModal()" title="Security">
+        <span class="control-icon">🔒</span>
+      </button>
+    }
+
+    <button
+      class="control-btn"
+      [class.full-width]="authService.isAdmin()"
+      (click)="openLogoutConfirm()"
+      title="Logout"
+    >
+      <div class="logout-content-wrapper">
+        <span class="control-icon">➔</span>
+        @if (authService.isAdmin()) {
+          <span class="logout-text">LOG OUT</span>
+        }
+      </div>
+    </button>
+  </div>
 
   <div class="modal-overlay" *ngIf="showLogoutModal()">
     <div class="modal-card">
+      <div class="modal-icon-header logout-warn"><span>⚠️</span></div>
       <h3>Sign Out</h3>
-      <p>Are you sure you want to end your session?</p>
-      <div class="modal-actions">
-        <button (click)="cancelLogout()" class="btn-secondary">Stay</button>
-        <button (click)="confirmLogout()" class="btn-danger">Logout</button>
+      <p>Are you sure you want to end your session? You will need to re-authenticate to access TechFlow.</p>
+      <div class="modal-actions horizontal">
+        <button (click)="cancelLogout()" class="btn-ghost">Stay</button>
+        <button (click)="confirmLogout()" class="btn-danger-gradient">Logout</button>
       </div>
     </div>
   </div>
 
   <div class="modal-overlay" *ngIf="showPhoneModal()">
     <div class="modal-card">
-      <h3>Update Phone</h3>
-      <p>Enter your new contact number</p>
+      <div class="modal-icon-header info"><span>📞</span></div>
+      <h3>Update Contact</h3>
+      <p>Enter your new contact number below.</p>
       <input type="text" class="modal-input" [(ngModel)]="newPhone" placeholder="07xx xxx xxx" />
       <div class="modal-actions">
-        <button (click)="closeModals()" class="btn-secondary">Cancel</button>
-        <button (click)="savePhone()" class="btn-save">Update</button>
+        <button (click)="closeModals()" class="btn-ghost">Cancel</button>
+        <button (click)="savePhone()" class="btn-primary-gradient">Update Number</button>
       </div>
     </div>
   </div>
 
   <div class="modal-overlay" *ngIf="showPasswordModal()">
     <div class="modal-card">
-      <h3>Security</h3>
-      <p>Set a new password for your account</p>
-      <input
-        type="password"
-        class="modal-input"
-        [(ngModel)]="newPassword"
-        placeholder="New Password"
-      />
+      <div class="modal-icon-header security"><span>🔒</span></div>
+      <h3>Security Update</h3>
+      <p>Set a new secure password for your account.</p>
+      <input type="password" class="modal-input" [(ngModel)]="newPassword" placeholder="New Password" />
       <div class="modal-actions">
-        <button (click)="closeModals()" class="btn-secondary">Cancel</button>
-        <button (click)="savePassword()" class="btn-save">Change</button>
+        <button (click)="closeModals()" class="btn-ghost">Cancel</button>
+        <button (click)="savePassword()" class="btn-primary-gradient">Change Password</button>
       </div>
     </div>
   </div>

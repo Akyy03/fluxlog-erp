@@ -26,14 +26,12 @@ public class Department {
 
     private String description;
 
-    // Managerul departamentului este tot un angajat
     @OneToOne
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @JoinColumn(name = "manager_id")
     @JsonManagedReference
     private Employee manager;
 
-    // Listă de angajați din acest departament
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @OneToMany(mappedBy = "department", fetch = FetchType.EAGER)
     @JsonManagedReference

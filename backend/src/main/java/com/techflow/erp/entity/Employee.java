@@ -50,11 +50,9 @@ public class Employee {
 
     private LocalDate hireDate;
 
-    // Soft Delete - în loc să ștergem fizic, marcăm ca "deleted"
     @Column(name = "is_deleted")
     private boolean isDeleted = false;
 
-    // Setăm automat data angajării la data curentă dacă nu este specificată
     @PrePersist
     protected void onCreate() {
         if (this.hireDate == null) {
