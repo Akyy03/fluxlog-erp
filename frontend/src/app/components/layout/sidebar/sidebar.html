@@ -55,7 +55,7 @@
     }
   </nav>
 
-  <div class="user-control-panel" [class.admin-mode]="authService.isAdmin()">
+  <div class="user-control-panel">
   
   @if (!authService.isAdmin()) {
     <button class="control-btn" (click)="openPhoneModal()" title="Update Phone">
@@ -66,10 +66,17 @@
     </button>
   }
 
-  <button class="control-btn logout-trigger" 
-          (click)="openLogoutConfirm()" 
-          [class.full-width]="authService.isAdmin()">
-    <span class="control-icon">➔</span> <span class="logout-text" *ngIf="authService.isAdmin()">LOG OUT</span>
+  <button 
+    class="control-btn" 
+    [class.full-width]="authService.isAdmin()" 
+    (click)="openLogoutConfirm()"
+    title="Logout">
+    <div class="logout-content-wrapper">
+      <span class="control-icon">➔</span>
+      @if (authService.isAdmin()) {
+        <span class="logout-text">LOG OUT</span>
+      }
+    </div>
   </button>
   
 </div>

@@ -6,6 +6,8 @@ export interface Department {
   id?: number;
   name: string;
   description?: string;
+  manager?: Employee; 
+  employees?: Employee[];
 }
 
 export interface Employee {

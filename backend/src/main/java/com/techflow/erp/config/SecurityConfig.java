@@ -23,7 +23,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(request -> {
                     var opt = new org.springframework.web.cors.CorsConfiguration();
                     opt.setAllowedOrigins(java.util.List.of("http://localhost:4200")); // Permite Angular
-                    opt.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                    opt.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
                     opt.setAllowedHeaders(java.util.List.of("*"));
                     return opt;
                 }))

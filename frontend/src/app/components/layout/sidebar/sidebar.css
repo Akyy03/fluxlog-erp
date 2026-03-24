@@ -243,11 +243,7 @@
   color: #f87171;
 }
 
-.control-icon {
-  font-size: 1.2rem;
-  filter: grayscale(100%) opacity(0.7); /* Face iconițele emoji să pară mai profesionale */
-  transition: 0.3s;
-}
+
 
 .control-btn:hover .control-icon {
   filter: grayscale(0%) opacity(1);
@@ -259,22 +255,58 @@
   border-right: 1px solid rgba(99, 102, 241, 0.1);
 }
 
-/* Stil pentru textul de Logout al Adminului */
-.logout-text {
-  margin-left: 10px;
-  font-size: 0.7rem;
-  font-weight: 800;
-  letter-spacing: 1.5px; /* Aspect de buton de comandă */
-  color: #f87171;
-  text-transform: uppercase;
-  transition: 0.3s;
-}
-
-/* Când Adminul are butonul pe toată lățimea */
 .control-btn.full-width {
   grid-column: span 3;
-  padding: 18px 0;
-  background: rgba(239, 68, 68, 0.05); /* O tentă roșiatică foarte fină */
+  width: 100%;
+  height: 50px; /* Înălțime fixă, sigură */
+  background: rgba(239, 68, 68, 0.05);
+  border: 1px solid rgba(239, 68, 68, 0.1);
+  border-radius: 12px;
+  padding: 0 !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  cursor: pointer;
+}
+
+.logout-content-wrapper {
+  display: flex !important;
+  align-items: center !important; /* Centrare verticală iconiță + text */
+  justify-content: center !important;
+  gap: 10px;
+  height: 100%; /* Ocupă toată înălțimea butonului pentru a putea centra în interior */
+}
+
+.logout-text {
+  color: #f87171;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  line-height: 1 !important; /* Elimină spațiul de sub text */
+  margin: 0 !important;
+  padding: 0 !important;
+  display: inline-block;
+  /* Dacă tot pare un pic jos, de aici îl ridici manual: */
+  transform: translateY(-1px); 
+}
+
+.control-icon {
+  font-size: 1.1rem;
+  color: #f87171;
+  display: flex;
+  align-items: center;
+  line-height: 1;
+}
+
+/* Ajustăm iconița CSS să fie aliniată perfect */
+.power-icon-css {
+  display: inline-block;
+  flex-shrink: 0;
+  margin: 0 !important;
+  position: relative;
+  /* Dacă iconița pare mai sus sau mai jos decât textul, 
+     poți ajusta acest vertical-align sau folosi un mic top: 1px */
+  top: -1px; 
 }
 
 .control-btn.full-width:hover {

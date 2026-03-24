@@ -1,6 +1,8 @@
 package com.techflow.erp.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,12 +28,14 @@ public class Department {
 
     // Managerul departamentului este tot un angajat
     @OneToOne
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @JoinColumn(name = "manager_id")
+    @JsonManagedReference
     private Employee manager;
 
     // Listă de angajați din acest departament
-    @JsonIgnore
-    @OneToMany(mappedBy = "department")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @OneToMany(mappedBy = "department", fetch = FetchType.EAGER)
+    @JsonManagedReference
     private List<Employee> employees;
 }
