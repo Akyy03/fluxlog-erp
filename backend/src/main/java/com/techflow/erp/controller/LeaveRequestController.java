@@ -59,4 +59,9 @@ public class LeaveRequestController {
     public ResponseEntity<List<LeaveRequest>> getAllRequests() {
         return ResponseEntity.ok(leaveRequestService.getAllRequests());
     }
+
+    @GetMapping("/employee/{userId}/balance")
+    public ResponseEntity<Integer> getBalance(@PathVariable Long userId) {
+        return ResponseEntity.ok(leaveRequestService.getRemainingDays(userId));
+    }
 }

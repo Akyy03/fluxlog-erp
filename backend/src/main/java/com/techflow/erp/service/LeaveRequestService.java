@@ -96,4 +96,10 @@ public class LeaveRequestService {
     public List<LeaveRequest> getDepartmentRequests(Long deptId) {
         return leaveRequestRepository.findByEmployee_Department_Id(deptId);
     }
+
+    public Integer getRemainingDays(Long userId) {
+        return employeeRepository.findByUserId(userId)
+                .map(Employee::getRemainingLeaveDays)
+                .orElse(0);
+    }
 }

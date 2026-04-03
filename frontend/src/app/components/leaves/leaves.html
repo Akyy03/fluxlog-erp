@@ -11,39 +11,42 @@
   <div
     *ngIf="message"
     class="alert"
-    [style.background]="
-      message.toLowerCase().includes('error') ? 'rgba(239, 68, 68, 0.1)' : 'rgba(99, 102, 241, 0.1)'
-    "
-    [style.color]="message.toLowerCase().includes('error') ? '#ef4444' : '#6366f1'"
+    [style.background]="message.toLowerCase().includes('error') || message.toLowerCase().includes('eroare') ? 'rgba(239, 68, 68, 0.1)' : 'rgba(99, 102, 241, 0.1)'"
+    [style.color]="message.toLowerCase().includes('error') || message.toLowerCase().includes('eroare') ? '#ef4444' : '#6366f1'"
     style="padding: 12px; border-radius: 8px; margin-bottom: 20px; border: 1px solid currentColor"
   >
     {{ message }}
   </div>
 
-  <div
-    class="leaves-grid"
-    *ngIf="!isAdmin"
-    style="display: grid; grid-template-columns: 1fr 2fr; gap: 24px; margin-bottom: 30px"
-  >
-    <div
-      class="bento-card"
-      style="background: #111827; border-radius: 16px; padding: 24px; border: 1px solid #1f2937"
-    >
-      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px">
-        <div style="color: #6366f1">
-          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path d="M12 4v16m8-8H4"></path>
-          </svg>
+  <div class="leaves-grid" *ngIf="!isAdmin" style="display: grid; grid-template-columns: 1fr 2fr; gap: 24px; margin-bottom: 30px">
+    <div class="bento-card" style="background: #111827; border-radius: 16px; padding: 24px; border: 1px solid #1f2937">
+      
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px">
+        <div style="display: flex; align-items: center; gap: 12px">
+          <div style="color: #6366f1">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"></path></svg>
+          </div>
+          <h3 style="color: white; margin: 0; font-size: 1.1rem; font-weight: 700">New Request</h3>
         </div>
-        <h3 style="color: white; margin: 0; font-size: 1.1rem; font-weight: 700">New Request</h3>
+        <div *ngIf="remainingDays > 0" style="background: rgba(99, 102, 241, 0.1); border: 1px solid #6366f1; color: #a5b4fc; padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 700;">
+          Available: {{ remainingDays }}d
+        </div>
       </div>
 
       <form (submit)="submitRequest()">
         <label style="color: #94a3b8; display: block; margin-bottom: 8px; font-size: 0.75rem; text-transform: uppercase; font-weight: 600;">Start Date</label>
-        <input type="date" [(ngModel)]="newRequest.startDate" [min]="minDate" name="startDate" style="width: 100%; background: #1f2937; border: 1px solid #374151; color: white; padding: 12px; border-radius: 8px; margin-bottom: 16px;" required />
+        <input type="date" [(ngModel)]="newRequest.startDate" (change)="calculateWorkDays()" [min]="minDate" name="startDate" style="width: 100%; background: #1f2937; border: 1px solid #374151; color: white; padding: 12px; border-radius: 8px; margin-bottom: 16px;" required />
 
         <label style="color: #94a3b8; display: block; margin-bottom: 8px; font-size: 0.75rem; text-transform: uppercase; font-weight: 600;">End Date</label>
-        <input type="date" [(ngModel)]="newRequest.endDate" [min]="newRequest.startDate || minDate" name="endDate" style="width: 100%; background: #1f2937; border: 1px solid #374151; color: white; padding: 12px; border-radius: 8px; margin-bottom: 16px;" required />
+        <input type="date" [(ngModel)]="newRequest.endDate" (change)="calculateWorkDays()" [min]="newRequest.startDate || minDate" name="endDate" style="width: 100%; background: #1f2937; border: 1px solid #374151; color: white; padding: 12px; border-radius: 8px; margin-bottom: 16px;" required />
+
+        <div *ngIf="selectedWorkDays > 0" 
+             [style.background]="selectedWorkDays > remainingDays ? 'rgba(239, 68, 68, 0.1)' : 'rgba(16, 185, 129, 0.05)'"
+             [style.color]="selectedWorkDays > remainingDays ? '#ef4444' : '#10b981'"
+             style="padding: 10px; border-radius: 8px; font-size: 0.8rem; margin-bottom: 16px; border: 1px solid currentColor;">
+          <strong>{{ selectedWorkDays }} working days</strong> selected.
+          <span *ngIf="selectedWorkDays > remainingDays"> (Insufficient balance!)</span>
+        </div>
 
         <label style="color: #94a3b8; display: block; margin-bottom: 8px; font-size: 0.75rem; text-transform: uppercase; font-weight: 600;">Leave Type</label>
         <select [(ngModel)]="newRequest.type" name="type" style="width: 100%; background: #1f2937; border: 1px solid #374151; color: white; padding: 12px; border-radius: 8px; margin-bottom: 16px;" required>
@@ -56,8 +59,8 @@
         <label style="color: #94a3b8; display: block; margin-bottom: 8px; font-size: 0.75rem; text-transform: uppercase; font-weight: 600;">Reason / Notes</label>
         <textarea [(ngModel)]="newRequest.reason" name="reason" style="width: 100%; background: #1f2937; border: 1px solid #374151; color: white; padding: 12px; border-radius: 8px; margin-bottom: 24px; height: 80px; resize: none;" placeholder="Optional..."></textarea>
 
-        <button type="submit" [disabled]="isSubmitting || !newRequest.startDate || !newRequest.endDate" style="width: 100%; background: #6366f1; color: white; border: none; padding: 14px; border-radius: 12px; font-weight: 700; cursor: pointer;" [style.opacity]="isSubmitting || !newRequest.startDate || !newRequest.endDate ? 0.5 : 1">
-          {{ isSubmitting ? 'PROCESSING...' : 'Submit Request' }}
+        <button type="submit" [disabled]="isSubmitting || !newRequest.startDate || !newRequest.endDate || (selectedWorkDays > remainingDays)" style="width: 100%; background: #6366f1; color: white; border: none; padding: 14px; border-radius: 12px; font-weight: 700; cursor: pointer;" [style.opacity]="isSubmitting || !newRequest.startDate || !newRequest.endDate || (selectedWorkDays > remainingDays) ? 0.5 : 1">
+          {{ selectedWorkDays > remainingDays ? 'LIMIT EXCEEDED' : (isSubmitting ? 'PROCESSING...' : 'Submit Request') }}
         </button>
       </form>
     </div>
@@ -65,9 +68,7 @@
     <div class="bento-card" style="background: #111827; border-radius: 16px; padding: 24px; border: 1px solid #1f2937">
       <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 30px">
         <div style="color: #64748b">
-          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
-          </svg>
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
         </div>
         <h3 style="color: white; margin: 0; font-size: 1.1rem; font-weight: 700">My Requests</h3>
       </div>
@@ -91,6 +92,7 @@
                 </td>
                 <td style="padding: 16px 12px; color: white; font-weight: 500">
                   <div style="font-family: monospace; font-size: 0.9rem">{{ req?.startDate }} → {{ req?.endDate }}</div>
+                  <div style="color: #94a3b8; font-size: 0.7rem; margin-top: 2px" *ngIf="req.workDays">({{ req.workDays }} work days)</div>
                   <div style="color: #64748b; font-size: 0.75rem; margin-top: 4px; font-weight: 400" *ngIf="req.reason">Note: {{ req.reason }}</div>
                 </td>
                 <td style="padding: 16px 12px">
@@ -102,9 +104,7 @@
                 </td>
                 <td style="padding: 16px 12px; border-radius: 0 12px 12px 0; text-align: center">
                   <button *ngIf="req.status === 'PENDING'" (click)="deleteRequest(req.id)" style="background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); padding: 8px; border-radius: 8px; cursor: pointer;">
-                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                      <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                    </svg>
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                   </button>
                   <span *ngIf="req.status !== 'PENDING'" style="color: #4b5563; font-size: 0.8rem">🔒</span>
                 </td>
@@ -112,9 +112,7 @@
               <tr *ngIf="req.status === 'REJECTED' && req.managerComment">
                 <td colspan="4" style="padding: 0 12px 12px 12px; margin-top: -8px">
                   <div style="background: rgba(239, 68, 68, 0.05); border: 1px dashed rgba(239, 68, 68, 0.3); border-radius: 8px; padding: 10px; color: #ef4444; font-size: 0.8rem; display: flex; gap: 8px; align-items: center;">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     <strong>Rejection Reason:</strong> {{ req.managerComment }}
                   </div>
                 </td>
@@ -131,9 +129,7 @@
     <div class="bento-card" style="background: #111827; border-radius: 16px; padding: 24px; border: 1px solid #1f2937">
       <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 30px">
         <div style="color: #6366f1">
-          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-          </svg>
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
         </div>
         <h3 style="color: white; margin: 0; font-size: 1.1rem; font-weight: 700">
           {{ isAdmin ? 'Global Registry' : 'Team Requests' }}
@@ -155,10 +151,11 @@
               <td style="padding: 16px 12px; border-radius: 12px 0 0 12px">
                 <div style="color: white; font-weight: 600">{{ req.employee?.firstName }} {{ req.employee?.lastName }}</div>
                 <div style="color: #64748b; font-size: 0.7rem">{{ req.employee?.position }}</div>
+                <div style="color: #6366f1; font-size: 0.65rem; margin-top: 4px">Available: {{ req.employee?.remainingLeaveDays }}d</div>
               </td>
               <td style="padding: 16px 12px; color: white; font-family: monospace; font-size: 0.85rem">
                 <div>{{ req.startDate }} / {{ req.endDate }}</div>
-                <div style="color: #94a3b8; font-size: 0.75rem; font-family: sans-serif; margin-top: 4px;">{{ req.type }}</div>
+                <div style="color: #94a3b8; font-size: 0.75rem; font-family: sans-serif; margin-top: 4px;">{{ req.type }} ({{ req.workDays }}d)</div>
               </td>
               <td style="padding: 16px 12px">
                 <div [style.color]="req?.status === 'PENDING' ? '#f59e0b' : req?.status === 'APPROVED' ? '#22c55e' : '#ef4444'" style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase">

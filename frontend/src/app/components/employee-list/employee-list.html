@@ -120,7 +120,7 @@
   </div>
 </div>
 
-<div style="display: flex; flex-wrap: wrap; gap: 24px; margin-bottom: 35px; width: 100%">
+<div *ngIf="!showDeleted()" style="display: flex; flex-wrap: wrap; gap: 24px; margin-bottom: 35px; width: 100%">
   <div
     class="bento-card"
     style="

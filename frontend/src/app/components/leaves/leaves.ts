@@ -24,13 +24,13 @@ export class LeavesComponent implements OnInit {
 
   newRequest = { startDate: '', endDate: '', type: 'VACATION', reason: '' };
 
-  // SEPARARE DATE:
-  myRequests: any[] = []; // Cererile mele personale
-  teamRequests: any[] = []; // Cererile pe care trebuie să le aprob (Manager/Admin)
+  // PROPRIETĂȚI NOI PENTRU CALCUL
+  remainingDays: number = 0;
+  selectedWorkDays: number = 0;
+
+  myRequests: any[] = [];
+  teamRequests: any[] = [];
   showRejectInput: { [key: number]: boolean } = {};
-  toggleRejectBox(id: number) {
-    this.showRejectInput[id] = !this.showRejectInput[id];
-  }
 
   message: string = '';
   isSubmitting = false;
@@ -44,26 +44,50 @@ export class LeavesComponent implements OnInit {
     this.loadData();
   }
 
+  // LOGICĂ NOUĂ: Calcul zile lucrătoare (exclude weekend)
+  calculateWorkDays() {
+    if (!this.newRequest.startDate || !this.newRequest.endDate) {
+      this.selectedWorkDays = 0;
+      return;
+    }
+
+    let start = new Date(this.newRequest.startDate);
+    let end = new Date(this.newRequest.endDate);
+    let count = 0;
+    let cur = new Date(start);
+
+    while (cur <= end) {
+      const dayOfWeek = cur.getDay(); // 0 = Duminică, 6 = Sâmbătă
+      if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+        count++;
+      }
+      cur.setDate(cur.getDate() + 1);
+    }
+    this.selectedWorkDays = count;
+  }
+
   loadData() {
     if (this.isAdmin) {
-      this.loadAllRequests(); // Adminul vede DOAR tabelul mare
+      this.loadAllRequests();
     } else {
-      // Angajatul și Managerul își văd propriile cereri
       if (this.currentUserId) {
         this.loadEmployeeRequests();
       }
-      // Managerul vede în plus și echipa
       if (this.isManager && this.deptId) {
         this.loadDepartmentRequests();
       }
     }
   }
 
-  // Cererile PERSONALE (Angajat)
   loadEmployeeRequests() {
     this.leaveService.getMyRequests(this.currentUserId).subscribe({
       next: (data) => {
         this.myRequests = [...data];
+        
+        // Extragem balanța din obiectul employee al primei cereri gasite
+        if (data && data.length > 0 && data[0].employee) {
+          this.remainingDays = data[0].employee.remainingLeaveDays;
+        }
         this.cdr.detectChanges();
       },
       error: (err) => {
@@ -73,33 +97,30 @@ export class LeavesComponent implements OnInit {
     });
   }
 
-  // Cererile ECHIPEI (Manager)
-loadDepartmentRequests() {
-  this.leaveService.getDepartmentRequests(this.deptId).subscribe({
-    next: (data) => {
-      const all = data || [];
-      this.teamRequests = all.filter(req => 
-        req.employee?.position !== 'Architect' && 
-        req.employee?.id !== this.currentUserId
-      );
-      this.cdr.detectChanges();
-    }
-  });
-}
+  loadDepartmentRequests() {
+    this.leaveService.getDepartmentRequests(this.deptId).subscribe({
+      next: (data) => {
+        const all = data || [];
+        this.teamRequests = all.filter(req => 
+          req.employee?.position !== 'Architect' && 
+          req.employee?.id !== this.currentUserId
+        );
+        this.cdr.detectChanges();
+      }
+    });
+  }
 
-  // Cererile GLOBALE (Admin)
   loadAllRequests() {
-  this.leaveService.getAllRequests().subscribe({
-    next: (data) => {
-      // Adminul vede tot, dar dacă vrei să nu își vadă propriile cereri în lista de procesare:
-      this.teamRequests = (data || []).filter(
-        (req: any) => req.employee.id !== this.currentUserId
-      );
-      this.cdr.detectChanges();
-    },
-    error: (err) => (this.message = 'Error loading global registry.'),
-  });
-}
+    this.leaveService.getAllRequests().subscribe({
+      next: (data) => {
+        this.teamRequests = (data || []).filter(
+          (req: any) => req.employee.id !== this.currentUserId
+        );
+        this.cdr.detectChanges();
+      },
+      error: (err) => (this.message = 'Error loading global registry.'),
+    });
+  }
 
   submitRequest() {
     if (!this.newRequest.startDate || !this.newRequest.endDate) {
@@ -113,7 +134,7 @@ loadDepartmentRequests() {
         this.isSubmitting = false;
         this.message = 'Success! Request submitted.';
         this.resetForm();
-        this.loadEmployeeRequests(); // Refresh doar la lista mea
+        this.loadEmployeeRequests();
       },
       error: (err) => {
         this.isSubmitting = false;
@@ -124,6 +145,7 @@ loadDepartmentRequests() {
 
   private resetForm() {
     this.newRequest = { startDate: '', endDate: '', type: 'VACATION', reason: '' };
+    this.selectedWorkDays = 0; // Resetam si calculul vizual
   }
 
   deleteRequest(id: number) {
@@ -142,49 +164,42 @@ loadDepartmentRequests() {
     }
   }
 
-  // LOGICA DE APROBARE/RESPINGERE
+  toggleRejectBox(id: number) {
+    this.showRejectInput[id] = !this.showRejectInput[id];
+  }
 
   approveRequest(id: number) {
     const comment = prompt('Optional: Observations for approval:');
     if (comment !== null) {
-      // Dacă nu a dat Cancel
       this.updateStatus(id, 'APPROVED', comment);
     }
   }
 
-  // Înlocuiește rejectRequest cu asta
-rejectRequest(id: number, reason: string) {
-  if (!reason || reason.trim() === '') {
-    alert('Te rugăm să introduci un motiv pentru respingere.');
-    return;
-  }
-  this.isSubmitting = true;
-  // Folosim direct updateStatus pentru a păstra logica de refresh unitară
-  this.updateStatus(id, 'REJECTED', reason);
-  this.showRejectInput[id] = false;
-  this.isSubmitting = false;
-}
-
-// Actualizează updateStatus să fie mai robustă
-private updateStatus(id: number, status: 'APPROVED' | 'REJECTED', comment: string = '') {
-  this.leaveService.updateRequestStatus(id, status, comment).subscribe({
-    next: () => {
-      this.message = `Request successfully ${status.toLowerCase()}.`;
-      // Forțăm reîncărcarea tuturor surselor de date
-      this.loadData(); 
-      
-      // DEBUG: Verificăm în consolă dacă obiectul nou are manager_comment
-      console.log(`Status updated to ${status}. Refreshing data...`);
-    },
-    error: (err) => {
-      this.message = 'Error: ' + (err.error?.message || 'Failed to update status.');
-      this.isSubmitting = false;
-      this.cdr.detectChanges();
+  rejectRequest(id: number, reason: string) {
+    if (!reason || reason.trim() === '') {
+      alert('Te rugăm să introduci un motiv pentru respingere.');
+      return;
     }
-  });
-}
+    this.updateStatus(id, 'REJECTED', reason);
+    this.showRejectInput[id] = false;
+  }
 
-  // Helper pentru trackBy în HTML (performanță)
+  private updateStatus(id: number, status: 'APPROVED' | 'REJECTED', comment: string = '') {
+    this.isSubmitting = true;
+    this.leaveService.updateRequestStatus(id, status, comment).subscribe({
+      next: () => {
+        this.message = `Request successfully ${status.toLowerCase()}.`;
+        this.isSubmitting = false;
+        this.loadData(); 
+      },
+      error: (err) => {
+        this.message = 'Error: ' + (err.error?.message || 'Failed to update status.');
+        this.isSubmitting = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
   trackByRequestId(index: number, item: any) {
     return item.id;
   }
