@@ -22,9 +22,13 @@ public class EmployeeController {
     @GetMapping
     public ResponseEntity<List<EmployeeResponse>> getEmployees() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String role = auth.getAuthorities().toString();
+        System.out.println("Authorities: " + auth.getAuthorities());
 
-        if (role.contains("ADMIN")) {
+        boolean isAdmin = auth.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().toUpperCase().contains("ADMIN"));
+
+        if (isAdmin) {
+            System.out.println("Sunt ADMIN, cer toată lista.");
             return ResponseEntity.ok(employeeService.getAllEmployeesIncludeDeleted());
         }
         return ResponseEntity.ok(employeeService.getAllActiveEmployees());

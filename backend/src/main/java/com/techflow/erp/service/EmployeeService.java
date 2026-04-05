@@ -13,9 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,15 +24,14 @@ public class EmployeeService {
     private static final String ALLOWED_DOMAIN = "@techflow.com";
 
     public List<EmployeeResponse> getAllActiveEmployees() {
-        return employeeRepository.findAllActiveWithUser().stream()
-                .map(this::mapToResponse)
-                .collect(Collectors.toList());
+        return getAllEmployeesIncludeDeleted(); // Forțează arhiva peste tot pentru test
     }
 
     public List<EmployeeResponse> getAllEmployeesIncludeDeleted() {
-        return employeeRepository.findAllWithUser().stream()
-                .map(this::mapToResponse)
-                .collect(Collectors.toList());
+        // Folosim Query-ul NATIV care ignoră orice setare de @Where a Hibernate-ului
+        List<Employee> employees = employeeRepository.findAllNative();
+        System.out.println("DEBUG SQL NATIV: Am găsit " + employees.size() + " rânduri.");
+        return employees.stream().map(this::mapToResponse).toList();
     }
 
     @Transactional
@@ -143,27 +140,32 @@ public class EmployeeService {
     }
 
     private EmployeeResponse mapToResponse(Employee emp) {
-        // Extragem ID-ul de User. Dacă dintr-un motiv bizar nu are User, facem fallback pe ID-ul de Employee
-        Long userId = (emp.getUser() != null) ? emp.getUser().getId() : emp.getId();
+        // 1. Folosim ID-ul de Employee, nu de User!
+        Long employeeId = emp.getId();
 
+        // 2. Protecție la null pentru User
         String email = (emp.getUser() != null) ? emp.getUser().getEmail() : emp.getEmail();
         String currentRole = (emp.getUser() != null) ? emp.getUser().getRole().name() : "EMPLOYEE";
         String tempPass = (emp.getUser() != null) ? emp.getUser().getTempPasswordPlain() : null;
 
+        // 3. PROTECȚIE CRITICĂ la Department (Aici crapă arhiva de obicei)
+        Long deptId = (emp.getDepartment() != null) ? emp.getDepartment().getId() : null;
+        String deptName = (emp.getDepartment() != null) ? emp.getDepartment().getName() : "Fără Departament";
+
         return new EmployeeResponse(
-                userId,
+                employeeId,
                 emp.getFirstName(),
                 emp.getLastName(),
                 email,
                 emp.getPosition(),
                 emp.getSalary(),
                 emp.getPhone(),
-                emp.getDepartment().getId(),
-                emp.getDepartment() != null ? emp.getDepartment().getName() : "No Department",
+                deptId,
+                deptName,
                 emp.getHireDate() != null ? emp.getHireDate().toString() : null,
                 currentRole,
                 tempPass,
-                emp.isDeleted()
+                emp.isDeleted() // Asigură-te că getter-ul returnează ce trebuie
         );
     }
 

@@ -46,16 +46,16 @@
             style="width: 100%; margin-top: 8px"
           >
             <option [value]="null">Select employee...</option>
-            <option *ngFor="let user of users" [value]="user.id">
-              {{ user.firstName }} {{ user.lastName }}
+            <option *ngFor="let user of filteredUsers" [value]="user.id">
+              {{ user.firstName }} {{ user.lastName }} {{ user.isDeleted ? '(Archived)' : '' }}
             </option>
           </select>
 
           <div
-            *ngIf="users.length === 0"
+            *ngIf="filteredUsers.length === 0"
             style="margin-top: 8px; color: #fb7185; font-size: 0.75rem; line-height: 1.2"
           >
-            ⚠️ No members available. Please add the relevant departments to the project first.
+            ⚠️ No active members available. Please add the relevant departments to the project first.
           </div>
         </div>
       </div>

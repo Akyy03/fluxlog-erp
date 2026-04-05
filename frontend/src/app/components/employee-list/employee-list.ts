@@ -59,7 +59,6 @@ export class EmployeeListComponent implements OnInit {
     if (role === 'ADMIN') {
       return emps.reduce((acc, emp) => acc + (emp.salary || 0), 0);
     } else {
-      // Filtrăm managerii din calculul bugetului dacă nu suntem ADMIN
       return emps
         .filter((emp) => emp.role !== 'MANAGER')
         .reduce((acc, emp) => acc + (emp.salary || 0), 0);
@@ -70,33 +69,35 @@ export class EmployeeListComponent implements OnInit {
     this.totalEmployees() > 0 ? this.totalBudget() / this.totalEmployees() : 0,
   );
 
+  // --- LOGICA DE FILTRARE CORECTATĂ (SEARCH + ARCHIVE) ---
   filteredEmployees = computed(() => {
-    const query = this.searchQuery().toLowerCase().trim();
     const allEmployees = this.employees();
     const displayArchive = this.showDeleted();
-    const role = this.userRole();
+    const isAdmin = this.userRole()?.includes('ADMIN');
+    const query = this.searchQuery().toLowerCase().trim();
 
-    return allEmployees.filter((emp) => {
-      const isArchived = !!emp.isDeleted;
+    return allEmployees.filter((emp: Employee) => {
+      // 1. Filtru de Arhivă (Logica existentă)
+      const archived = !!emp.isDeleted;
+      let matchesStatus = false;
 
-      // Filtrare Tab-uri: ADMIN poate comuta între Archive/Active, restul văd doar Active
-      if (role === 'ADMIN') {
-        if (displayArchive !== isArchived) return false;
+      if (isAdmin) {
+        matchesStatus = (displayArchive === archived);
       } else {
-        if (isArchived) return false;
+        matchesStatus = !archived;
       }
 
-      // Filtru de căutare
-      if (query) {
-        const fullName = `${emp.firstName} ${emp.lastName}`.toLowerCase();
-        return (
-          fullName.includes(query) ||
-          emp.position?.toLowerCase().includes(query) ||
-          emp.departmentName?.toLowerCase().includes(query)
-        );
-      }
+      // Dacă nu se potrivește statusul (Active/Archive), tăiem din start
+      if (!matchesStatus) return false;
 
-      return true;
+      // 2. Filtru de Search (Logica adăugată)
+      if (!query) return true; // Dacă nu scriem nimic, arătăm tot din categoria respectivă
+
+      const fullName = `${emp.firstName} ${emp.lastName}`.toLowerCase();
+      const position = (emp.position || '').toLowerCase();
+      const dept = (emp.departmentName || '').toLowerCase();
+
+      return fullName.includes(query) || position.includes(query) || dept.includes(query);
     });
   });
 
@@ -116,26 +117,28 @@ export class EmployeeListComponent implements OnInit {
     this.employeeService.getEmployees().subscribe({
       next: (data: any) => {
         const employeesArray = Array.isArray(data) ? data : (data.content || []);
+        
+        let normalized: Employee[] = employeesArray.map((emp: any) => {
+          const hasDeletedFlag = emp.isDeleted === true || emp.deleted === true;
+          const hasActiveFlag = emp.isActive === false || emp.active === false;
+
+          return {
+            ...emp,
+            isDeleted: hasDeletedFlag || hasActiveFlag
+          };
+        });
+
         const role = this.userRole();
         const myEmail = localStorage.getItem('email');
 
-        // Normalizare date
-        let normalized = employeesArray.map((emp: any) => ({
-          ...emp,
-          isDeleted: !!(emp.isDeleted || emp.deleted)
-        }));
-
-        // Logica de Business pentru Manageri (filtrare pe departament)
-        if (role === 'MANAGER' && myEmail) {
-          const myProfile = normalized.find((e : Employee) => e.email === myEmail);
-          if (myProfile) {
-            const myDept = myProfile.departmentName;
-            this.employees.set(normalized.filter((e : Employee) => e.departmentName === myDept));
+        if (role?.includes('MANAGER') && !role?.includes('ADMIN') && myEmail) {
+          const myProfile = normalized.find((e: Employee) => e.email === myEmail);
+          if (myProfile?.departmentName) {
+            this.employees.set(normalized.filter((e: Employee) => e.departmentName === myProfile.departmentName));
           } else {
-            this.employees.set([]);
+            this.employees.set(normalized);
           }
         } else {
-          // ADMIN sau EMPLOYEE (serverul trimite deja ce trebuie)
           this.employees.set(normalized);
         }
       },
@@ -192,6 +195,13 @@ export class EmployeeListComponent implements OnInit {
       hireDate: new Date().toISOString().split('T')[0],
       department: { id: undefined, name: '' },
     };
+  }
+
+  validatePhone(event: any) {
+    const input = event.target;
+    const cleanedValue = input.value.replace(/[^0-9+]/g, '');
+    this.newEmployee.phone = cleanedValue;
+    input.value = cleanedValue;
   }
 
   // --- CRUD OPERATIONS ---

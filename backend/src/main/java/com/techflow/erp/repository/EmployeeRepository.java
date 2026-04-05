@@ -9,11 +9,10 @@ import java.util.Optional;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
-    @Query("SELECT e FROM Employee e LEFT JOIN FETCH e.user WHERE e.isDeleted = false")
-    List<Employee> findAllActiveWithUser();
+    List<Employee> findAll();
 
-    @Query("SELECT e FROM Employee e LEFT JOIN FETCH e.user")
-    List<Employee> findAllWithUser();
+    @Query(value = "SELECT * FROM employees", nativeQuery = true)
+    List<Employee> findAllNative();
 
     @Query("SELECT e FROM Employee e WHERE e.user.id = :userId")
     Optional<Employee> findByUserId(@Param("userId") Long userId);
@@ -23,6 +22,4 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     Optional<Employee> findByEmail(String email);
 
-    @Query("SELECT e FROM Employee e WHERE e.department.id IN :deptIds")
-    List<Employee> findAllByDepartmentIds(@Param("deptIds") List<Long> deptIds);
 }
