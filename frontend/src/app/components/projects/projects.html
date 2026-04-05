@@ -84,7 +84,15 @@
 
         <div style="margin-bottom: 32px">
           <label class="tf-label">Release Deadline</label>
-          <input type="date" formControlName="deadline" class="tf-input" style="width: 100%; margin-top: 8px" />
+          <input type="date" 
+                 formControlName="deadline" 
+                 [min]="today"
+                 class="tf-input" 
+                 style="width: 100%; margin-top: 8px" />
+          <div *ngIf="projectForm.get('deadline')?.errors?.['pastDate'] || (projectForm.get('deadline')?.touched && projectForm.get('deadline')?.value < today)" 
+               style="color: #fb7185; font-size: 0.75rem; margin-top: 8px;">
+            ⚠️ Deadline cannot be set in the past.
+          </div>
         </div>
 
         <div style="display: flex; gap: 12px">

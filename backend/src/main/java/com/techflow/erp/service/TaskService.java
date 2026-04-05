@@ -4,7 +4,9 @@ import com.techflow.erp.constant.TaskStatus;
 import com.techflow.erp.dto.TaskDTO;
 import com.techflow.erp.entity.Task;
 import com.techflow.erp.entity.User;
+import com.techflow.erp.repository.ProjectRepository;
 import com.techflow.erp.repository.TaskRepository;
+import com.techflow.erp.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,8 @@ import java.util.stream.Collectors;
 public class TaskService {
 
     private final TaskRepository taskRepository;
+    private final ProjectRepository projectRepository;
+    private final UserRepository userRepository;
 
     public List<TaskDTO> getTasksByProject(Long projectId) {
         return taskRepository.findByProjectId(projectId)
@@ -66,6 +70,21 @@ public class TaskService {
         task.setStatus(newStatus);
         taskRepository.save(task);
         // JpaRepository va face update automat
+    }
+
+    @Transactional
+    public TaskDTO createTask(TaskDTO dto) {
+        Task task = Task.builder()
+                .title(dto.getTitle())
+                .description(dto.getDescription())
+                .deadline(dto.getDeadline())
+                .status(TaskStatus.TODO) // Toate task-urile noi pleacă din TODO
+                .project(projectRepository.getReferenceById(dto.getProjectId()))
+                .assignedTo(dto.getAssignedToId() != null ?
+                        userRepository.getReferenceById(dto.getAssignedToId()) : null)
+                .build();
+
+        return convertToDTO(taskRepository.save(task));
     }
 
 }

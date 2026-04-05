@@ -2,16 +2,11 @@ package com.techflow.erp.controller;
 
 import com.techflow.erp.dto.response.EmployeeResponse;
 import com.techflow.erp.entity.Employee;
-import com.techflow.erp.repository.EmployeeRepository;
 import com.techflow.erp.service.EmployeeService;
-import com.techflow.erp.service.LeaveCalculationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -20,17 +15,30 @@ import java.util.List;
 public class EmployeeController {
 
     private final EmployeeService employeeService;
-    private final EmployeeRepository employeeRepository;
-    private final LeaveCalculationService leaveCalculationService;
 
     @GetMapping
-    public List<EmployeeResponse> getEmployees() {
-        return employeeService.getAllEmployees();
+    public List<EmployeeResponse> getActiveEmployees() {
+        return employeeService.getAllActiveEmployees();
+    }
+
+    @GetMapping("/all")
+    public List<EmployeeResponse> getAllEmployees() {
+        return employeeService.getAllEmployeesIncludeDeleted();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<EmployeeResponse> getEmployeeById(@PathVariable Long id) {
         return ResponseEntity.ok(employeeService.getEmployeeById(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<EmployeeResponse> addEmployee(@RequestBody Employee employee) {
+        return new ResponseEntity<>(employeeService.addEmployee(employee), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<EmployeeResponse> updateEmployee(@PathVariable Long id, @RequestBody Employee employeeDetails) {
+        return ResponseEntity.ok(employeeService.updateEmployee(id, employeeDetails));
     }
 
     @DeleteMapping("/{id}")
@@ -39,23 +47,12 @@ public class EmployeeController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping
-    public ResponseEntity<EmployeeResponse> addEmployee(@RequestBody Employee employee) {
-        EmployeeResponse newEmployeeResponse = employeeService.addEmployee(employee);
-        return new ResponseEntity<>(newEmployeeResponse, HttpStatus.CREATED);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<EmployeeResponse> updateEmployee(@PathVariable Long id, @RequestBody Employee employeeDetails) {
-        EmployeeResponse updatedEmployee = employeeService.updateEmployee(id, employeeDetails);
-        return ResponseEntity.ok(updatedEmployee);
-    }
-
     @PutMapping("/{id}/restore")
     public ResponseEntity<Employee> restoreEmployee(@PathVariable Long id) {
         return ResponseEntity.ok(employeeService.restoreEmployee(id));
     }
 
+    // --- Rutele pentru Profilul Meu ---
     @GetMapping("/me/{email}")
     public ResponseEntity<Employee> getMyProfile(@PathVariable String email) {
         return ResponseEntity.ok(employeeService.findByEmail(email));

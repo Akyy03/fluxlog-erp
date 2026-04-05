@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core'; 
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Project, ProjectService } from '../../services/project';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -9,7 +9,7 @@ import { RouterModule } from '@angular/router';
   templateUrl: './projects.html',
   styleUrls: ['./projects.css'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule]
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
 })
 export class ProjectsComponent implements OnInit {
   projects: Project[] = [];
@@ -17,21 +17,24 @@ export class ProjectsComponent implements OnInit {
   showModal: boolean = false; // Controlul vizibilității modalului
   projectForm: FormGroup;
 
+  today: string = '';
+
   constructor(
-    private projectService: ProjectService, 
+    private projectService: ProjectService,
     private cdr: ChangeDetectorRef,
-    private fb: FormBuilder
-  ) { 
+    private fb: FormBuilder,
+  ) {
     // Inițializarea formularului cu validări de bază
     this.projectForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       description: ['', Validators.required],
       deadline: ['', Validators.required],
-      status: ['ACTIVE', Validators.required]
+      status: ['ACTIVE', Validators.required],
     });
   }
 
   ngOnInit(): void {
+    this.today = new Date().toISOString().split('T')[0];
     this.loadProjects();
   }
 
@@ -46,7 +49,7 @@ export class ProjectsComponent implements OnInit {
         console.error('Error loading projects', err);
         this.loading = false;
         this.cdr.detectChanges();
-      }
+      },
     });
   }
 
@@ -75,17 +78,21 @@ export class ProjectsComponent implements OnInit {
         error: (err) => {
           console.error('Error saving project', err);
           alert('A apărut o eroare la salvarea proiectului!');
-        }
+        },
       });
     }
   }
 
   getStatusClass(status: string): string {
     switch (status) {
-      case 'ACTIVE': return 'status-active';
-      case 'ON_HOLD': return 'status-hold';
-      case 'COMPLETED': return 'status-completed';
-      default: return '';
+      case 'ACTIVE':
+        return 'status-active';
+      case 'ON_HOLD':
+        return 'status-hold';
+      case 'COMPLETED':
+        return 'status-completed';
+      default:
+        return '';
     }
   }
 }

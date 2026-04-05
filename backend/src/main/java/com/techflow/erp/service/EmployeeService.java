@@ -23,10 +23,15 @@ public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
     private final PasswordEncoder passwordEncoder;
-
     private static final String ALLOWED_DOMAIN = "@techflow.com";
 
-    public List<EmployeeResponse> getAllEmployees() {
+    public List<EmployeeResponse> getAllActiveEmployees() {
+        return employeeRepository.findAllActiveWithUser().stream()
+                .map(this::mapToResponse)
+                .collect(Collectors.toList());
+    }
+
+    public List<EmployeeResponse> getAllEmployeesIncludeDeleted() {
         return employeeRepository.findAllWithUser().stream()
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
@@ -35,95 +40,72 @@ public class EmployeeService {
     @Transactional
     public void deleteEmployee(Long id) {
         Employee employee = employeeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Angajatul cu ID-ul " + id + " nu a fost găsit."));
-
+                .orElseThrow(() -> new RuntimeException("Employee not found: " + id));
         employee.setDeleted(true);
-
         if (employee.getUser() != null) {
             employee.getUser().setActive(false);
         }
-
         employeeRepository.save(employee);
     }
 
-    public EmployeeResponse getEmployeeById(Long id) {
+    @Transactional
+    public Employee restoreEmployee(Long id) {
         Employee employee = employeeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Employee not found with id: " + id));
-        return mapToResponse(employee);
+                .orElseThrow(() -> new RuntimeException("Employee not found"));
+        employee.setDeleted(false);
+        if (employee.getUser() != null) {
+            employee.getUser().setActive(true);
+        }
+        return employeeRepository.save(employee);
     }
 
     @Transactional
     public EmployeeResponse addEmployee(Employee employee) {
         validateEmailDomain(employee.getEmail());
-
         if (employee.getUser() == null) {
-            User newUser = createAutomaticUser(employee.getEmail());
-            employee.setUser(newUser);
+            employee.setUser(createAutomaticUser(employee.getEmail()));
         }
-
-        if (employee.getUser() != null) {
-            employee.setRole(employee.getUser().getRole().name());
-        }
-
+        employee.setRole(employee.getUser().getRole().name());
         calculateLeaveDays(employee);
-
-        Employee saved = employeeRepository.save(employee);
-        return mapToResponse(saved);
+        return mapToResponse(employeeRepository.save(employee));
     }
 
     @Transactional
     public EmployeeResponse updateEmployee(Long id, Employee empDetails) {
         Employee employee = employeeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Employee not found with id: " + id));
+                .orElseThrow(() -> new RuntimeException("Employee not found"));
 
-        // 1. Validare email și update User Email
         if (empDetails.getEmail() != null) {
             validateEmailDomain(empDetails.getEmail());
-            if (employee.getUser() != null) {
-                employee.getUser().setEmail(empDetails.getEmail());
-            }
+            if (employee.getUser() != null) employee.getUser().setEmail(empDetails.getEmail());
         }
 
-        // 2. ACTUALIZARE ROL (Sincronizare cu tabelul Users)
         if (empDetails.getRole() != null && employee.getUser() != null) {
-            try {
-                Role newRole = Role.valueOf(empDetails.getRole());
-                employee.getUser().setRole(newRole);
-                // Sincronizăm și câmpul transient role pentru calculateLeaveDays
-                employee.setRole(newRole.name());
-            } catch (IllegalArgumentException e) {
-                System.err.println("Invalid role received: " + empDetails.getRole());
-            }
-        } else if (employee.getUser() != null) {
-            // Dacă nu primim rol nou în empDetails, ne asigurăm că cel existent e setat în câmpul transient pentru calcul
-            employee.setRole(employee.getUser().getRole().name());
+            Role newRole = Role.valueOf(empDetails.getRole());
+            employee.getUser().setRole(newRole);
+            employee.setRole(newRole.name());
         }
 
-        // 3. Actualizare câmpuri de bază
         employee.setFirstName(empDetails.getFirstName());
         employee.setLastName(empDetails.getLastName());
         employee.setPosition(empDetails.getPosition());
         employee.setSalary(empDetails.getSalary());
         employee.setPhone(empDetails.getPhone());
+        if (empDetails.getHireDate() != null) employee.setHireDate(empDetails.getHireDate());
+        if (empDetails.getDepartment() != null) employee.setDepartment(empDetails.getDepartment());
 
-        if (empDetails.getHireDate() != null) {
-            employee.setHireDate(empDetails.getHireDate());
-        }
-
-        if (empDetails.getDepartment() != null) {
-            employee.setDepartment(empDetails.getDepartment());
-        }
-
-        // 4. RECALCULARE ZILE CONCEDIU
-        // Apelăm metoda chiar înainte de salvare pentru a reflecta orice schimbare de rol sau hireDate
         calculateLeaveDays(employee);
-
-        Employee updated = employeeRepository.save(employee);
-        return mapToResponse(updated);
+        return mapToResponse(employeeRepository.save(employee));
     }
 
+    public EmployeeResponse getEmployeeById(Long id) {
+        return employeeRepository.findById(id)
+                .map(this::mapToResponse)
+                .orElseThrow(() -> new RuntimeException("Employee not found"));
+    }
+
+    // --- Metode pentru Profilul Meu ---
     public Employee findByEmail(String email) {
-        // Căutăm angajatul pornind de la user-ul care are acel email
         return employeeRepository.findByUserEmail(email)
                 .orElseThrow(() -> new RuntimeException("Profilul nu a fost găsit pentru email: " + email));
     }
@@ -133,72 +115,50 @@ public class EmployeeService {
         Employee existingEmployee = findByEmail(email);
         User currentUser = existingEmployee.getUser();
 
-        // 1. Update Telefon (din Employee)
         if (updatedData.getPhone() != null) {
             existingEmployee.setPhone(updatedData.getPhone());
         }
 
-        // 2. Update Parolă (din User)
         if (updatedData.getUser() != null) {
             User userUpdate = updatedData.getUser();
-
             if (userUpdate.getPassword() != null && !userUpdate.getPassword().isEmpty()) {
-                // Setăm parola nouă criptată
                 currentUser.setPassword(passwordEncoder.encode(userUpdate.getPassword()));
-
-                // Foarte important: Ștergem parola temporară pentru a marca procesul de schimbare ca finalizat
                 currentUser.setTempPasswordPlain(null);
             }
         }
-
         return employeeRepository.save(existingEmployee);
     }
 
-    // --- METODE HELPER (Private) ---
-
-    private void validateEmailDomain(String email) {
-        if (email == null || !email.toLowerCase().endsWith(ALLOWED_DOMAIN)) {
-            throw new IllegalArgumentException("Identity Error: Email must belong to " + ALLOWED_DOMAIN);
-        }
-    }
-
-    private User createAutomaticUser(String email) { // Am scos outPassword ca nu mai avem nevoie de artificiul ala
+    // --- Helpers ---
+    private User createAutomaticUser(String email) {
         User user = new User();
         user.setEmail(email);
-
         String tempPass = UUID.randomUUID().toString().substring(0, 10);
-
         user.setPassword(passwordEncoder.encode(tempPass));
-        user.setTempPasswordPlain(tempPass); // <--- O salvăm în noua coloană
-
+        user.setTempPasswordPlain(tempPass);
         user.setRole(Role.EMPLOYEE);
         user.setActive(true);
         user.setNeedsPasswordChange(true);
-
         return user;
     }
 
     private EmployeeResponse mapToResponse(Employee emp) {
-        String email = Optional.ofNullable(emp.getUser())
-                .map(User::getEmail)
-                .orElse(emp.getEmail() != null ? emp.getEmail() : "no-email" + ALLOWED_DOMAIN);
+        // Extragem ID-ul de User. Dacă dintr-un motiv bizar nu are User, facem fallback pe ID-ul de Employee
+        Long userId = (emp.getUser() != null) ? emp.getUser().getId() : emp.getId();
 
-        String currentRole = Optional.ofNullable(emp.getUser())
-                .map(u -> u.getRole().name())
-                .orElse("EMPLOYEE");
-
-        String tempPass = Optional.ofNullable(emp.getUser())
-                .map(User::getTempPasswordPlain)
-                .orElse(null);
+        String email = (emp.getUser() != null) ? emp.getUser().getEmail() : emp.getEmail();
+        String currentRole = (emp.getUser() != null) ? emp.getUser().getRole().name() : "EMPLOYEE";
+        String tempPass = (emp.getUser() != null) ? emp.getUser().getTempPasswordPlain() : null;
 
         return new EmployeeResponse(
-                emp.getId(),
+                userId,
                 emp.getFirstName(),
                 emp.getLastName(),
                 email,
                 emp.getPosition(),
                 emp.getSalary(),
                 emp.getPhone(),
+                emp.getDepartment().getId(),
                 emp.getDepartment() != null ? emp.getDepartment().getName() : "No Department",
                 emp.getHireDate() != null ? emp.getHireDate().toString() : null,
                 currentRole,
@@ -207,49 +167,23 @@ public class EmployeeService {
         );
     }
 
-    @Transactional
-    public Employee restoreEmployee(Long id) {
-        Employee employee = employeeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Employee not found"));
-
-        employee.setDeleted(false);
-
-        if (employee.getUser() != null) {
-            employee.getUser().setActive(true);
+    private void validateEmailDomain(String email) {
+        if (email == null || !email.toLowerCase().endsWith(ALLOWED_DOMAIN)) {
+            throw new IllegalArgumentException("Email must belong to " + ALLOWED_DOMAIN);
         }
-
-        return employeeRepository.save(employee);
     }
 
     private void calculateLeaveDays(Employee employee) {
-        // 1. Dacă e ADMIN, nu are zile de concediu (0)
         if ("ADMIN".equalsIgnoreCase(employee.getRole())) {
             employee.setTotalLeaveDays(0);
             employee.setRemainingLeaveDays(0);
             return;
         }
-
-        // 2. Baza: 21 zile
-        int baseDays = 21;
-
-        // 3. Bonus de Rol: MANAGER (+2 zile)
-        if ("MANAGER".equalsIgnoreCase(employee.getRole())) {
-            baseDays += 2;
-        }
-
-        // 4. Bonus de Vechime (+1 zi pentru fiecare an întreg lucrat)
-        int seniorityBonus = 0;
-        if (employee.getHireDate() != null) {
-            seniorityBonus = Period.between(employee.getHireDate(), LocalDate.now()).getYears();
-        }
-
-        // 5. Calcul Total și Plafonare la 28 de zile
-        int total = Math.min(baseDays + seniorityBonus, 28);
-
+        int baseDays = "MANAGER".equalsIgnoreCase(employee.getRole()) ? 23 : 21;
+        int seniority = (employee.getHireDate() != null) ?
+                Period.between(employee.getHireDate(), LocalDate.now()).getYears() : 0;
+        int total = Math.min(baseDays + seniority, 28);
         employee.setTotalLeaveDays(total);
-
-        if (employee.getRemainingLeaveDays() == null || employee.getRemainingLeaveDays() == 0) {
-            employee.setRemainingLeaveDays(total);
-        }
+        if (employee.getRemainingLeaveDays() == null) employee.setRemainingLeaveDays(total);
     }
 }

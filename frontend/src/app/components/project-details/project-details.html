@@ -35,7 +35,7 @@
       <ng-container *ngIf="!isEditing">
         <button class="btn-edit-project" (click)="startEdit()">✏️ Edit</button>
         <button class="btn-delete-project" (click)="deleteProject()">🗑️ Delete</button>
-        <button class="btn-add-task">+ New Task</button>
+        <button class="btn-add-task" (click)="openAddTaskModal()">+ New Task</button>
       </ng-container>
       
       <ng-container *ngIf="isEditing">
@@ -46,6 +46,7 @@
   </div>
 
   <div class="kanban-board" cdkDropListGroup>
+    
     <div class="kanban-column">
       <div class="column-header">
         <div class="status-indicator todo"></div>
@@ -54,7 +55,13 @@
       </div>
       <div class="task-list" id="TODO" cdkDropList [cdkDropListData]="todoTasks" [cdkDropListConnectedTo]="['IN_PROGRESS', 'DONE']" (cdkDropListDropped)="drop($event)">
         <div class="task-card bento-item" *ngFor="let task of todoTasks" cdkDrag>
-          <h4>{{task.title}}</h4>
+          <div class="task-card-header">
+            <h4>{{task.title}}</h4>
+            <div class="task-actions">
+              <button class="task-action-btn edit" (click)="openEditTaskModal(task)">✏️</button>
+              <button class="task-action-btn delete" (click)="deleteTask(task.id)">×</button>
+            </div>
+          </div>
           <p>{{task.description}}</p>
           <div class="task-footer">
             <span class="assignee-tag">👤 {{task.assignedToName || 'Unassigned'}}</span>
@@ -72,7 +79,13 @@
       </div>
       <div class="task-list" id="IN_PROGRESS" cdkDropList [cdkDropListData]="inProgressTasks" [cdkDropListConnectedTo]="['TODO', 'DONE']" (cdkDropListDropped)="drop($event)">
         <div class="task-card bento-item in-progress-border" *ngFor="let task of inProgressTasks" cdkDrag>
-          <h4>{{task.title}}</h4>
+          <div class="task-card-header">
+            <h4>{{task.title}}</h4>
+            <div class="task-actions">
+              <button class="task-action-btn edit" (click)="openEditTaskModal(task)">✏️</button>
+              <button class="task-action-btn delete" (click)="deleteTask(task.id)">×</button>
+            </div>
+          </div>
           <p>{{task.description}}</p>
           <div class="task-footer">
             <span class="assignee-tag">👤 {{task.assignedToName || 'Unassigned'}}</span>
@@ -90,7 +103,13 @@
       </div>
       <div class="task-list" id="DONE" cdkDropList [cdkDropListData]="doneTasks" [cdkDropListConnectedTo]="['TODO', 'IN_PROGRESS']" (cdkDropListDropped)="drop($event)">
         <div class="task-card bento-item done-border" *ngFor="let task of doneTasks" cdkDrag>
-          <h4>{{task.title}}</h4>
+          <div class="task-card-header">
+            <h4>{{task.title}}</h4>
+            <div class="task-actions">
+              <button class="task-action-btn edit" (click)="openEditTaskModal(task)">✏️</button>
+              <button class="task-action-btn delete" (click)="deleteTask(task.id)">×</button>
+            </div>
+          </div>
           <p>{{task.description}}</p>
           <div class="task-footer">
             <span class="assignee-tag">👤 {{task.assignedToName || 'Unassigned'}}</span>
@@ -99,5 +118,15 @@
         </div>
       </div>
     </div>
+
   </div>
 </div>
+
+<app-task-modal
+  *ngIf="showTaskModal"
+  [projectId]="projectId"
+  [users]="projectMembers"
+  [task]="selectedTask"
+  (closed)="showTaskModal = false"
+  (taskCreated)="handleTaskCreated($event)">
+</app-task-modal>

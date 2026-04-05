@@ -1,0 +1,116 @@
+/* Overlay identic cu restul aplicatiei */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  animation: fadeIn 0.3s ease;
+}
+
+/* Card Style refolosit */
+.bento-card {
+  background: rgba(30, 41, 59, 0.4);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  border-radius: 20px;
+  padding: 40px;
+  width: 100%;
+  max-width: 520px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* Labels */
+.tf-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #64748b;
+  font-weight: 700;
+  display: block;
+}
+
+.project-id {
+  font-family: 'JetBrains Mono', monospace;
+  color: #475569;
+  font-size: 0.75rem;
+}
+
+/* Input & Select Customization */
+.tf-input {
+  background: rgba(15, 23, 42, 0.6) !important;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 12px 16px;
+  color: white;
+  font-family: inherit;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.tf-input:focus {
+  border-color: #6366f1;
+  background: rgba(30, 41, 59, 0.8) !important;
+}
+
+/* Eliminam albul din dropdown */
+select.tf-input option {
+  background-color: #1e293b; /* Culoarea modalei */
+  color: white;
+}
+
+/* Butoane - Copiate din stilul tau general */
+.tf-btn-primary {
+  background: #6366f1;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tf-btn-primary:hover:not(:disabled) {
+  background: #4f46e5;
+  transform: translateY(-2px);
+}
+
+.tf-btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.tf-btn-secondary {
+  background: rgba(255, 255, 255, 0.03);
+  color: #94a3b8;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 12px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tf-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+}
+
+.tf-input:invalid {
+  border-color: rgba(239, 68, 68, 0.2); /* Un roșu foarte discret */
+}
+
+.tf-btn-primary:disabled {
+  filter: grayscale(1);
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}

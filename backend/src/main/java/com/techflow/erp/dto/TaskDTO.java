@@ -14,4 +14,6 @@ public class TaskDTO {
     private TaskStatus status;
     private String assignedToName;
     private LocalDate deadline;
+    private Long projectId;
+    private Long assignedToId;
 }
