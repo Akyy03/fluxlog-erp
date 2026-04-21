@@ -30,7 +30,7 @@ public class Task {
     private TaskStatus status;
 
     // Un task aparține obligatoriu unui singur proiect
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 

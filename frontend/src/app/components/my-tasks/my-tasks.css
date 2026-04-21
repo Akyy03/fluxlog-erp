@@ -1,75 +1,144 @@
-/* --- Fix esențial pentru Drag & Drop (nu șterge) --- */
-.cdk-drag-preview {
-  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
-  cursor: grabbing;
+/* --- BOARD LAYOUT --- */
+.projects-container {
+  position: relative;
+  z-index: 1;
+  padding: 40px;
+  max-width: 1600px;
+  margin: 0 auto;
 }
-.cdk-drag-placeholder { opacity: 0.3; }
-.cdk-drag-animating { transition: transform 250ms cubic-bezier(0, 0, 0.2, 1); }
-.task-list.cdk-drop-list-dragging .task-card:not(.cdk-drag-placeholder) { transition: transform 250ms cubic-bezier(0, 0, 0.2, 1); }
 
-/* --- Stiluri Vizuale (Bento/TechFlow Look) --- */
-.kanban-board { 
-  display: grid; 
-  grid-template-columns: repeat(3, 1fr); 
-  gap: 20px; 
-  padding: 20px;
+.kanban-board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  position: relative;
+  z-index: 1;
+  min-height: 400px;
+  pointer-events: auto;
 }
 
 .kanban-column {
-  background: rgba(15, 23, 42, 0.5); /* Dark background */
-  border: 1px solid #1e293b;
-  border-radius: 16px;
-  padding: 20px;
   display: flex;
   flex-direction: column;
+  gap: 20px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 12px;
+  padding: 15px;
+  min-height: 500px;
 }
 
 .column-header {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
-  color: #94a3b8;
+  justify-content: space-between;
+  padding: 0 10px;
+  margin-bottom: 10px;
+}
+
+/* --- LABELS & BADGES --- */
+.tf-label {
+  color: #64748b;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
 }
 
 .count-badge {
-  background: #334155;
-  padding: 2px 10px;
-  border-radius: 12px;
+  background: rgba(99, 102, 241, 0.1);
+  color: #6366f1;
+  padding: 4px 12px;
+  border-radius: 20px;
   font-size: 0.75rem;
-  color: white;
+  font-weight: 700;
 }
 
-/* Stil carduri */
+/* --- TASK CARD BENTO STYLE --- */
 .task-card {
+  background: rgba(30, 41, 59, 0.5); /* Semi-transparent dark */
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 20px;
+  will-change: transform;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
   cursor: grab;
-  background: #1e293b;
-  padding: 16px;
-  border-radius: 12px;
-  margin-bottom: 12px;
-  border-left: 4px solid transparent; /* Aici vine culoarea statusului */
-  transition: transform 0.2s, border-color 0.2s;
+  position: relative;
+  overflow: hidden;
 }
 
-.task-card:hover { background: #26364d; }
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  min-height: 400px; /* Foarte important: să aibă unde să pici task-ul */
+  width: 100%;
+  pointer-events: auto; /* Activăm interacțiunea */
+  z-index: 10;
+}
 
-/* Culori borduri pe status */
-.todo-card { border-left-color: #6366f1; } /* Mov/Albastru */
-.progress-card { border-left-color: #f59e0b; } /* Portocaliu */
-.done-card { border-left-color: #10b981; } /* Verde */
+.task-card:hover {
+  background: rgba(30, 41, 59, 0.8);
+  border-color: rgba(99, 102, 241, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* --- INTERNAL ELEMENTS --- */
+.project-tag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.65rem;
+  color: #818cf8;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #6366f1;
+  box-shadow: 0 0 8px #6366f1;
+}
 
 .task-card h4 {
+  color: #f8fafc;
   margin: 0 0 8px 0;
-  color: white;
-  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.4;
 }
 
 .task-card p {
   color: #94a3b8;
   font-size: 0.85rem;
-  margin: 0;
+  margin: 0 0 16px 0;
+  line-height: 1.5;
 }
 
-.task-list { 
-  min-height: 400px; /* Ca să poți dropa ușor și când e goală */
+.unit-id {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  color: #475569;
+  font-size: 0.75rem;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 4px 8px;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+/* --- DRAG & DROP STATES --- */
+.cdk-drag-preview {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+  transform: rotate(2deg);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0.2;
+  border: 2px dashed #6366f1;
+  border-radius: 16px;
 }

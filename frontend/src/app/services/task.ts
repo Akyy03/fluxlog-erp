@@ -9,6 +9,8 @@ export interface Task {
   status: 'TODO' | 'IN_PROGRESS' | 'DONE';
   assignedToName: string;
   deadline: string;
+  projectId?: number | null;
+  projectName?: string;
 }
 
 @Injectable({

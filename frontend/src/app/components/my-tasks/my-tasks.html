@@ -1,67 +1,100 @@
 <div class="projects-container">
-  <div style="display: flex; align-items: center; margin-bottom: 40px">
-    <div>
-      <h1 style="color: white; margin: 0; font-size: 2rem; font-weight: 800; letter-spacing: -1px">
-        MY <span style="color: #6366f1">TASKS</span>
-      </h1>
-      <p style="color: #64748b; margin-top: 5px; font-weight: 500">
-        Manage your individual workflow, track daily progress and deadlines.
-      </p>
-    </div>
+  <div style="margin-bottom: 40px">
+    <h1 style="color: white; margin: 0; font-size: 2rem; font-weight: 800; letter-spacing: -1px">
+      MY <span style="color: #6366f1">TASKS</span>
+    </h1>
+    <p style="color: #64748b; margin-top: 5px; font-weight: 500">
+      Manage your individual workflow, track daily progress and deadlines.
+    </p>
   </div>
 
   <div class="kanban-board" cdkDropListGroup>
-    
     <div class="kanban-column">
       <div class="column-header">
-        <h3>TO DO</h3>
+        <span class="tf-label">TO DO</span>
         <span class="count-badge">{{ todoTasks.length }}</span>
       </div>
-      <div id="TODO" 
-           cdkDropList 
-           [cdkDropListData]="todoTasks"
-           [cdkDropListConnectedTo]="['IN_PROGRESS', 'DONE']"
-           (cdkDropListDropped)="onDrop($event)" 
-           class="task-list">
-        <div *ngFor="let task of todoTasks" class="task-card todo-card" cdkDrag [cdkDragData]="task">
-          <h4>{{ task.title }}</h4>
-          <p>{{ task.description }}</p>
+      <div
+        id="TODO"
+        cdkDropList
+        [cdkDropListData]="todoTasks"
+        [cdkDropListConnectedTo]="['IN_PROGRESS', 'DONE']"
+        (cdkDropListDropped)="onDrop($event)"
+        class="task-list"
+      >
+        <div
+          *ngFor="let task of todoTasks"
+          class="bento-card task-card"
+          cdkDrag
+          [cdkDragData]="task"
+        >
+          <div *ngIf="task.projectName" class="project-tag">
+            <div class="dot"></div>
+            {{ task.projectName }}
+          </div>
+          <h4 style="color: white; margin: 8px 0; font-size: 1rem">{{ task.title }}</h4>
+          <p style="color: #94a3b8; font-size: 0.85rem; margin: 0">{{ task.description }}</p>
+          <div class="unit-id" style="margin-top: 15px">{{ task.deadline }}</div>
         </div>
       </div>
     </div>
 
     <div class="kanban-column">
       <div class="column-header">
-        <h3>IN PROGRESS</h3>
+        <span class="tf-label">IN PROGRESS</span>
         <span class="count-badge">{{ inProgressTasks.length }}</span>
       </div>
-      <div id="IN_PROGRESS" 
-           cdkDropList 
-           [cdkDropListData]="inProgressTasks"
-           [cdkDropListConnectedTo]="['TODO', 'DONE']"
-           (cdkDropListDropped)="onDrop($event)" 
-           class="task-list">
-        <div *ngFor="let task of inProgressTasks" class="task-card progress-card" cdkDrag [cdkDragData]="task">
-          <h4>{{ task.title }}</h4>
-          <p>{{ task.description }}</p>
+      <div
+        id="IN_PROGRESS"
+        cdkDropList
+        [cdkDropListData]="inProgressTasks"
+        [cdkDropListConnectedTo]="['TODO', 'DONE']"
+        (cdkDropListDropped)="onDrop($event)"
+        class="task-list"
+      >
+        <div
+          *ngFor="let task of inProgressTasks"
+          class="bento-card task-card"
+          cdkDrag
+          [cdkDragData]="task"
+        >
+          <div class="project-tag">
+            <div class="dot"></div>
+            {{ task.projectName }}
+          </div>
+          <h4 style="color: white; margin: 8px 0; font-size: 1rem">{{ task.title }}</h4>
+          <p style="color: #94a3b8; font-size: 0.85rem; margin: 0">{{ task.description }}</p>
+          <div class="unit-id" style="margin-top: 15px">{{ task.deadline }}</div>
         </div>
       </div>
     </div>
 
     <div class="kanban-column">
       <div class="column-header">
-        <h3>COMPLETED</h3>
+        <span class="tf-label">COMPLETED</span>
         <span class="count-badge">{{ doneTasks.length }}</span>
       </div>
-      <div id="DONE" 
-           cdkDropList 
-           [cdkDropListData]="doneTasks"
-           [cdkDropListConnectedTo]="['TODO', 'IN_PROGRESS']"
-           (cdkDropListDropped)="onDrop($event)" 
-           class="task-list">
-        <div *ngFor="let task of doneTasks" class="task-card done-card" cdkDrag [cdkDragData]="task">
-          <h4>{{ task.title }}</h4>
-          <p>{{ task.description }}</p>
+      <div
+        id="DONE"
+        cdkDropList
+        [cdkDropListData]="doneTasks"
+        [cdkDropListConnectedTo]="['TODO', 'IN_PROGRESS']"
+        (cdkDropListDropped)="onDrop($event)"
+        class="task-list"
+      >
+        <div
+          *ngFor="let task of doneTasks"
+          class="bento-card task-card"
+          cdkDrag
+          [cdkDragData]="task"
+        >
+          <div class="project-tag">
+            <div class="dot"></div>
+            {{ task.projectName }}
+          </div>
+          <h4 style="color: white; margin: 8px 0; font-size: 1rem">{{ task.title }}</h4>
+          <p style="color: #94a3b8; font-size: 0.85rem; margin: 0">{{ task.description }}</p>
+          <div class="unit-id" style="margin-top: 15px">{{ task.deadline }}</div>
         </div>
       </div>
     </div>

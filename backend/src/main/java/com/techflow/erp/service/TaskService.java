@@ -42,6 +42,14 @@ public class TaskService {
             }
         }
 
+        Long pId = null;
+        String pName = "Fără Proiect";
+
+        if (task.getProject() != null) {
+            pId = task.getProject().getId();
+            pName = task.getProject().getName();
+        }
+
         return TaskDTO.builder()
                 .id(task.getId())
                 .title(task.getTitle())
@@ -49,6 +57,8 @@ public class TaskService {
                 .status(task.getStatus())
                 .deadline(task.getDeadline())
                 .assignedToName(assignedName)
+                .projectId(pId)
+                .projectName(pName)
                 .build();
     }
 

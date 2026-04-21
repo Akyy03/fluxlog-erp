@@ -1,0 +1,101 @@
+:host { display: block; }
+.dashboard-wrapper { padding: 40px; max-width: 1400px; margin: 0 auto; }
+
+/* Header */
+.header-section { margin-bottom: 30px; }
+.header-section h1 { font-size: 1.6rem; font-weight: 800; color: white; margin: 0; }
+.header-section p { color: #64748b; font-size: 0.85rem; margin-top: 4px; }
+
+/* Stats - Compact */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px; /* Redus gap */
+  margin-bottom: 30px;
+}
+
+.stat-item-compact {
+  padding: 16px 20px !important; /* Mai mic */
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-value-compact {
+  font-size: 1.5rem; /* Cifre mai mici */
+  font-weight: 800;
+  color: white;
+  margin-top: 5px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Assignments List View */
+.tasks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Distanță mică între rânduri */
+}
+
+.task-row {
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Aliniere verticală pe centru */
+  border-radius: 12px; /* Mai puțin rotunjit pt listă */
+}
+
+.task-title {
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.task-info { display: flex; flex-direction: column; gap: 4px; }
+
+/* Badge-uri și Label-uri */
+.badge {
+  background: rgba(99, 102, 241, 0.08);
+  color: #818cf8;
+  border: 1px solid rgba(99, 102, 241, 0.1);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.tf-label {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #64748b;
+  font-weight: 700;
+}
+
+.unit-id {
+  font-family: 'JetBrains Mono', monospace;
+  color: #475569;
+  font-size: 0.7rem;
+}
+
+.section-title {
+  color: white;
+  font-size: 1rem;
+  margin-bottom: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.5px;
+}
+
+/* Bento Base */
+.bento-card {
+  background: rgba(30, 41, 59, 0.4);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+.bento-card:hover {
+  background: rgba(30, 41, 59, 0.6);
+  border-color: rgba(99, 102, 241, 0.3);
+}

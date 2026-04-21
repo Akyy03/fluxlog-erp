@@ -41,12 +41,13 @@
           <label class="tf-label">Operational Lead <span style="color: #6366f1">*</span></label>
           <select
             name="assignee"
-            [(ngModel)]="taskModel.assignedToId"
+            [(ngModel)]="selectedUser"
+            (ngModelChange)="onUserChange($event)"
             class="tf-input"
             style="width: 100%; margin-top: 8px"
           >
-            <option [value]="null">Select employee...</option>
-            <option *ngFor="let user of filteredUsers" [value]="user.id">
+            <option [ngValue]="null">Select employee...</option>
+            <option *ngFor="let user of filteredUsers" [ngValue]="user">
               {{ user.firstName }} {{ user.lastName }} {{ user.isDeleted ? '(Archived)' : '' }}
             </option>
           </select>

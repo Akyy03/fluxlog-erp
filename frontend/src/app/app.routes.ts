@@ -8,7 +8,7 @@ import { authGuard } from './services/auth.guard';
 import { guestGuard } from './services/guest.guard';
 import { roleGuard } from './services/role.guard';
 
-import { Dashboard } from './components/dashboard/dashboard';
+import { DashboardComponent } from './components/dashboard/dashboard';
 import { ProjectsComponent } from './components/projects/projects';
 import { LeavesComponent } from './components/leaves/leaves';
 import { MyDepartmentComponent } from './components/my-department/my-department';
@@ -33,7 +33,7 @@ export const routes: Routes = [
     children: [
       {
         path: 'dashboard',
-        component: Dashboard,
+        component: DashboardComponent,
       },
       {
         path: 'employees',

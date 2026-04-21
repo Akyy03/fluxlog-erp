@@ -15,5 +15,6 @@ public class TaskDTO {
     private String assignedToName;
     private LocalDate deadline;
     private Long projectId;
+    private String projectName;
     private Long assignedToId;
 }
