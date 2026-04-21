@@ -87,4 +87,11 @@ public class TaskService {
         return convertToDTO(taskRepository.save(task));
     }
 
+    public List<TaskDTO> getTasksByUserId(Long userId) {
+        return taskRepository.findByAssignedToId(userId)
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
 }

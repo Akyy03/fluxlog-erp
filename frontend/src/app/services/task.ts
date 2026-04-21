@@ -35,4 +35,8 @@ export class TaskService {
       {},
     );
   }
+
+  getMyTasks(userId: number): Observable<Task[]> {
+    return this.http.get<Task[]>(`${this.apiUrl}/my-tasks/${userId}`);
+  }
 }

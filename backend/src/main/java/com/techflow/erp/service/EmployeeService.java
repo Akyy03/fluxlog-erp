@@ -24,13 +24,11 @@ public class EmployeeService {
     private static final String ALLOWED_DOMAIN = "@techflow.com";
 
     public List<EmployeeResponse> getAllActiveEmployees() {
-        return getAllEmployeesIncludeDeleted(); // Forțează arhiva peste tot pentru test
+        return getAllEmployeesIncludeDeleted();
     }
 
     public List<EmployeeResponse> getAllEmployeesIncludeDeleted() {
-        // Folosim Query-ul NATIV care ignoră orice setare de @Where a Hibernate-ului
         List<Employee> employees = employeeRepository.findAllNative();
-        System.out.println("DEBUG SQL NATIV: Am găsit " + employees.size() + " rânduri.");
         return employees.stream().map(this::mapToResponse).toList();
     }
 

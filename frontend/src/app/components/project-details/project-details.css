@@ -16,6 +16,7 @@
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(12px);
+  margin-bottom: 40px;
 }
 
 .title-group {
@@ -96,7 +97,9 @@
   transition: transform 0.2s;
 }
 
-.btn-remove-dept:hover { transform: scale(1.2); }
+.btn-remove-dept:hover {
+  transform: scale(1.2);
+}
 
 .add-dept-select {
   background: rgba(255, 255, 255, 0.05);
@@ -114,6 +117,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 25px;
+  margin-top: 40px;
 }
 
 .kanban-column {
@@ -168,8 +172,18 @@
   z-index: 10; /* Suprapunere corectă la hover */
 }
 
-.task-card h4 { margin: 0 0 10px 0; color: #f1f5f9; font-size: 1rem; font-weight: 600; }
-.task-card p { color: #94a3b8; font-size: 0.85rem; line-height: 1.5; margin-bottom: 15px; }
+.task-card h4 {
+  margin: 0 0 10px 0;
+  color: #f1f5f9;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.task-card p {
+  color: #94a3b8;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
 
 .task-footer {
   border-top: 1px solid rgba(255, 255, 255, 0.05);
@@ -205,8 +219,14 @@
   transition: all 0.2s;
 }
 
-.task-action-btn.edit:hover { background: #6366f1; color: white; }
-.task-action-btn.delete:hover { background: #ef4444; color: white; }
+.task-action-btn.edit:hover {
+  background: #6366f1;
+  color: white;
+}
+.task-action-btn.delete:hover {
+  background: #ef4444;
+  color: white;
+}
 
 .assignee-tag {
   font-size: 0.75rem;
@@ -220,8 +240,12 @@
 }
 
 /* Status Borders */
-.in-progress-border { border-left: 4px solid #f59e0b; }
-.done-border { border-left: 4px solid #10b981; }
+.in-progress-border {
+  border-left: 4px solid #f59e0b;
+}
+.done-border {
+  border-left: 4px solid #10b981;
+}
 
 /* --- BUTTONS RE-POLISH --- */
 .project-actions {
@@ -231,8 +255,11 @@
   padding-top: 4px; /* O mică ajustare pentru a fi la nivel cu textul din input */
 }
 
-.btn-edit-project, .btn-delete-project, .btn-add-task, 
-.btn-save-project, .btn-cancel-project {
+.btn-edit-project,
+.btn-delete-project,
+.btn-add-task,
+.btn-save-project,
+.btn-cancel-project {
   padding: 10px 18px;
   border-radius: 12px;
   font-weight: 600;
@@ -245,20 +272,57 @@
   gap: 8px;
 }
 
-.btn-add-task { background: #6366f1; color: white; }
-.btn-add-task:hover { background: #4f46e5; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3); }
+.btn-add-task {
+  background: #6366f1;
+  color: white;
+}
+.btn-add-task:hover {
+  background: #4f46e5;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
 
-.btn-edit-project { background: rgba(255, 255, 255, 0.05); color: #a5b4fc; border-color: rgba(255, 255, 255, 0.1); }
-.btn-edit-project:hover { background: rgba(99, 102, 241, 0.15); border-color: rgba(99, 102, 241, 0.3); }
+.btn-edit-project {
+  background: rgba(255, 255, 255, 0.05);
+  color: #a5b4fc;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+.btn-edit-project:hover {
+  background: rgba(99, 102, 241, 0.15);
+  border-color: rgba(99, 102, 241, 0.3);
+}
 
-.btn-delete-project { background: rgba(239, 68, 68, 0.05); color: #f87171; border-color: rgba(239, 68, 68, 0.1); }
-.btn-delete-project:hover { background: #ef4444; color: white; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); }
+.btn-delete-project {
+  background: rgba(239, 68, 68, 0.05);
+  color: #f87171;
+  border-color: rgba(239, 68, 68, 0.1);
+}
+.btn-delete-project:hover {
+  background: #ef4444;
+  color: white;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
 
-.btn-save-project { background: rgba(16, 185, 129, 0.1); color: #10b981; border-color: rgba(16, 185, 129, 0.2); }
-.btn-save-project:hover { background: #10b981; color: white; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); }
+.btn-save-project {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+  border-color: rgba(16, 185, 129, 0.2);
+}
+.btn-save-project:hover {
+  background: #10b981;
+  color: white;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
 
-.btn-cancel-project { background: rgba(255, 255, 255, 0.05); color: #94a3b8; border-color: rgba(255, 255, 255, 0.1); }
-.btn-cancel-project:hover { background: rgba(255, 255, 255, 0.1); color: white; }
+.btn-cancel-project {
+  background: rgba(255, 255, 255, 0.05);
+  color: #94a3b8;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+.btn-cancel-project:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
 
 /* --- EDIT MODE INPUTS (MODERNIZED) --- */
 .edit-input-title {
@@ -275,7 +339,10 @@
   outline: none;
   box-sizing: border-box;
 }
-.edit-input-title:focus { background: rgba(99, 102, 241, 0.05); border-color: #6366f1; }
+.edit-input-title:focus {
+  background: rgba(99, 102, 241, 0.05);
+  border-color: #6366f1;
+}
 
 .edit-input-date {
   background: rgba(15, 23, 42, 0.8);
@@ -300,13 +367,29 @@
   outline: none;
   resize: vertical;
 }
-.edit-input-desc:focus { border-color: rgba(255, 255, 255, 0.2); background: rgba(255, 255, 255, 0.05); }
+.edit-input-desc:focus {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+}
 
 /* --- INDICATORS & BADGES --- */
-.status-indicator { width: 8px; height: 8px; border-radius: 50%; }
-.todo { background: #6366f1; box-shadow: 0 0 10px rgba(99, 102, 241, 0.5); }
-.progress { background: #f59e0b; box-shadow: 0 0 10px rgba(245, 158, 11, 0.5); }
-.done { background: #10b981; box-shadow: 0 0 10px rgba(16, 185, 129, 0.5); }
+.status-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.todo {
+  background: #6366f1;
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+}
+.progress {
+  background: #f59e0b;
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+}
+.done {
+  background: #10b981;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+}
 
 .count-badge {
   margin-left: auto;
@@ -317,11 +400,20 @@
   color: #64748b;
 }
 
+.cdk-drag-preview {
+  box-shadow:
+    0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 8px 10px 1px rgba(0, 0, 0, 0.14),
+    0 3px 14px 2px rgba(0, 0, 0, 0.12);
+  cursor: grabbing;
+}
+
 .drag-placeholder {
   background: rgba(99, 102, 241, 0.03);
   border: 2px dashed rgba(255, 255, 255, 0.1);
   border-radius: 16px;
   min-height: 100px;
+  opacity: 0.3;
 }
 
 /* Stil pentru spațiul gol unde va ateriza cardul */

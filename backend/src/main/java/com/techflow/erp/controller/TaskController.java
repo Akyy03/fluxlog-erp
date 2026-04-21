@@ -77,4 +77,10 @@ public class TaskController {
         taskRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/my-tasks/{userId}") // Temporar punem userId in path
+    public ResponseEntity<List<TaskDTO>> getMyTasks(@PathVariable Long userId) {
+        return ResponseEntity.ok(taskService.getTasksByUserId(userId));
+    }
+
 }

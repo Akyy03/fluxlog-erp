@@ -83,6 +83,13 @@ export const routes: Routes = [
         data: { roles: ['ADMIN', 'MANAGER'] },
       },
       {
+        path: 'my-tasks',
+        canActivate: [roleGuard],
+        data: { roles: ['EMPLOYEE'] },
+        loadComponent: () =>
+          import('./components/my-tasks/my-tasks').then((m) => m.MyTasksComponent),
+      },
+      {
         path: 'leaves',
         component: LeavesComponent,
       },

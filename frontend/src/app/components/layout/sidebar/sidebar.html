@@ -25,18 +25,28 @@
       </a>
     }
 
-    <a routerLink="/projects" routerLinkActive="active-link" class="nav-item">
-      <span class="icon">🚀</span>
-      @if (authService.isAdmin()) { Projects } 
-      @else if (authService.isManager()) { Team Projects } 
-      @else { My Tasks }
-    </a>
+    @if (authService.isAdmin() || authService.isManager()) {
+      <a routerLink="/projects" routerLinkActive="active-link" class="nav-item">
+        <span class="icon">🚀</span>
+        {{ authService.isAdmin() ? 'Projects' : 'Team Projects' }}
+      </a>
+    }
+
+    @if (authService.isEmployee()) {
+      <a routerLink="/my-tasks" routerLinkActive="active-link" class="nav-item">
+        <span class="icon">🚀</span> My Tasks
+      </a>
+    }
 
     <a routerLink="/leaves" routerLinkActive="active-link" class="nav-item">
       <span class="icon">📅</span>
-      @if (authService.isAdmin()) { Global Leaves } 
-      @else if (authService.isManager()) { Approval Center } 
-      @else { My Requests }
+      @if (authService.isAdmin()) {
+        Global Leaves
+      } @else if (authService.isManager()) {
+        Approval Center
+      } @else {
+        My Requests
+      }
     </a>
 
     @if (authService.isAdmin() || authService.isManager()) {
@@ -78,7 +88,10 @@
     <div class="modal-card">
       <div class="modal-icon-header logout-warn"><span>⚠️</span></div>
       <h3>Sign Out</h3>
-      <p>Are you sure you want to end your session? You will need to re-authenticate to access TechFlow.</p>
+      <p>
+        Are you sure you want to end your session? You will need to re-authenticate to access
+        TechFlow.
+      </p>
       <div class="modal-actions horizontal">
         <button (click)="cancelLogout()" class="btn-ghost">Stay</button>
         <button (click)="confirmLogout()" class="btn-danger-gradient">Logout</button>
@@ -104,7 +117,12 @@
       <div class="modal-icon-header security"><span>🔒</span></div>
       <h3>Security Update</h3>
       <p>Set a new secure password for your account.</p>
-      <input type="password" class="modal-input" [(ngModel)]="newPassword" placeholder="New Password" />
+      <input
+        type="password"
+        class="modal-input"
+        [(ngModel)]="newPassword"
+        placeholder="New Password"
+      />
       <div class="modal-actions">
         <button (click)="closeModals()" class="btn-ghost">Cancel</button>
         <button (click)="savePassword()" class="btn-primary-gradient">Change Password</button>

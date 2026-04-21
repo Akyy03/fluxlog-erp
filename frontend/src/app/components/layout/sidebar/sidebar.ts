@@ -3,7 +3,7 @@ import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../services/auth';
-import { EmployeeService } from '../../../services/employee'; // Asigură-te că path-ul e corect
+import { EmployeeService } from '../../../services/employee';
 
 @Component({
   selector: 'app-sidebar',

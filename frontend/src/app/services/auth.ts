@@ -39,6 +39,11 @@ export class AuthService {
     return !!token && token !== 'null' && token !== 'undefined';
   }
 
+  getUserId(): number | null {
+    const userId = localStorage.getItem('userId');
+    return userId ? parseInt(userId, 10) : null;
+  }
+
   getRole(): string | null {
     return localStorage.getItem('role');
   }

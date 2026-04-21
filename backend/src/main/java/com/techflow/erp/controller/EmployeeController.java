@@ -28,7 +28,6 @@ public class EmployeeController {
                 .anyMatch(a -> a.getAuthority().toUpperCase().contains("ADMIN"));
 
         if (isAdmin) {
-            System.out.println("Sunt ADMIN, cer toată lista.");
             return ResponseEntity.ok(employeeService.getAllEmployeesIncludeDeleted());
         }
         return ResponseEntity.ok(employeeService.getAllActiveEmployees());
