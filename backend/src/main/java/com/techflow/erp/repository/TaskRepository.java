@@ -53,4 +53,6 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     List<Task> findUpcomingTasksByDepartment(@Param("deptId") Long deptId,
                                              @Param("status") TaskStatus status,
                                              Pageable pageable);
+
+    List<Task> findByAssignedTo_Employee_Department_Id(Long deptId);
 }
