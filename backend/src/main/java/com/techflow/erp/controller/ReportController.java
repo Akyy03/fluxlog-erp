@@ -44,4 +44,28 @@ public class ReportController {
                 .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
                 .body(excelContent);
     }
+
+    @GetMapping("/pdf/manager")
+    @PreAuthorize("hasAuthority('MANAGER')")
+    public ResponseEntity<byte[]> exportManagerPdf(Principal principal) {
+        // principal.getName() returnează email-ul userului logat
+        byte[] pdfContent = reportService.generateManagerPdf(principal.getName());
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=Raport_Echipa.pdf")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdfContent);
+    }
+
+    @GetMapping("/pdf/admin")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<byte[]> exportAdminPdf() {
+        // Adminul vede tot, deci nu avem nevoie de email
+        byte[] pdfContent = reportService.generateAdminPdf();
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=Raport_Master_ERP.pdf")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdfContent);
+    }
 }

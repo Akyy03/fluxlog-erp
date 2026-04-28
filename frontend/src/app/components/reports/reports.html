@@ -1,1 +1,36 @@
-<p>reports works!</p>
+<div class="dashboard-wrapper">
+  <header class="header-section">
+    <h1>REPORTS <span style="color: #6366f1">CENTER</span></h1>
+    <p>{{ roleDescription }}</p>
+  </header>
+
+  <h2 class="section-title">AVAILABLE EXPORTS</h2>
+
+  <div class="export-grid">
+    @if (isManager() && !isAdmin()) {
+      <div class="bento-card export-card" (click)="onDownload('MANAGER')">
+        <span class="tf-label">Excel</span>
+        <h3 class="card-title">Export as Excel</h3>
+        <p class="card-desc">Team data formatted for spreadsheets.</p>
+      </div>
+      <div class="bento-card export-card" (click)="onDownloadPdf('MANAGER')">
+        <span class="tf-label">PDF</span>
+        <h3 class="card-title">Export as PDF</h3>
+        <p class="card-desc">Team data ready for official reports.</p>
+      </div>
+    }
+
+    @if (isAdmin()) {
+      <div class="bento-card export-card" (click)="onDownload('ADMIN')">
+        <span class="tf-label">Excel</span>
+        <h3 class="card-title">Export as Excel</h3>
+        <p class="card-desc">Full system HR and Project analytics.</p>
+      </div>
+      <div class="bento-card export-card" (click)="onDownloadPdf('ADMIN')">
+        <span class="tf-label">PDF</span>
+        <h3 class="card-title">Export as PDF</h3>
+        <p class="card-desc">Master report for executive review.</p>
+      </div>
+    }
+  </div>
+</div>

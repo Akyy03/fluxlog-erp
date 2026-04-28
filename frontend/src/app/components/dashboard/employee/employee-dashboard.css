@@ -1,46 +1,43 @@
 :host { display: block; }
 .dashboard-wrapper { padding: 40px; max-width: 1400px; margin: 0 auto; }
 
-/* Header */
 .header-section { margin-bottom: 30px; }
 .header-section h1 { font-size: 1.6rem; font-weight: 800; color: white; margin: 0; }
 .header-section p { color: #64748b; font-size: 0.85rem; margin-top: 4px; }
 
-/* Stats - Compact */
 .stats-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 15px; /* Redus gap */
+  gap: 15px;
   margin-bottom: 30px;
 }
 
 .stat-item-compact {
-  padding: 16px 20px !important; /* Mai mic */
+  padding: 16px 20px !important;
   display: flex;
   flex-direction: column;
 }
 
 .stat-value-compact {
-  font-size: 1.5rem; /* Cifre mai mici */
+  font-size: 1.5rem;
   font-weight: 800;
   color: white;
   margin-top: 5px;
   font-family: 'JetBrains Mono', monospace;
 }
 
-/* Assignments List View */
 .tasks-list {
   display: flex;
   flex-direction: column;
-  gap: 10px; /* Distanță mică între rânduri */
+  gap: 10px;
 }
 
 .task-row {
   padding: 16px 24px;
   display: flex;
   justify-content: space-between;
-  align-items: center; /* Aliniere verticală pe centru */
-  border-radius: 12px; /* Mai puțin rotunjit pt listă */
+  align-items: center; 
+  border-radius: 12px;
 }
 
 .task-title {
@@ -52,7 +49,6 @@
 
 .task-info { display: flex; flex-direction: column; gap: 4px; }
 
-/* Badge-uri și Label-uri */
 .badge {
   background: rgba(99, 102, 241, 0.08);
   color: #818cf8;
@@ -87,7 +83,6 @@
   letter-spacing: -0.5px;
 }
 
-/* Bento Base */
 .bento-card {
   background: rgba(30, 41, 59, 0.4);
   backdrop-filter: blur(12px);
