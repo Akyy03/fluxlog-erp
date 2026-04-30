@@ -28,4 +28,8 @@ export class ProjectService {
   createProject(project: any): Observable<Project> {
   return this.http.post<Project>(this.apiUrl, project);
 }
+
+getActiveProjectsCount(deptId: number): Observable<number> {
+  return this.http.get<number>(`${this.apiUrl}/count/active/${deptId}`);
+}
 }

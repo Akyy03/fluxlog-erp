@@ -30,7 +30,6 @@ export class DepartmentService {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
-  // Am făcut-o publică pentru a fi folosită și în componentă la nevoie
   public getEmailFromToken(): string {
     const token = localStorage.getItem('token');
     if (!token) return '';
@@ -52,15 +51,14 @@ export class DepartmentService {
     });
   }
 
-  // În department.service.ts
 updateDescription(email: string, description: string): Observable<Department> {
   return this.http.patch<Department>(
     `${this.apiUrl}/my-department/description`, 
-    { description: description }, // TRIMITEM OBIECT, NU STRING
+    { description: description },
     { 
       headers: { 
         'User-Email': email,
-        'Content-Type': 'application/json' // Forțăm header-ul
+        'Content-Type': 'application/json'
       } 
     }
   );

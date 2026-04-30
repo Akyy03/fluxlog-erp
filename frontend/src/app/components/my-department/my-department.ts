@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DepartmentService } from '../../services/department.service';
 import { Department } from '../../services/employee';
+import { ProjectService } from '../../services/project';
 
 @Component({
   selector: 'app-my-department',
@@ -15,27 +16,33 @@ export class MyDepartmentComponent implements OnInit {
   department = signal<Department | null>(null);
   isEditing = signal(false);
   tempDescription = '';
+  activeProjects = signal<number>(0);
 
-  // Îl injectăm ca deptService
-  constructor(private deptService: DepartmentService) {}
+  constructor(private deptService: DepartmentService, private projectService: ProjectService) {}
 
   ngOnInit(): void {
     this.loadDepartment();
   }
 
   loadDepartment(): void {
-    this.deptService.getMyDepartment().subscribe({
-      next: (data) => {
-        this.department.set(data);
-        this.tempDescription = data.description || '';
-      },
-      error: (err) => console.error('Eroare la încărcarea departamentului:', err)
-    });
-  }
+  this.deptService.getMyDepartment().subscribe({
+    next: (data) => {
+      this.department.set(data);
+      this.tempDescription = data.description || '';
+      
+      if (data.id) {
+        this.projectService.getActiveProjectsCount(data.id).subscribe({
+          next: (count) => this.activeProjects.set(count),
+          error: (err) => console.error('Eroare la numărare proiecte:', err)
+        });
+      }
+    },
+    error: (err) => console.error('Eroare la încărcarea departamentului:', err)
+  });
+}
 
   toggleEdit(): void {
     this.isEditing.update(v => !v);
-    // Resetăm tempDescription la valoarea actuală dacă dăm Cancel
     if (!this.isEditing()) {
         this.tempDescription = this.department()?.description || '';
     }

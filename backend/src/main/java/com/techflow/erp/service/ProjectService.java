@@ -151,4 +151,8 @@ public class ProjectService {
         }
         projectRepository.deleteById(id);
     }
+
+    public long getActiveProjectsCount(Long deptId) {
+        return projectRepository.countActiveProjectsByDepartmentId(deptId);
+    }
 }

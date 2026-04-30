@@ -60,4 +60,9 @@ public class ProjectController {
         projectService.deleteProject(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/count/active/{deptId}")
+    public ResponseEntity<Long> getActiveProjectsCount(@PathVariable Long deptId) {
+        return ResponseEntity.ok(projectService.getActiveProjectsCount(deptId));
+    }
 }
