@@ -18,11 +18,11 @@ export class AdminDashboardComponent implements OnInit {
   recentTasks = signal<any[]>([]);
   chartData = signal<any[]>([]);
 
-  colorScheme: any = { domain: ['#64748b', '#6366f1', '#10b981'] };
+  colorScheme: any = { domain: ['#6366f1', '#f59e0b', '#10b981'] };
 
   private readonly colorMap: Record<string, string> = {
-    'TODO': '#64748b',
-    'IN_PROGRESS': '#6366f1',
+    'TODO': '#6366f1',
+    'IN_PROGRESS': '#f59e0b',
     'DONE': '#10b981'
   };
 

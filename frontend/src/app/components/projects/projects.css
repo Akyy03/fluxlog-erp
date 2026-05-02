@@ -1,10 +1,4 @@
 /* Container și Grid */
-.projects-container {
-  padding: 40px;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
@@ -12,7 +6,6 @@
   padding-top: 10px;
 }
 
-/* Card Style - Pixel Perfect with Departments */
 .bento-card {
   background: rgba(30, 41, 59, 0.4);
   backdrop-filter: blur(12px);

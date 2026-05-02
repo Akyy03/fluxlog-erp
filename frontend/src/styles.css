@@ -165,4 +165,35 @@
     transform: none !important;
     transition: none !important;
   }
+
+  /* --- GLOBAL PAGE WRAPPER --- */
+.tf-page-wrapper {
+  padding: 40px; 
+  max-width: 1400px; 
+  margin: 0 auto;
+  display: block;
+}
+
+/* --- UNIFIED PAGE HEADER --- */
+.tf-page-header {
+  margin-bottom: 30px; 
+}
+
+.tf-page-header h1 {
+  font-size: 1.6rem; 
+  font-weight: 800; 
+  color: white; 
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.tf-page-header h1 span {
+  color: #6366f1;
+}
+
+.tf-page-header p {
+  color: #64748b; 
+  font-size: 0.85rem; 
+  margin-top: 4px;
+}
 }

@@ -1,18 +1,10 @@
-<div
-  class="page-header"
-  style="margin-bottom: 40px; display: flex; justify-content: space-between; align-items: flex-end"
->
-  <div>
-    <h1
-      style="font-size: 2.2rem; font-weight: 800; letter-spacing: -1.5px; margin: 0; color: white"
-    >
-      STAFF<span style="color: #6366f1">.</span>
-    </h1>
-    <p style="color: #64748b; font-size: 0.9rem; margin-top: 5px">
-      Manage and monitor organization staff
-    </p>
-  </div>
-</div>
+<div class="tf-page-wrapper">
+  <header class="tf-page-header">
+    <div>
+      <h1>STAFF <span>MANAGEMENT</span></h1>
+      <p>Manage and monitor organization staff</p>
+    </div>
+  </header> 
 
 <div
   style="
@@ -120,7 +112,10 @@
   </div>
 </div>
 
-<div *ngIf="!showDeleted()" style="display: flex; flex-wrap: wrap; gap: 24px; margin-bottom: 35px; width: 100%">
+<div
+  *ngIf="!showDeleted()"
+  style="display: flex; flex-wrap: wrap; gap: 24px; margin-bottom: 35px; width: 100%"
+>
   <div
     class="bento-card"
     style="
@@ -708,37 +703,46 @@
             />
           </div>
           <div>
-  <label class="tf-label">Salary (EUR)</label>
-  
-  <input
-    *ngIf="userRole() === 'ADMIN' || newEmployee.role !== 'MANAGER'"
-    [(ngModel)]="newEmployee.salary"
-    name="salary"
-    type="number"
-    min="0"
-    required
-    class="tf-input"
-    placeholder="0.00"
-  />
+            <label class="tf-label">Salary (EUR)</label>
 
-  <div
-    *ngIf="userRole() === 'MANAGER' && newEmployee.role === 'MANAGER'"
-    class="tf-input"
-    style="
-      background: rgba(15, 23, 42, 0.6);
-      color: #64748b;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      cursor: not-allowed;
-    "
-  >
-    <span style="font-family: 'JetBrains Mono', monospace; letter-spacing: 2px;">••••••</span>
-    <span style="font-size: 0.6rem; font-weight: 800; color: #475569; text-transform: uppercase;">
-      Protected
-    </span>
-  </div>
-</div>
+            <input
+              *ngIf="userRole() === 'ADMIN' || newEmployee.role !== 'MANAGER'"
+              [(ngModel)]="newEmployee.salary"
+              name="salary"
+              type="number"
+              min="0"
+              required
+              class="tf-input"
+              placeholder="0.00"
+            />
+
+            <div
+              *ngIf="userRole() === 'MANAGER' && newEmployee.role === 'MANAGER'"
+              class="tf-input"
+              style="
+                background: rgba(15, 23, 42, 0.6);
+                color: #64748b;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                cursor: not-allowed;
+              "
+            >
+              <span style="font-family: 'JetBrains Mono', monospace; letter-spacing: 2px"
+                >••••••</span
+              >
+              <span
+                style="
+                  font-size: 0.6rem;
+                  font-weight: 800;
+                  color: #475569;
+                  text-transform: uppercase;
+                "
+              >
+                Protected
+              </span>
+            </div>
+          </div>
         </div>
 
         <div>

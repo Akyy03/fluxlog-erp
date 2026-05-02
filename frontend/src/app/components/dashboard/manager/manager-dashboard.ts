@@ -24,10 +24,10 @@ export class ManagerDashboardComponent implements OnInit {
   chartData = signal<any[]>([]);
   loading = signal<boolean>(true);
 
-  colorScheme: any = { domain: ['#64748b', '#6366f1', '#10b981'] };
+  colorScheme: any = { domain: ['#6366f1', '#f59e0b', '#10b981'] };
   private readonly colorMap: Record<string, string> = {
-    'TODO': '#64748b',
-    'IN_PROGRESS': '#6366f1',
+    'TODO': '#6366f1',
+    'IN_PROGRESS': '#f59e0b',
     'DONE': '#10b981'
   };
 
@@ -54,15 +54,18 @@ export class ManagerDashboardComponent implements OnInit {
 }
 
   private formatChartData(data: any[]): any[] {
-    return data.map((item: any) => {
-      const name = item.name || 'UNKNOWN';
-      return {
-        name: name,
-        value: item.value || 0,
-        color: this.colorMap[name] || '#64748b'
-      };
-    });
-  }
+  const allStatuses = ['TODO', 'IN_PROGRESS', 'DONE'];
+
+  const dataMap = new Map(data.map(item => [item.name || item.status, item.value || item.count || 0]));
+
+  return allStatuses.map(status => {
+    return {
+      name: status,
+      value: dataMap.get(status) || 0,
+      color: this.colorMap[status]
+    };
+  });
+}
 
   isUrgent(deadline: string | Date): boolean {
     if (!deadline) return false;

@@ -1,29 +1,76 @@
-<div class="projects-container">
-  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px">
+<div class="tf-page-wrapper">
+  <header
+    class="tf-page-header"
+    style="display: flex; justify-content: space-between; align-items: flex-start"
+  >
     <div>
-      <h1 style="color: white; margin: 0; font-size: 2rem; font-weight: 800; letter-spacing: -1px">
-        {{ userRole === 'ADMIN' ? 'PROJECT' : 'TEAM' }} <span style="color: #6366f1">{{ userRole === 'ADMIN' ? 'HUB' : 'PROJECTS' }}</span>
+      <h1>
+        {{ userRole === 'ADMIN' ? 'PROJECT' : 'TEAM' }}
+        <span>{{ userRole === 'ADMIN' ? 'HUB' : 'PROJECTS' }}</span>
       </h1>
-      <p style="color: #64748b; margin-top: 5px; font-weight: 500">
-        {{ userRole === 'ADMIN' ? 'Orchestrate and track high-level initiatives' : 'Manage initiatives within your department' }}
+      <p>
+        {{
+          userRole === 'ADMIN'
+            ? 'Orchestrate and track high-level initiatives'
+            : 'Manage initiatives within your department'
+        }}
       </p>
     </div>
-    
-    <button *ngIf="userRole === 'ADMIN'" (click)="openModal()" class="tf-btn-primary" style="width: auto; padding: 12px 24px; display: flex; align-items: center; gap: 8px">
-      <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" /></svg>
+
+    <button
+      *ngIf="userRole === 'ADMIN'"
+      (click)="openModal()"
+      class="tf-btn-primary"
+      style="display: flex; align-items: center; gap: 8px"
+    >
+      <svg
+        width="20"
+        height="20"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        viewBox="0 0 24 24"
+      >
+        <path d="M12 5v14M5 12h14" />
+      </svg>
       Initiate Project
     </button>
-  </div>
+  </header>
 
   <div class="projects-grid" *ngIf="!loading; else loader">
-    
-    <div class="bento-card" *ngFor="let project of filteredProjects" [routerLink]="['/projects', project.id]" style="cursor: pointer">
-      
-      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px">
-        <span class="status-badge" [ngClass]="getStatusClass(project.status)">● {{ project.status }}</span>
-        <div style="color: #94a3b8; font-size: 0.8rem; display: flex; align-items: center; gap: 6px">
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-          {{ project.deadline | date:'MMM d, y' }}
+    <div
+      class="bento-card"
+      *ngFor="let project of filteredProjects"
+      [routerLink]="['/projects', project.id]"
+      style="cursor: pointer"
+    >
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          margin-bottom: 15px;
+        "
+      >
+        <span class="status-badge" [ngClass]="getStatusClass(project.status)"
+          >● {{ project.status }}</span
+        >
+        <div
+          style="color: #94a3b8; font-size: 0.8rem; display: flex; align-items: center; gap: 6px"
+        >
+          <svg
+            width="14"
+            height="14"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+            ></path>
+          </svg>
+          {{ project.deadline | date: 'MMM d, y' }}
         </div>
       </div>
 
@@ -31,36 +78,75 @@
         <div class="unit-icon">{{ project.name[0] }}</div>
         <div style="flex: 1">
           <div class="tf-label">Project Title</div>
-          <h3 style="color: white; margin: 0; font-size: 1.2rem; font-weight: 700">{{ project.name }}</h3>
+          <h3 style="color: white; margin: 0; font-size: 1.2rem; font-weight: 700">
+            {{ project.name }}
+          </h3>
           <span class="project-id">PRJ_ENG_0{{ project.id }}</span>
         </div>
       </div>
 
       <div style="margin: 20px 0">
         <div class="tf-label">Description</div>
-        <p style="color: #94a3b8; font-size: 0.9rem; line-height: 1.5; margin: 0">{{ project.description }}</p>
+        <p style="color: #94a3b8; font-size: 0.9rem; line-height: 1.5; margin: 0">
+          {{ project.description }}
+        </p>
       </div>
 
       <div class="progress-section">
         <div style="display: flex; justify-content: space-between; align-items: center">
           <span class="tf-label" style="margin: 0">Execution Flow</span>
-          <span style="color: #6366f1; font-family: 'JetBrains Mono'; font-size: 0.8rem; font-weight: 800">{{ project.progress }}%</span>
+          <span
+            style="
+              color: #6366f1;
+              font-family: 'JetBrains Mono';
+              font-size: 0.8rem;
+              font-weight: 800;
+            "
+            >{{ project.progress }}%</span
+          >
         </div>
         <div class="progress-bar-bg">
           <div class="progress-bar-fill" [style.width.%]="project.progress"></div>
         </div>
       </div>
 
-      <div style="margin-top: auto; padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, 0.03); display: flex; justify-content: space-between; align-items: center;">
+      <div
+        style="
+          margin-top: auto;
+          padding-top: 16px;
+          border-top: 1px solid rgba(255, 255, 255, 0.03);
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        "
+      >
         <div style="display: flex; align-items: center; gap: 8px">
-          <div style="width: 20px; height: 20px; background: #1e293b; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px">👤</div>
-          <span style="color: #64748b; font-size: 0.75rem">Owner: <strong style="color: #cbd5e1">{{ project.createdByUserName }}</strong></span>
+          <div
+            style="
+              width: 20px;
+              height: 20px;
+              background: #1e293b;
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 10px;
+            "
+          >
+            👤
+          </div>
+          <span style="color: #64748b; font-size: 0.75rem"
+            >Owner: <strong style="color: #cbd5e1">{{ project.createdByUserName }}</strong></span
+          >
         </div>
       </div>
     </div>
-    
-    <div *ngIf="filteredProjects.length === 0" style="grid-column: 1/-1; text-align: center; padding: 40px; color: #64748b;">
-       No active projects found for your department.
+
+    <div
+      *ngIf="filteredProjects.length === 0"
+      style="grid-column: 1/-1; text-align: center; padding: 40px; color: #64748b"
+    >
+      No active projects found for your department.
     </div>
   </div>
 
@@ -71,9 +157,25 @@
   </ng-template>
 
   <div class="modal-overlay" *ngIf="showModal">
-    <div class="bento-card" style="width: 100%; max-width: 480px; padding: 40px; border: 1px solid rgba(99, 102, 241, 0.3);">
+    <div
+      class="bento-card"
+      style="
+        width: 100%;
+        max-width: 480px;
+        padding: 40px;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+      "
+    >
       <div style="text-align: center; margin-bottom: 30px">
-        <h2 style="color: white; margin: 0; font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px;">
+        <h2
+          style="
+            color: white;
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+          "
+        >
           PROVISION <span style="color: #6366f1">PROJECT</span>
         </h2>
       </div>
@@ -81,30 +183,56 @@
       <form [formGroup]="projectForm" (ngSubmit)="submitProject()">
         <div style="margin-bottom: 24px">
           <label class="tf-label">Project Identity</label>
-          <input type="text" formControlName="name" class="tf-input" style="width: 100%; margin-top: 8px" placeholder="e.g. Project X Engine" />
+          <input
+            type="text"
+            formControlName="name"
+            class="tf-input"
+            style="width: 100%; margin-top: 8px"
+            placeholder="e.g. Project X Engine"
+          />
         </div>
 
         <div style="margin-bottom: 24px">
           <label class="tf-label">Operational Description</label>
-          <textarea formControlName="description" rows="4" class="tf-input" style="width: 100%; margin-top: 8px; resize: none" placeholder="Core objectives..."></textarea>
+          <textarea
+            formControlName="description"
+            rows="4"
+            class="tf-input"
+            style="width: 100%; margin-top: 8px; resize: none"
+            placeholder="Core objectives..."
+          ></textarea>
         </div>
 
         <div style="margin-bottom: 32px">
           <label class="tf-label">Release Deadline</label>
-          <input type="date" 
-                 formControlName="deadline" 
-                 [min]="today"
-                 class="tf-input" 
-                 style="width: 100%; margin-top: 8px" />
-          <div *ngIf="projectForm.get('deadline')?.errors?.['pastDate'] || (projectForm.get('deadline')?.touched && projectForm.get('deadline')?.value < today)" 
-               style="color: #fb7185; font-size: 0.75rem; margin-top: 8px;">
+          <input
+            type="date"
+            formControlName="deadline"
+            [min]="today"
+            class="tf-input"
+            style="width: 100%; margin-top: 8px"
+          />
+          <div
+            *ngIf="
+              projectForm.get('deadline')?.errors?.['pastDate'] ||
+              (projectForm.get('deadline')?.touched && projectForm.get('deadline')?.value < today)
+            "
+            style="color: #fb7185; font-size: 0.75rem; margin-top: 8px"
+          >
             ⚠️ Deadline cannot be set in the past.
           </div>
         </div>
 
         <div style="display: flex; gap: 12px">
-          <button type="button" (click)="closeModal()" class="tf-btn-secondary" style="flex: 1">Abort</button>
-          <button type="submit" [disabled]="projectForm.invalid" class="tf-btn-primary" style="flex: 2">
+          <button type="button" (click)="closeModal()" class="tf-btn-secondary" style="flex: 1">
+            Abort
+          </button>
+          <button
+            type="submit"
+            [disabled]="projectForm.invalid"
+            class="tf-btn-primary"
+            style="flex: 2"
+          >
             Finalize Initialization
           </button>
         </div>

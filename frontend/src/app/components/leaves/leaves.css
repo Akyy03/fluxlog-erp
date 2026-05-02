@@ -1,12 +1,6 @@
 /* Import font pentru stilul tehnic */
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
 
-.leaves-container {
-  padding: 40px;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
 /* Grid-ul principal: Formular mic în stânga, Tabel mare în dreapta */
 .leaves-grid {
   display: grid;
