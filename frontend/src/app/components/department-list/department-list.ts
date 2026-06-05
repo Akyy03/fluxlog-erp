@@ -50,12 +50,12 @@ export class DepartmentList implements OnInit {
 
   onDelete(id: number | undefined) {
     if (id === undefined) return;
-    if (confirm('Are you sure? This unit will be permanently removed from the system.')) {
+    if (confirm('Sunteti sigur? Aceasta actiune va sterge unitatea si va afecta angajatii alocati.')) {
       this.deptService.deleteDepartment(id).subscribe({
         next: () => this.loadDepartments(),
         error: (err) => {
           if (err.status === 500) {
-            alert(`ACTION DENIED: Cannot decommission unit.\n\nThis department is still linked to active employees.`);
+            alert(`ACTION DENIED: Cannot decommission department.\n\nThis department is still linked to active employees.`);
           } else {
             alert('System Error: Could not complete the deletion request.');
           }
@@ -83,7 +83,6 @@ export class DepartmentList implements OnInit {
   saveDepartment() {
     const deptData = this.currentDept();
     
-    // Validări Finale (Garda de Corp a funcției)
     if (!deptData.name || deptData.name.trim().length < 3) return;
     if (!deptData.description || deptData.description.trim().length < 10) return;
     if (this.isNameDuplicate() || this.isDescDuplicate()) {

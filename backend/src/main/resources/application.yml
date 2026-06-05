@@ -3,12 +3,12 @@ server:
 
 spring:
   application:
-    name: techflow-erp
+    name: fluxlog-erp
 
   datasource:
-    url: jdbc:mysql://localhost:3307/techflow_erp?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
-    username: techflow_user
-    password: techflow123
+    url: jdbc:mysql://localhost:3307/fluxlog_erp?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
+    username: fluxlog_user
+    password: fluxlog123
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:

@@ -1,20 +1,20 @@
 <div class="login-container">
   <div class="login-box">
     <div class="login-header">
-      <h1 class="brand-logo">TECHFLOW<span class="dot">.</span></h1>
+      <h1 class="brand-logo">FLUX<span class="dot">LOG</span></h1>
       <p class="system-status"></p>
     </div>
 
     <form (ngSubmit)="login()" class="login-form" #loginForm="ngForm">
       <div class="input-group">
-        <label>Corporate Identity</label>
+        <label>Email</label>
         <div class="input-wrapper">
           <input
             type="email"
             [(ngModel)]="email"
             (input)="onInput()"
             name="email"
-            placeholder="name@techflow.com"
+            placeholder="nume@fluxlog.ro"
             required
             autocomplete="email"
           />
@@ -22,7 +22,7 @@
       </div>
 
       <div class="input-group">
-        <label>Access Key</label>
+        <label>Parolă</label>
         <div class="input-wrapper">
           <input
             type="password"
@@ -58,8 +58,17 @@
         [disabled]="!loginForm.form.valid"
         [class.btn-disabled]="!loginForm.form.valid"
       >
-        INITIALIZE SESSION_
+        Conectare
       </button>
     </form>
   </div>
 </div>
+
+
+
+
+
+
+
+
+

@@ -14,6 +14,7 @@ import { LeavesComponent } from './components/leaves/leaves';
 import { MyDepartmentComponent } from './components/my-department/my-department';
 import { Reports } from './components/reports/reports';
 import { ProjectDetailsComponent } from './components/project-details/project-details';
+import { Invoices } from './components/invoices/invoices';
 
 export const routes: Routes = [
   {
@@ -46,7 +47,7 @@ export const routes: Routes = [
         canActivate: [roleGuard],
         data: { roles: ['ADMIN', 'MANAGER'] },
         loadComponent: () =>
-          import('./features/employees/employee-detail/employee-detail').then(
+          import('./components/employee-detail/employee-detail').then(
             (m) => m.EmployeeDetailComponent,
           ),
       },
@@ -56,6 +57,13 @@ export const routes: Routes = [
         data: { roles: ['ADMIN'] },
         loadComponent: () =>
           import('./components/department-list/department-list').then((m) => m.DepartmentList),
+      },
+      {
+        path: 'invoices',
+        canActivate: [roleGuard],
+        data: { roles: ['ADMIN'] },
+        loadComponent: () =>
+          import('./components/invoices/invoices').then((m) => m.Invoices),
       },
       {
         path: 'my-department',

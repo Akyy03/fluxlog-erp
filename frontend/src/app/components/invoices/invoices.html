@@ -1,0 +1,119 @@
+<div class="tf-page-wrapper invoices-page">
+  <header class="tf-page-header invoices-header">
+    <div>
+      <h1>FACTURARE</h1>
+      <p>Generare documente fiscale pentru servicii facturate în platformă.</p>
+    </div>
+  </header>
+
+  <form [formGroup]="invoiceForm" (ngSubmit)="onSubmit()" class="invoices-grid">
+    <section class="invoices-main">
+      <div class="bento-card invoice-card">
+        <div class="card-heading">
+          <span class="tf-label">DATE GENERALE</span>
+          <h2>Informații document</h2>
+        </div>
+
+        <div class="invoice-form-grid">
+          <div class="field-group field-group-wide">
+            <label class="tf-label" for="projectId">Comandă</label>
+            <select id="projectId" formControlName="projectId" class="tf-input">
+              <option value="" disabled>Selectează o comandă...</option>
+              @for (project of projects(); track project.id) {
+                <option [value]="project.id">{{ project.name }} ({{ project.status }})</option>
+              }
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label class="tf-label" for="invoiceNumber">Număr factură</label>
+            <input id="invoiceNumber" type="text" formControlName="invoiceNumber" class="tf-input" placeholder="Ex: FAC-2026-001">
+          </div>
+
+          <div class="field-group">
+            <label class="tf-label" for="invoiceDate">Data emiterii</label>
+            <input id="invoiceDate" type="date" formControlName="invoiceDate" class="tf-input" [attr.min]="minDate">
+          </div>
+
+          <div class="field-group">
+            <label class="tf-label" for="dueDate">Data scadentă</label>
+            <input id="dueDate" type="date" formControlName="dueDate" class="tf-input" [attr.min]="minDate">
+          </div>
+        </div>
+      </div>
+
+      <div class="bento-card invoice-card" formArrayName="lines">
+        <div class="card-heading" style="display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <span class="tf-label">SERVICII</span>
+            <h2>Linii de factură</h2>
+          </div>
+          <button type="button" (click)="addLine()" class="tf-btn-secondary">+ Adaugă linie</button>
+        </div>
+
+        @for (line of lines.controls; track line; let i = $index) {
+          <div [formGroupName]="i" class="service-block" style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #2d3748;">
+            <div class="service-grid">
+              <div class="field-group field-group-wide">
+                <label class="tf-label">Descriere serviciu</label>
+                <input type="text" formControlName="serviceName" class="tf-input" placeholder="Ex: Transport marfă">
+              </div>
+
+              <div class="field-group">
+                <label class="tf-label">Cantitate</label>
+                <input type="number" formControlName="quantity" class="tf-input">
+              </div>
+
+              <div class="field-group">
+                <label class="tf-label">Preț unitar</label>
+                <input type="number" formControlName="unitPrice" class="tf-input">
+              </div>
+              
+              @if (i > 0) {
+                <div class="field-group field-group-delete">
+                  <button type="button" (click)="removeLine(i)" class="delete-line-btn" title="Șterge această linie" aria-label="Șterge linia {{i + 1}}">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                      <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                    </svg>
+                  </button>
+                </div>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+
+    <aside class="invoices-side">
+      <div class="bento-card invoice-summary-card">
+        <div class="card-heading">
+          <span class="tf-label">SUMAR</span>
+          <h2>Valori document</h2>
+        </div>
+
+        <div class="summary-stack">
+          <div class="summary-row">
+            <span>Valoare netă</span>
+            <strong>{{ totalNet() | number:'1.2-2' }} RON</strong>
+          </div>
+          <div class="summary-row">
+            <span>TVA (19%)</span>
+            <strong>{{ totalTva() | number:'1.2-2' }} RON</strong>
+          </div>
+          <div class="summary-total">
+            <span>Total de plată</span>
+            <strong>{{ totalGeneral() | number:'1.2-2' }} RON</strong>
+          </div>
+        </div>
+
+        <button type="submit" [disabled]="invoiceForm.invalid || loading()" class="tf-btn-primary invoice-submit">
+          @if (loading()) {
+            <span>Se generează...</span>
+          } @else {
+            <span>Generează PDF</span>
+          }
+        </button>
+      </div>
+    </aside>
+  </form>
+</div>

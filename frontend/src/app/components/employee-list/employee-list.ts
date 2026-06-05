@@ -69,7 +69,6 @@ export class EmployeeListComponent implements OnInit {
     this.totalEmployees() > 0 ? this.totalBudget() / this.totalEmployees() : 0,
   );
 
-  // --- LOGICA DE FILTRARE CORECTATĂ (SEARCH + ARCHIVE) ---
   filteredEmployees = computed(() => {
     const allEmployees = this.employees();
     const displayArchive = this.showDeleted();
@@ -77,7 +76,6 @@ export class EmployeeListComponent implements OnInit {
     const query = this.searchQuery().toLowerCase().trim();
 
     return allEmployees.filter((emp: Employee) => {
-      // 1. Filtru de Arhivă (Logica existentă)
       const archived = !!emp.isDeleted;
       let matchesStatus = false;
 
@@ -87,11 +85,9 @@ export class EmployeeListComponent implements OnInit {
         matchesStatus = !archived;
       }
 
-      // Dacă nu se potrivește statusul (Active/Archive), tăiem din start
       if (!matchesStatus) return false;
 
-      // 2. Filtru de Search (Logica adăugată)
-      if (!query) return true; // Dacă nu scriem nimic, arătăm tot din categoria respectivă
+      if (!query) return true;
 
       const fullName = `${emp.firstName} ${emp.lastName}`.toLowerCase();
       const position = (emp.position || '').toLowerCase();
@@ -228,29 +224,29 @@ export class EmployeeListComponent implements OnInit {
   }
 
   deleteEmployee(id: number) {
-    if (confirm('Are you sure you want to archive this employee?')) {
+    if (confirm('Sunteti sigur că doriți să arhivați acest angajat?')) {
       this.employeeService.deleteEmployee(id).subscribe({
         next: () => this.loadEmployees(),
-        error: (err) => console.error('Error archiving employee:', err),
+        error: (err) => console.error('Eroare la arhivarea angajatului:', err),
       });
     }
   }
 
   restoreEmployee(id: number) {
-    if (confirm('Reactivate this employee and their user account?')) {
+    if (confirm('Sunteti sigur că doriți să reactivați acest angajat și contul lor de utilizator?')) {
       this.employeeService.restoreEmployee(id).subscribe({
         next: () => {
           this.showDeleted.set(false);
           this.loadEmployees();
         },
-        error: (err) => console.error('Restore failed:', err),
+        error: (err) => console.error('Restaurarea a eșuat:', err),
       });
     }
   }
 
   private handleBackendError(err: any) {
     this.errorMessage.set(
-      err.status === 409 ? 'Identity Conflict: Email or Phone already exists.' : 'System Error: Operation failed.'
+      err.status === 409 ? 'Conflict de Identitate: Emailul sau Telefonul există deja.' : 'Eroare de Sistem: Operațiunea a eșuat.'
     );
   }
 

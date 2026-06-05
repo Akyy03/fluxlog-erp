@@ -1,7 +1,7 @@
 <div class="tf-page-wrapper">
   <header class="tf-page-header">
-    <h1>UNIT <span>OPERATIONS</span></h1>
-    <p>Overview and operational management for your unit</p>
+    <h1>MANAGEMENT <span>DEPARTAMENT</span></h1>
+    <p>Gestionarea și supervizarea departamentului tău</p>
   </header>
 
   @if (department()) {
@@ -10,24 +10,23 @@
         <div style="display: flex; align-items: flex-start; gap: 16px">
           <div class="unit-icon">{{ department()?.name?.[0] }}</div>
           <div style="flex: 1">
-            <div class="tf-label">Active Unit</div>
-            <h3 style="color: white; margin: 0; font-size: 1.3rem; font-weight: 700">
+            <div class="tf-label">Unitate Activă</div>
+            <h3 style="color: #1f2937; margin: 0; font-size: 1.3rem; font-weight: 700">
               {{ department()?.name }}
             </h3>
-            <span class="unit-id">ID_SYS_0{{ department()?.id }}</span>
           </div>
         </div>
         <div
           style="
             margin-top: 24px;
             padding-top: 16px;
-            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            border-top: 1px solid rgba(200, 200, 200, 0.2);
           "
         >
-          <div class="tf-label">Department Manager</div>
+          <div class="tf-label">Manager Departament</div>
           <div style="display: flex; align-items: center; gap: 10px; margin-top: 8px">
             <div class="mini-avatar">M</div>
-            <span style="color: #cbd5e1; font-size: 0.9rem; font-weight: 600">You (Manager)</span>
+            <span style="color: #1f2937; font-size: 0.9rem; font-weight: 600">Tu (Manager)</span>
           </div>
         </div>
       </div>
@@ -41,11 +40,11 @@
             margin-bottom: 15px;
           "
         >
-          <div class="tf-label">Functional Objective</div>
+          <div class="tf-label">Obiectiv Funcțional</div>
           <button
             (click)="toggleEdit()"
             class="card-action-btn edit"
-            [title]="isEditing() ? 'Cancel' : 'Edit Description'"
+            [title]="isEditing() ? 'Anulează' : 'Editează Descrierea'"
           >
             <svg
               width="14"
@@ -63,7 +62,7 @@
         </div>
 
         @if (!isEditing()) {
-          <p style="color: #94a3b8; font-size: 0.95rem; line-height: 1.6; margin: 0">
+          <p style="color: #6b7280; font-size: 0.95rem; line-height: 1.6; margin: 0">
             {{
               department()?.description ||
                 'System unit initialized without a functional description.'
@@ -80,7 +79,7 @@
             class="tf-btn-primary"
             style="width: 100%; padding: 8px; font-size: 0.8rem"
           >
-            Commit Changes
+            Salvează Schimbările
           </button>
         }
 
@@ -90,27 +89,27 @@
       </div>
 
       <div class="bento-card">
-        <div class="tf-label">Quick Overview</div>
+        <div class="tf-label">Statistici</div>
         <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 15px">
           <div style="display: flex; justify-content: space-between; align-items: center">
-            <span style="color: #64748b; font-size: 0.9rem">Team Members</span>
+            <span style="color: #6b7280; font-size: 0.9rem">Membrii Echipei</span>
             <span class="accent-value">{{ department()?.employees?.length || 0 }}</span>
           </div>
           <div style="display: flex; justify-content: space-between; align-items: center">
-            <span style="color: #64748b; font-size: 0.9rem">Active Projects</span>
+            <span style="color: #6b7280; font-size: 0.9rem">Comenzi Active</span>
             <span class="accent-value">{{ activeProjects() }}</span>
           </div>
         </div>
       </div>
 
       <div class="bento-card" style="grid-column: 1 / -1">
-        <div class="tf-label" style="margin-bottom: 20px">Personnel Roster</div>
+        <div class="tf-label" style="margin-bottom: 20px">Membrii Echipei</div>
         <div class="table-container">
           <table class="tf-table">
             <thead>
               <tr>
-                <th>Member</th>
-                <th>Position</th>
+                <th>Membru</th>
+                <th>Post</th>
                 <th style="text-align: right">Status</th>
               </tr>
             </thead>
@@ -121,14 +120,14 @@
                     <div style="display: flex; align-items: center; gap: 12px">
                       <div class="member-avatar">{{ emp.firstName[0] }}</div>
                       <div>
-                        <div style="color: white; font-weight: 600; font-size: 0.9rem">
+                        <div style="color: #1f2937; font-weight: 600; font-size: 0.9rem">
                           {{ emp.firstName }} {{ emp.lastName }}
                         </div>
-                        <div style="color: #475569; font-size: 0.75rem">{{ emp.email }}</div>
+                        <div style="color: #9ca3af; font-size: 0.75rem">{{ emp.email }}</div>
                       </div>
                     </div>
                   </td>
-                  <td style="color: #94a3b8; font-size: 0.9rem">
+                  <td style="color: #6b7280; font-size: 0.9rem">
                     {{ emp.position || 'Specialist' }}
                   </td>
                   <td style="text-align: right">
@@ -141,7 +140,7 @@
                         padding: 4px 8px;
                         border-radius: 6px;
                       "
-                      >ACTIVE</span
+                      >Activ</span
                     >
                   </td>
                 </tr>
@@ -153,3 +152,12 @@
     </div>
   }
 </div>
+
+
+
+
+
+
+
+
+

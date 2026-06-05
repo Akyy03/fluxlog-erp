@@ -1,36 +1,36 @@
 <div class="tf-page-wrapper">
   <header class="tf-page-header">
-    <h1>MANAGER <span>DASHBOARD</span></h1>
-    <p>Overview of your department's performance and team metrics.</p>
+    <h1>PAGINA <span>MANAGER</span></h1>
+    <p>Vizualizare generală a performanței departamentului și a metricilor echipei.</p>
   </header>
 
   <div class="stats-row admin-grid">
     <div class="bento-card stat-item-compact">
-      <span class="tf-label">Dept Employees</span>
+      <span class="tf-label">Angajati</span>
       <div class="stat-value-compact">{{ stats()?.totalEmployees || 0 }}</div>
     </div>
     <div class="bento-card stat-item-compact">
-      <span class="tf-label">Active Projects</span>
+      <span class="tf-label">Comenzi Active</span>
       <div class="stat-value-compact">{{ stats()?.activeProjects || 0 }}</div>
     </div>
     <div class="bento-card stat-item-compact">
-      <span class="tf-label">Pending Leaves</span>
+      <span class="tf-label">Concedii În Așteptare</span>
       <div class="stat-value-compact">{{ stats()?.pendingLeaves || 0 }}</div>
     </div>
     <div class="bento-card stat-item-compact">
-      <span class="tf-label">Urgent Tasks</span>
+      <span class="tf-label">Actiuni Urgente</span>
       <div class="stat-value-compact">{{ stats()?.urgentTasks || 0 }}</div>
     </div>
   </div>
 
   <div class="mt-8">
-    <h2 class="section-title">UPCOMING DEPARTMENT TASKS</h2>
+    <h2 class="section-title">ACTIUNI URMATOARE</h2>
     <div class="tasks-list" style="display: flex; flex-direction: column; gap: 10px">
       @for (task of recentTasks(); track task.id) {
         <div class="bento-card task-row">
           <div class="task-info">
             <h3 class="task-title">{{ task.title }}</h3>
-            <span class="unit-id">DUE: {{ task.deadline }}</span>
+            <span class="unit-id">PANA LA: {{ task.deadline }}</span>
           </div>
 
           <div style="display: flex; gap: 8px; align-items: center">
@@ -41,14 +41,14 @@
           </div>
         </div>
       } @empty {
-        <div class="bento-card" style="padding: 20px; color: #64748b">
-          No tasks found for your department.
+        <div class="bento-card" style="padding: 20px; color: #9ca3af">
+          Nu a fost detectată activitate recentă.
         </div>
       }
     </div>
 
     <div class="bento-card" style="padding: 20px">
-      <h2 class="section-title">TASK DISTRIBUTION</h2>
+      <h2 class="section-title">SITUATIE ACTIVITATI</h2>
 
       <div class="chart-layout">
         <div class="chart-wrapper">
@@ -69,6 +69,101 @@
               <span class="value">{{ item.value }}</span>
             </div>
           }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <header class="tf-page-header">
+    <h1>ACTIUNILE <span>MELE</span></h1>
+  </header>
+  <div class="kanban-board" cdkDropListGroup>
+    <div class="kanban-column">
+      <div class="column-header">
+        <span class="tf-label">DE FĂCUT</span>
+        <span class="count-badge">{{ todoTasks.length }}</span>
+      </div>
+      <div
+        id="TODO"
+        cdkDropList
+        [cdkDropListData]="todoTasks"
+        [cdkDropListConnectedTo]="['IN_PROGRESS', 'DONE']"
+        (cdkDropListDropped)="onDrop($event)"
+        class="task-list"
+      >
+        <div
+          *ngFor="let task of todoTasks"
+          class="bento-card task-card"
+          cdkDrag
+          [cdkDragData]="task"
+        >
+          <div *ngIf="task.projectName" class="project-tag">
+            <div class="dot"></div>
+            {{ task.projectName }}
+          </div>
+          <h4 style="color: #1f2937; margin: 8px 0; font-size: 1rem">{{ task.title }}</h4>
+          <p style="color: #6b7280; font-size: 0.85rem; margin: 0">{{ task.description }}</p>
+          <div class="unit-id" style="margin-top: 15px">{{ task.deadline }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kanban-column">
+      <div class="column-header">
+        <span class="tf-label">IN PROGRES</span>
+        <span class="count-badge">{{ inProgressTasks.length }}</span>
+      </div>
+      <div
+        id="IN_PROGRESS"
+        cdkDropList
+        [cdkDropListData]="inProgressTasks"
+        [cdkDropListConnectedTo]="['TODO', 'DONE']"
+        (cdkDropListDropped)="onDrop($event)"
+        class="task-list"
+      >
+        <div
+          *ngFor="let task of inProgressTasks"
+          class="bento-card task-card"
+          cdkDrag
+          [cdkDragData]="task"
+        >
+          <div class="project-tag">
+            <div class="dot"></div>
+            {{ task.projectName }}
+          </div>
+          <h4 style="color: #1f2937; margin: 8px 0; font-size: 1rem">{{ task.title }}</h4>
+          <p style="color: #6b7280; font-size: 0.85rem; margin: 0">{{ task.description }}</p>
+          <div class="unit-id" style="margin-top: 15px">{{ task.deadline }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kanban-column">
+      <div class="column-header">
+        <span class="tf-label">COMPLETATE</span>
+        <span class="count-badge">{{ doneTasks.length }}</span>
+      </div>
+      <div
+        id="DONE"
+        cdkDropList
+        [cdkDropListData]="doneTasks"
+        [cdkDropListConnectedTo]="['TODO', 'IN_PROGRESS']"
+        (cdkDropListDropped)="onDrop($event)"
+        class="task-list"
+      >
+        <div
+          *ngFor="let task of doneTasks"
+          class="bento-card task-card"
+          cdkDrag
+          [cdkDragData]="task"
+        >
+          <div class="project-tag">
+            <div class="dot"></div>
+            {{ task.projectName }}
+          </div>
+          <h4 style="color: #1f2937; margin: 8px 0; font-size: 1rem">{{ task.title }}</h4>
+          <p style="color: #6b7280; font-size: 0.85rem; margin: 0">{{ task.description }}</p>
+          <div class="unit-id" style="margin-top: 15px">{{ task.deadline }}</div>
         </div>
       </div>
     </div>

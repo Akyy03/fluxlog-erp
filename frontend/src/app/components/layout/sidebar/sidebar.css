@@ -5,8 +5,8 @@
 .quantum-sidebar {
   width: 260px;
   height: 100vh;
-  background: #020617;
-  border-right: 1px solid rgba(99, 102, 241, 0.1);
+  background: linear-gradient(180deg, #dfe7f1 0%, #d4deea 100%);
+  border-right: 1px solid rgba(30, 64, 175, 0.15);
   display: flex;
   flex-direction: column;
   padding: 40px 20px;
@@ -20,13 +20,24 @@
 .brand {
   font-size: 1.5rem;
   font-weight: 900;
-  color: white;
-  margin-bottom: 40px;
+  color: #1f2937;
+  margin-bottom: 25px;
   letter-spacing: -1px;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.brand:hover {
+  transform: translateY(-3px);
 }
 
 .brand span {
-  color: #6366f1;
+  color: #1e40af;
 }
 
 .nav-menu {
@@ -37,12 +48,12 @@
 
 .sidebar-spacer {
   flex: 1;
-  min-height: 20px;
+  min-height: 10px;
 }
 
 .nav-item {
   padding: 14px 20px;
-  color: #94a3b8;
+  color: #6b7280;
   text-decoration: none;
   border-radius: 12px;
   font-weight: 600;
@@ -53,14 +64,14 @@
 }
 
 .nav-item:hover {
-  background: rgba(99, 102, 241, 0.05);
-  color: #6366f1;
+  background: rgba(30, 64, 175, 0.08);
+  color: #1e40af;
 }
 
 .active-link {
-  background: rgba(99, 102, 241, 0.1) !important;
-  color: #6366f1 !important;
-  box-shadow: inset 4px 0 0 #6366f1;
+  background: rgba(30, 64, 175, 0.1) !important;
+  color: #1e40af !important;
+  box-shadow: inset 4px 0 0 #1e40af;
 }
 
 .icon {
@@ -74,9 +85,9 @@
 /* --- Control Panel (Bottom) --- */
 .user-control-panel {
   display: flex;
-  align-items: stretch;
-  background: rgba(99, 102, 241, 0.05);
-  border: 1px solid rgba(99, 102, 241, 0.2);
+  align-items: center;
+  background: rgba(30, 64, 175, 0.08);
+  border: 1px solid rgba(30, 64, 175, 0.2);
   border-radius: 16px;
   margin-bottom: 10px;
   overflow: hidden;
@@ -86,45 +97,57 @@
   flex: 1;
   background: transparent;
   border: none;
-  padding: 15px 0;
+  padding: 14px 12px;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
   transition: all 0.3s ease;
-  color: #94a3b8;
+  color: #6b7280;
+  min-height: 50px;
+  white-space: nowrap;
 }
 
 .control-btn:not(:last-child) {
-  border-right: 1px solid rgba(99, 102, 241, 0.1);
+  border-right: 1px solid rgba(30, 64, 175, 0.1);
 }
 
 .control-btn:hover {
-  background: rgba(99, 102, 241, 0.15);
-  color: #6366f1;
+  background: rgba(30, 64, 175, 0.15);
+  color: #1e40af;
 }
 
 .control-btn.full-width {
-  background: rgba(239, 68, 68, 0.05);
-  color: #f87171;
+  background: rgba(107, 114, 128, 0.1);
+  color: #6b7280;
+  min-height: 75px;
 }
 
 .control-btn.full-width:hover {
-  background: rgba(239, 68, 68, 0.15);
-  color: white;
+  background: rgba(107, 114, 128, 0.15);
+  color: #4b5563;
 }
 
 .logout-content-wrapper {
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  gap: 8px;
 }
 
 .logout-text {
-  font-size: 0.75rem;
-  font-weight: 800;
-  letter-spacing: 1.5px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
+}
+
+.control-icon {
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 /* --- Modals --- */
@@ -134,14 +157,14 @@
 }
 
 .modal-card {
-  background: #0f172a;
-  border: 1px solid rgba(99, 102, 241, 0.2);
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(200, 200, 200, 0.3);
   border-radius: 28px;
   padding: 40px;
   width: 90%;
   max-width: 420px;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  color: #1f2937;
   text-align: center;
 }
 
@@ -162,8 +185,8 @@
 }
 
 .info {
-  background: rgba(99, 102, 241, 0.1);
-  border: 1px solid rgba(99, 102, 241, 0.2);
+  background: rgba(30, 64, 175, 0.1);
+  border: 1px solid rgba(30, 64, 175, 0.2);
 }
 
 .security {
@@ -178,7 +201,7 @@
 }
 
 .modal-card p {
-  color: #64748b;
+  color: #6b7280;
   margin-bottom: 30px;
   line-height: 1.5;
   font-size: 0.95rem;
@@ -187,17 +210,17 @@
 .modal-input {
   width: 100%;
   padding: 14px 16px;
-  background: rgba(2, 6, 23, 0.5);
-  border: 1px solid rgba(99, 102, 241, 0.2);
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(200, 200, 200, 0.4);
   border-radius: 12px;
-  color: white;
+  color: #1f2937;
   margin-bottom: 24px;
   outline: none;
   box-sizing: border-box;
 }
 
 .modal-input:focus {
-  border-color: #6366f1;
+  border-color: #1e40af;
 }
 
 .modal-actions {
@@ -228,23 +251,23 @@
 
 .btn-ghost {
   background: transparent;
-  color: #94a3b8;
-  border: 1px solid rgba(148, 163, 184, 0.2);
+  color: #6b7280;
+  border: 1px solid rgba(100, 116, 139, 0.3);
 }
 
 .btn-ghost:hover {
-  color: white;
-  border-color: white;
+  color: #1e40af;
+  border-color: #1e40af;
 }
 
 .btn-primary-gradient {
-  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
-  color: white;
+  background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+  color: #1f2937;
 }
 
 .btn-danger-gradient {
   background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-  color: white;
+  color: #1f2937;
 }
 
 .btn-primary-gradient:hover,
@@ -257,7 +280,7 @@
 .btn-primary-gradient:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  background: #334155;
+  background: #cbd5e1;
   transform: none;
   filter: grayscale(0.7);
 }
@@ -265,6 +288,12 @@
 .btn-ghost:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  color: #64748b;
-  border-color: #334155;
+  color: #9ca3af;
+  border-color: #cbd5e1;
 }
+
+
+
+
+
+

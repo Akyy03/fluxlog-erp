@@ -1,0 +1,311 @@
+<div style="padding: 40px; max-width: 1300px; margin: 0 auto; color: #1f2937">
+  <div
+    style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 40px"
+  >
+    <div style="display: flex; align-items: center; gap: 20px">
+      <button (click)="goBack()" class="back-btn">
+        <div class="back-icon-circle">
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+          </svg>
+        </div>
+      </button>
+      <h1 style="margin: 0; font-size: 1.8rem; font-weight: 800; letter-spacing: -1px">
+        DETALII <span style="color: #1e40af">ANGAJAT</span>
+      </h1>
+    </div>
+    <div class="dept-badge" style="font-size: 0.9rem; padding: 8px 16px">
+      ID: #{{ employee()?.id }}
+    </div>
+  </div>
+
+  @if (employee()) {
+    <div class="detail-grid">
+      <div
+        class="bento-card"
+        style="
+          grid-row: span 2;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 40px;
+        "
+      >
+        <div
+          style="
+            width: 140px;
+            height: 140px;
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 25px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+          "
+        >
+          {{ employee()?.firstName?.[0] }}
+        </div>
+        <h2 style="font-size: 1.8rem; margin: 0">
+          {{ employee()?.firstName }} {{ employee()?.lastName }}
+        </h2>
+        <p style="color: #9ca3af; font-weight: 600; margin-top: 10px">{{ employee()?.position }}</p>
+
+        <div
+          style="width: 100%; margin-top: 40px; display: flex; flex-direction: column; gap: 20px"
+        >
+          <div class="info-box">
+            <p class="tf-label">Status</p>
+            <div
+              style="display: flex; align-items: center; gap: 8px; color: #10b981; font-weight: 700"
+            >
+              <span style="width: 8px; height: 8px; background: #10b981; border-radius: 50%"></span>
+              ACTIV
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bento-card">
+        <p class="tf-label">Salariu & Compensatii</p>
+        <div class="data-value highlight-purple" style="font-size: 2rem">
+          @if (
+            userRole() === 'ADMIN' || (userRole() === 'MANAGER' && employee()?.role === 'EMPLOYEE')
+          ) {
+            {{ (employee()?.salary | number: '1.0-0') }} RON
+          } @else {
+            <span style="letter-spacing: 4px; opacity: 0.5">••••••</span>
+          }
+        </div>
+        <p style="font-size: 0.8rem; color: #d1d5db; margin-top: 5px">Remunerație (BRUT)</p>
+      </div>
+
+      <div class="bento-card">
+        <p class="tf-label">Departament</p>
+        <div class="data-value" style="color: #3b82f6">
+          {{ employee()?.departmentName || employee()?.department?.name || 'Unassigned' }}
+        </div>
+        <p style="font-size: 0.8rem; color: #d1d5db; margin-top: 5px">Unitate Organizatională</p>
+      </div>
+
+      <div
+        class="bento-card"
+        style="grid-column: span 2; display: grid; grid-template-columns: 1fr 1fr; gap: 30px"
+      >
+        <div>
+          <p class="tf-label">Email Principal</p>
+          <div class="data-value" style="font-family: 'JetBrains Mono'">
+            {{ employee()?.email }}
+          </div>
+          <p class="tf-label" style="margin-top: 25px">Număr de Telefon</p>
+          <div class="data-value">{{ employee()?.phone || 'Not Provided' }}</div>
+        </div>
+        <div style="border-left: 1px solid rgba(200, 200, 200, 0.2); padding-left: 30px">
+          <p class="tf-label">Data Angajării</p>
+          <div class="data-value">{{ employee()?.hireDate | date: 'longDate' }}</div>
+          <p class="tf-label" style="margin-top: 25px">Vechime</p>
+          <div class="data-value">{{ getSeniority(employee()?.hireDate) }}</div>
+        </div>
+      </div>
+    </div>
+
+    @if (userRole() === 'ADMIN') {
+      <div class="admin-control-card" style="margin-top: 30px">
+        <div class="status-info">
+          <span class="tf-label">NIVEL DE AUTORITATE</span>
+          <h3 [style.color]="employee()?.role === 'MANAGER' ? '#3b82f6' : '#6b7280'">
+            {{ employee()?.role || 'NOT SET' }}
+          </h3>
+        </div>
+
+        @if (employee()?.role === 'MANAGER') {
+          <button (click)="changeRole('EMPLOYEE')" class="tf-btn-demote">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                d="M19 9l-7 7-7-7"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            RETROGRADARE LA ANGAJAT
+          </button>
+        } @else {
+          <button (click)="changeRole('MANAGER')" class="tf-btn-promote">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                d="M5 15l7-7 7 7"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            PROMOVARE LA MANAGER
+          </button>
+        }
+      </div>
+    }
+  } @else {
+    <div class="bento-card" style="padding: 100px; text-align: center; color: #9ca3af">
+      <div class="spinner"></div>
+      Incarcare detalii angajat...
+    </div>
+  }
+
+  @if (employee()?.temporaryPassword) {
+    <div
+      class="bento-card"
+      style="
+        margin-top: 30px;
+        border: 1px dashed #1e40af;
+        background: rgba(30, 64, 175, 0.05);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 25px;
+      "
+    >
+      <div style="display: flex; gap: 20px; align-items: center">
+        <div
+          style="
+            width: 50px;
+            height: 50px;
+            border-radius: 15px;
+            background: rgba(30, 64, 175, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1e40af;
+          "
+        >
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3-3.5 3.5z"
+            ></path>
+          </svg>
+        </div>
+        <div>
+          <p class="tf-label" style="margin: 0; color: #3b82f6">
+            Actiune necesara: Resetare Parola
+          </p>
+          <p style="margin: 5px 0 0 0; font-size: 0.9rem; color: #6b7280">
+            Parola temporara a fost generata pentru acest angajat.
+          </p>
+        </div>
+      </div>
+
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          gap: 15px;
+          background: rgba(0, 0, 0, 0.2);
+          padding: 10px 20px;
+          border-radius: 12px;
+          border: 1px solid rgba(200, 200, 200, 0.2);
+        "
+      >
+        <code
+          style="
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.2rem;
+            color: #374151;
+            letter-spacing: 2px;
+          "
+        >
+          {{ showPassword() ? employee()?.temporaryPassword : '••••••••••' }}
+        </code>
+
+        <div
+          style="
+            display: flex;
+            gap: 10px;
+            margin-left: 10px;
+            border-left: 1px solid rgba(200, 200, 200, 0.3);
+            padding-left: 15px;
+          "
+        >
+          <button
+            (click)="togglePassword()"
+            style="background: none; border: none; color: #9ca3af; cursor: pointer; padding: 5px"
+            title="Toggle Visibility"
+          >
+            @if (showPassword()) {
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"
+                ></path>
+                <line x1="1" y1="1" x2="23" y2="23"></line>
+              </svg>
+            } @else {
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            }
+          </button>
+          <button
+            (click)="copyToClipboard(employee()?.temporaryPassword)"
+            style="background: none; border: none; color: #9ca3af; cursor: pointer; padding: 5px"
+            title="Copy to Clipboard"
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</div>
+
+
+
+
+
+
+
+
+

@@ -1,36 +1,36 @@
 <div class="tf-page-wrapper">
   <header class="tf-page-header">
-    <h1>ADMIN <span>DASHBOARD</span></h1>
-    <p>Overview of system metrics and administrative status.</p>
+    <h1>PAGINA <span>ADMINISTRATOR</span></h1>
+    <p>Vizualizare generală a metricilor sistemului și a stării administrative.</p>
   </header>
 
   <div class="stats-row admin-grid">
     <div class="bento-card stat-item-compact">
-      <span class="tf-label">Total Employees</span>
+      <span class="tf-label">Total Angajati</span>
       <div class="stat-value-compact">{{ stats()?.totalEmployees || 0 }}</div>
     </div>
     <div class="bento-card stat-item-compact">
-      <span class="tf-label">Active Projects</span>
+      <span class="tf-label">Comenzi Active</span>
       <div class="stat-value-compact">{{ stats()?.activeProjects || 0 }}</div>
     </div>
     <div class="bento-card stat-item-compact">
-      <span class="tf-label">Pending Leaves</span>
+      <span class="tf-label">Concedii În Așteptare</span>
       <div class="stat-value-compact">{{ stats()?.pendingLeaves || 0 }}</div>
     </div>
     <div class="bento-card stat-item-compact">
-      <span class="tf-label">Urgent Tasks</span>
+      <span class="tf-label">Actiuni Urgente</span>
       <div class="stat-value-compact">{{ stats()?.urgentTasks || 0 }}</div>
     </div>
   </div>
 
   <div class="mt-8">
-    <h2 class="section-title">UPCOMING SYSTEM TASKS</h2>
+    <h2 class="section-title">ACTIUNI URMATOARE</h2>
     <div class="tasks-list" style="display: flex; flex-direction: column; gap: 10px">
       @for (task of recentTasks(); track task.id) {
         <div class="bento-card task-row">
           <div class="task-info">
             <h3 class="task-title">{{ task.title }}</h3>
-            <span class="unit-id">DUE: {{ task.deadline }}</span>
+            <span class="unit-id">PANA LA: {{ task.deadline }}</span>
           </div>
 
           <div style="display: flex; gap: 8px; align-items: center">
@@ -41,14 +41,14 @@
           </div>
         </div>
       } @empty {
-        <div class="bento-card" style="padding: 20px; color: #64748b">
-          No recent activity detected.
+        <div class="bento-card" style="padding: 20px; color: #9ca3af">
+          Nu a fost detectată activitate recentă.
         </div>
       }
     </div>
 
     <div class="bento-card" style="padding: 20px">
-      <h2 class="section-title">TASK DISTRIBUTION</h2>
+      <h2 class="section-title">SITUATIE ACTIVITATI</h2>
 
       <div class="chart-layout">
         <div class="chart-wrapper">
@@ -74,3 +74,12 @@
     </div>
   </div>
 </div>
+
+
+
+
+
+
+
+
+

@@ -43,4 +43,7 @@ updateRequestStatus(id: number, status: string, comment: string): Observable<any
 
   return this.http.put(`${this.apiUrl}/${id}/status`, null, { params });
 }
+
+getEmployeeProfile(id: number): Observable<any> {
+return this.http.get(`http://localhost:8080/api/employees/${id}`);}
 }

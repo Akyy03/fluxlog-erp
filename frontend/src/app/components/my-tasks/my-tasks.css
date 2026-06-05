@@ -12,7 +12,7 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(200, 200, 200, 0.1);
   border-radius: 12px;
   padding: 15px;
   min-height: 500px;
@@ -28,8 +28,8 @@
 
 /* --- LABELS & BADGES --- */
 .count-badge {
-  background: rgba(99, 102, 241, 0.1);
-  color: #6366f1;
+  background: rgba(30, 64, 175, 0.1);
+  color: #1e40af;
   padding: 4px 12px;
   border-radius: 20px;
   font-size: 0.75rem;
@@ -38,9 +38,9 @@
 
 /* --- TASK CARD BENTO STYLE --- */
 .task-card {
-  background: rgba(30, 41, 59, 0.5);
+  background: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(200, 200, 200, 0.2);
   border-radius: 16px;
   padding: 20px;
   will-change: transform;
@@ -61,8 +61,8 @@
 }
 
 .task-card:hover {
-  background: rgba(30, 41, 59, 0.8);
-  border-color: rgba(99, 102, 241, 0.3);
+  background: rgba(255, 255, 255, 0.8);
+  border-color: rgba(30, 64, 175, 0.3);
   transform: translateY(-2px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
@@ -73,7 +73,7 @@
   align-items: center;
   gap: 6px;
   font-size: 0.65rem;
-  color: #818cf8;
+  color: #3b82f6;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -84,19 +84,19 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background-color: #6366f1;
-  box-shadow: 0 0 8px #6366f1;
+  background-color: #1e40af;
+  box-shadow: 0 0 8px #1e40af;
 }
 
 .task-card h4 {
-  color: #f8fafc;
+  color: #1f2937;
   margin: 0 0 8px 0;
   font-weight: 600;
   line-height: 1.4;
 }
 
 .task-card p {
-  color: #94a3b8;
+  color: #6b7280;
   font-size: 0.85rem;
   margin: 0 0 16px 0;
   line-height: 1.5;
@@ -110,6 +110,12 @@
 
 .cdk-drag-placeholder {
   opacity: 0.2;
-  border: 2px dashed #6366f1;
+  border: 2px dashed #1e40af;
   border-radius: 16px;
 }
+
+
+
+
+
+

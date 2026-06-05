@@ -2,23 +2,23 @@
 
 :root {
   /* --- PRIMARY COLORS --- */
-  --color-indigo: #6366f1;
-  --color-indigo-hover: #4f46e5;
-  --color-indigo-light: #818cf8;
-  --color-indigo-faint: rgba(99, 102, 241, 0.1);
+  --color-indigo: #1e40af;
+  --color-indigo-hover: #1e3a8a;
+  --color-indigo-light: #3b82f6;
+  --color-indigo-faint: rgba(30, 64, 175, 0.1);
   
   /* --- NEUTRAL COLORS --- */
-  --color-bg-dark: #030712;
-  --color-bg-slate: #1e293b;
-  --color-bg-card: rgba(30, 41, 59, 0.4);
-  --color-bg-card-hover: rgba(30, 41, 59, 0.6);
-  --color-text-white: #f8fafc;
-  --color-text-light: #e2e8f0;
-  --color-text-gray: #94a3b8;
-  --color-text-muted: #64748b;
-  --color-text-darker: #475569;
-  --color-border: rgba(255, 255, 255, 0.05);
-  --color-border-indigo: rgba(99, 102, 241, 0.2);
+  --color-bg-dark: #f5f5f5;
+  --color-bg-slate: #f0f4f8;
+  --color-bg-card: rgba(255, 255, 255, 0.9);
+  --color-bg-card-hover: rgba(255, 255, 255, 1);
+  --color-text-white: #1f2937;
+  --color-text-light: #374151;
+  --color-text-gray: #6b7280;
+  --color-text-muted: #9ca3af;
+  --color-text-darker: #d1d5db;
+  --color-border: rgba(200, 200, 200, 0.3);
+  --color-border-indigo: rgba(30, 64, 175, 0.2);
   
   /* --- STATUS COLORS --- */
   --color-success: #10b981;
@@ -80,15 +80,16 @@
     border: 1px solid var(--color-border);
     border-radius: var(--radius-2xl);
     padding: var(--spacing-2xl);
-    transition: transform var(--transition-base) ease, border-color var(--transition-base) ease;
+    transition: transform var(--transition-base) ease, border-color var(--transition-base) ease, box-shadow var(--transition-base) ease;
     margin-bottom: var(--spacing-lg);
-    backdrop-filter: blur(12px);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   }
 
   .bento-card:hover {
     border-color: var(--color-border-indigo);
     transform: translateY(-2px);
     background-color: var(--color-bg-card-hover);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
 
   /* --- LABELS --- */
@@ -105,11 +106,11 @@
   /* --- INPUTS --- */
   .tf-input {
     width: 100%;
-    background-color: rgba(15, 23, 42, 0.6) !important;
-    border: 1px solid rgba(51, 65, 85, 0.8) !important;
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    border: 1px solid rgba(200, 200, 200, 0.5) !important;
     border-radius: var(--radius-lg);
     padding: var(--spacing-md) var(--spacing-lg);
-    color: white;
+    color: #1f2937;
     font-size: 0.9375rem;
     transition: border-color var(--transition-fast) !important;
     outline: none !important;
@@ -118,13 +119,13 @@
 
   .tf-input:focus {
     border-color: var(--color-indigo) !important;
-    background-color: #1e293b !important;
+    background-color: #ffffff !important;
     box-shadow: 0 0 0 1px var(--color-indigo) !important;
   }
 
   select.tf-input option {
-    background-color: var(--color-bg-slate);
-    color: white;
+    background-color: #f0f4f8;
+    color: #1f2937;
   }
 
   /* --- PRIMARY BUTTON --- */
@@ -141,30 +142,30 @@
 
   .tf-btn-primary:hover:not(:disabled) {
     background: var(--color-indigo-hover);
-    box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
+    box-shadow: 0 4px 6px rgba(30, 64, 175, 0.25);
   }
 
   .tf-btn-primary:disabled {
     opacity: 0.5;
     cursor: not-allowed;
-    background: #334155;
+    background: #cbd5e1;
   }
 
   /* --- SECONDARY BUTTON --- */
   .tf-btn-secondary {
-    background: rgba(51, 65, 85, 0.5);
-    color: #f8fafc;
+    background: rgba(200, 200, 200, 0.2);
+    color: #1f2937;
     font-weight: 600;
     border-radius: var(--radius-lg);
     padding: var(--spacing-md) var(--spacing-xl);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(200, 200, 200, 0.3);
     transition: all var(--transition-base) ease;
     cursor: pointer;
   }
 
   .tf-btn-secondary:hover {
-    background: rgba(51, 65, 85, 0.8);
-    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(200, 200, 200, 0.35);
+    border-color: rgba(200, 200, 200, 0.5);
   }
 
   /* --- ACTION BUTTONS --- */
@@ -175,8 +176,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    background: rgba(15, 23, 42, 0.8);
+    border: 1px solid rgba(200, 200, 200, 0.3);
+    background: rgba(255, 255, 255, 0.7);
     color: var(--color-text-gray);
     cursor: pointer;
     transition: all var(--transition-base) ease;
@@ -198,8 +199,7 @@
   .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(2, 6, 23, 0.95);
-    backdrop-filter: blur(8px);
+    background: rgba(0, 0, 0, 0.3);
     z-index: 1000;
     display: flex;
     align-items: center;
@@ -251,7 +251,7 @@
   .unit-icon {
     width: 50px;
     height: 50px;
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(168, 85, 247, 0.2));
+    background: linear-gradient(135deg, rgba(30, 64, 175, 0.1), rgba(59, 130, 246, 0.1));
     border: 1px solid var(--color-border-indigo);
     border-radius: var(--radius-lg);
     display: flex;
@@ -292,7 +292,7 @@
   .tf-page-header h1 {
     font-size: 1.6rem;
     font-weight: 800;
-    color: white;
+    color: #1f2937;
     margin: 0;
     text-transform: uppercase;
   }
@@ -345,3 +345,9 @@
     transition: none !important;
   }
 }
+
+
+
+
+
+

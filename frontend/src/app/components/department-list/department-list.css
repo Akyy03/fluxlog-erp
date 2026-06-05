@@ -1,17 +1,47 @@
 .dept-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 25px;
   padding-top: 10px;
 }
 
-.bento-card {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+.dept-card-bento {
+  display: flex;
+  flex-direction: column;
+  min-height: 280px;
+  max-height: 280px;
 }
 
-.bento-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+.dept-card-bento .dept-description {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: #6b7280;
+  flex-grow: 1;
+}
+
+.dept-card-bento .dept-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.dept-card-bento .unit-icon {
+  font-size: 1.5rem;
+  font-weight: 700;
+  min-width: 40px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @keyframes fadeIn {
@@ -22,3 +52,9 @@
     opacity: 1;
   }
 }
+
+
+
+
+
+

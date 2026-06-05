@@ -1,39 +1,48 @@
 <div class="tf-page-wrapper">
   <header class="tf-page-header">
-    <h1>EMPLOYEE <span>DASHBOARD</span></h1>
-    <p>Overview of your current performance and task status.</p>
+    <h1>PAGINA <span>ANGAJAT</span></h1>
+    <p>Vizualizare generală a performanței și a stării sarcinilor.</p>
   </header>
 
   <div class="stats-row">
     <div class="bento-card stat-item-compact">
-      <span class="tf-label">To Do</span>
+      <span class="tf-label">De Făcut</span>
       <div class="stat-value-compact">{{ todoCount }}</div>
     </div>
     <div class="bento-card stat-item-compact">
-      <span class="tf-label">In Progress</span>
+      <span class="tf-label">In Progres</span>
       <div class="stat-value-compact">{{ inProgressCount }}</div>
     </div>
     <div class="bento-card stat-item-compact">
-      <span class="tf-label">Completed</span>
+      <span class="tf-label">Completate</span>
       <div class="stat-value-compact">{{ completedCount }}</div>
     </div>
   </div>
 
-  <h2 class="section-title">UPCOMING ASSIGNMENTS</h2>
+  <h2 class="section-title">ACTIUNI URMATOARE</h2>
   <div class="tasks-list">
     @for (task of upcomingTasks; track task.id) {
       <div class="bento-card task-row">
         <div class="task-info">
           <h3 class="task-title">{{ task.title }}</h3>
-          <span class="unit-id">DUE: {{ task.deadline }}</span>
+          <span class="unit-id">PANA: {{ task.deadline }}</span>
         </div>
         <span class="badge">{{ task.status }}</span>
       </div>
     } @empty {
-      <p style="color: #64748b; font-size: 0.9rem">No upcoming assignments.</p>
+      <p style="color: #9ca3af; font-size: 0.9rem">Nu există atribuții viitoare.</p>
     }
     @if (activeTasks.length > 3) {
-      <a href="/my-tasks" class="view-all-link">View all tasks...</a>
+      <a href="/my-tasks" class="view-all-link">Vezi toate</a>
     }
   </div>
 </div>
+
+
+
+
+
+
+
+
+

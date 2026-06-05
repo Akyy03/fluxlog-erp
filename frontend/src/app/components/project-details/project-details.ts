@@ -189,7 +189,7 @@ export class ProjectDetailsComponent implements OnInit {
     this.taskService.createTask(payload).subscribe({
       next: () => {
         this.showTaskModal = false;
-        this.loadTasks(); // În loc de push manual, dăm refresh total pentru siguranță
+        this.loadTasks();
       },
       error: (err) => alert('Create error: ' + err.message)
     });
@@ -197,7 +197,7 @@ export class ProjectDetailsComponent implements OnInit {
 }
 
   deleteTask(taskId: number): void {
-    if (confirm('Are you sure you want to terminate this task?')) {
+    if (confirm('Sunteti sigur că doriți să ștergeți această sarcină?')) {
       this.http.delete(`http://localhost:8080/api/tasks/${taskId}`).subscribe({
         next: () => {
           this.loadTasks(); 
@@ -227,7 +227,7 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   removeDept(deptId: number): void {
-    if (confirm('Are you sure you want to remove this department?')) {
+    if (confirm('Sunteti sigur că doriți să eliminați acest departament?')) {
       this.http
         .delete(`http://localhost:8080/api/projects/${this.projectId}/departments/${deptId}`)
         .subscribe({
@@ -279,7 +279,7 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   deleteProject() {
-    if (confirm('Warning: This action will permanently delete the project and all its associated tasks. Are you sure?')) {
+    if (confirm('Atentie! Aceasta va șterge definitiv proiectul și toate datele asociate. Sunteti sigur?')) {
       this.http.delete(`http://localhost:8080/api/projects/${this.projectId}`).subscribe({
         next: () => {
           this.router.navigate(['/projects']);

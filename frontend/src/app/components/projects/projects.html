@@ -5,14 +5,14 @@
   >
     <div>
       <h1>
-        {{ userRole === 'ADMIN' ? 'PROJECT' : 'TEAM' }}
-        <span>{{ userRole === 'ADMIN' ? 'HUB' : 'PROJECTS' }}</span>
+        {{ userRole === 'ADMIN' ? 'CENTRU' : 'COMENZILE' }}
+        <span>{{ userRole === 'ADMIN' ? 'COMENZI' : 'ECHIPEI' }}</span>
       </h1>
       <p>
         {{
           userRole === 'ADMIN'
-            ? 'Orchestrate and track high-level initiatives'
-            : 'Manage initiatives within your department'
+            ? 'Vizualizează și gestionează toate comenzile din cadrul organizației tale'
+            : 'Explorează comenzile active ale echipei tale și monitorizează progresul acestora'
         }}
       </p>
     </div>
@@ -33,7 +33,7 @@
       >
         <path d="M12 5v14M5 12h14" />
       </svg>
-      Initiate Project
+      Creează Comanda
     </button>
   </header>
 
@@ -56,7 +56,7 @@
           >● {{ project.status }}</span
         >
         <div
-          style="color: #94a3b8; font-size: 0.8rem; display: flex; align-items: center; gap: 6px"
+          style="color: #6b7280; font-size: 0.8rem; display: flex; align-items: center; gap: 6px"
         >
           <svg
             width="14"
@@ -77,27 +77,25 @@
       <div style="display: flex; align-items: flex-start; gap: 16px">
         <div class="unit-icon">{{ project.name[0] }}</div>
         <div style="flex: 1">
-          <div class="tf-label">Project Title</div>
-          <h3 style="color: white; margin: 0; font-size: 1.2rem; font-weight: 700">
+          <h3 style="color: #1f2937; margin: 0; font-size: 1.2rem; font-weight: 700">
             {{ project.name }}
           </h3>
-          <span class="project-id">PRJ_ENG_0{{ project.id }}</span>
         </div>
       </div>
 
       <div style="margin: 20px 0">
-        <div class="tf-label">Description</div>
-        <p style="color: #94a3b8; font-size: 0.9rem; line-height: 1.5; margin: 0">
+        <div class="tf-label">Descriere</div>
+        <p style="color: #6b7280; font-size: 0.9rem; line-height: 1.5; margin: 0">
           {{ project.description }}
         </p>
       </div>
 
       <div class="progress-section">
         <div style="display: flex; justify-content: space-between; align-items: center">
-          <span class="tf-label" style="margin: 0">Execution Flow</span>
+          <span class="tf-label" style="margin: 0">Progres</span>
           <span
             style="
-              color: #6366f1;
+              color: #1e40af;
               font-family: 'JetBrains Mono';
               font-size: 0.8rem;
               font-weight: 800;
@@ -114,45 +112,26 @@
         style="
           margin-top: auto;
           padding-top: 16px;
-          border-top: 1px solid rgba(255, 255, 255, 0.03);
+          border-top: 1px solid rgba(200, 200, 200, 0.2);
           display: flex;
           justify-content: space-between;
           align-items: center;
         "
       >
-        <div style="display: flex; align-items: center; gap: 8px">
-          <div
-            style="
-              width: 20px;
-              height: 20px;
-              background: #1e293b;
-              border-radius: 50%;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              font-size: 10px;
-            "
-          >
-            👤
-          </div>
-          <span style="color: #64748b; font-size: 0.75rem"
-            >Owner: <strong style="color: #cbd5e1">{{ project.createdByUserName }}</strong></span
-          >
-        </div>
       </div>
     </div>
 
     <div
       *ngIf="filteredProjects.length === 0"
-      style="grid-column: 1/-1; text-align: center; padding: 40px; color: #64748b"
+      style="grid-column: 1/-1; text-align: center; padding: 40px; color: #9ca3af"
     >
-      No active projects found for your department.
+      Nicio comandă găsită.
     </div>
   </div>
 
   <ng-template #loader>
-    <div style="text-align: center; padding: 100px; color: #64748b">
-      <div class="tf-label">Syncing data...</div>
+    <div style="text-align: center; padding: 100px; color: #9ca3af">
+      <div class="tf-label">Sincronizare...</div>
     </div>
   </ng-template>
 
@@ -163,48 +142,48 @@
         width: 100%;
         max-width: 480px;
         padding: 40px;
-        border: 1px solid rgba(99, 102, 241, 0.3);
+        border: 1px solid rgba(30, 64, 175, 0.3);
       "
     >
       <div style="text-align: center; margin-bottom: 30px">
         <h2
           style="
-            color: white;
+            color: #1f2937;
             margin: 0;
             font-size: 1.5rem;
             font-weight: 800;
             letter-spacing: -0.5px;
           "
         >
-          PROVISION <span style="color: #6366f1">PROJECT</span>
+          CREEAZA <span style="color: #1e40af">COMANDA</span>
         </h2>
       </div>
 
       <form [formGroup]="projectForm" (ngSubmit)="submitProject()">
         <div style="margin-bottom: 24px">
-          <label class="tf-label">Project Identity</label>
+          <label class="tf-label">Titlu Comanda</label>
           <input
             type="text"
             formControlName="name"
             class="tf-input"
             style="width: 100%; margin-top: 8px"
-            placeholder="e.g. Project X Engine"
+            placeholder="ex. Dedeman - Paleti si Rafturi"
           />
         </div>
 
         <div style="margin-bottom: 24px">
-          <label class="tf-label">Operational Description</label>
+          <label class="tf-label">Descriere</label>
           <textarea
             formControlName="description"
             rows="4"
             class="tf-input"
             style="width: 100%; margin-top: 8px; resize: none"
-            placeholder="Core objectives..."
+            placeholder="Obiectivele principale"
           ></textarea>
         </div>
 
         <div style="margin-bottom: 32px">
-          <label class="tf-label">Release Deadline</label>
+          <label class="tf-label">Deadline</label>
           <input
             type="date"
             formControlName="deadline"
@@ -219,13 +198,13 @@
             "
             style="color: #fb7185; font-size: 0.75rem; margin-top: 8px"
           >
-            ⚠️ Deadline cannot be set in the past.
+            ⚠️ Deadline nu poate fi în trecut.
           </div>
         </div>
 
         <div style="display: flex; gap: 12px">
           <button type="button" (click)="closeModal()" class="tf-btn-secondary" style="flex: 1">
-            Abort
+            Anulează
           </button>
           <button
             type="submit"
@@ -233,10 +212,19 @@
             class="tf-btn-primary"
             style="flex: 2"
           >
-            Finalize Initialization
+            Finalizează Comanda
           </button>
         </div>
       </form>
     </div>
   </div>
 </div>
+
+
+
+
+
+
+
+
+

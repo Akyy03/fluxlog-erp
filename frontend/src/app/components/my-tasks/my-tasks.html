@@ -1,13 +1,13 @@
 <div class="tf-page-wrapper">
   <header class="tf-page-header">
-    <h1>MY <span>TASKS</span></h1>
-    <p>Manage your individual workflow, track daily progress and deadlines.</p>
+    <h1>ACTIUNILE <span>MELE</span></h1>
+    <p>Gestionați-vă fluxul de lucru individual, urmăriți progresul zilnic și termenele limită.</p>
   </header>
 
   <div class="kanban-board" cdkDropListGroup>
     <div class="kanban-column">
       <div class="column-header">
-        <span class="tf-label">TO DO</span>
+        <span class="tf-label">DE FĂCUT</span>
         <span class="count-badge">{{ todoTasks.length }}</span>
       </div>
       <div
@@ -28,8 +28,8 @@
             <div class="dot"></div>
             {{ task.projectName }}
           </div>
-          <h4 style="color: white; margin: 8px 0; font-size: 1rem">{{ task.title }}</h4>
-          <p style="color: #94a3b8; font-size: 0.85rem; margin: 0">{{ task.description }}</p>
+          <h4 style="color: #1f2937; margin: 8px 0; font-size: 1rem">{{ task.title }}</h4>
+          <p style="color: #6b7280; font-size: 0.85rem; margin: 0">{{ task.description }}</p>
           <div class="unit-id" style="margin-top: 15px">{{ task.deadline }}</div>
         </div>
       </div>
@@ -37,7 +37,7 @@
 
     <div class="kanban-column">
       <div class="column-header">
-        <span class="tf-label">IN PROGRESS</span>
+        <span class="tf-label">IN PROGRES</span>
         <span class="count-badge">{{ inProgressTasks.length }}</span>
       </div>
       <div
@@ -58,8 +58,8 @@
             <div class="dot"></div>
             {{ task.projectName }}
           </div>
-          <h4 style="color: white; margin: 8px 0; font-size: 1rem">{{ task.title }}</h4>
-          <p style="color: #94a3b8; font-size: 0.85rem; margin: 0">{{ task.description }}</p>
+          <h4 style="color: #1f2937; margin: 8px 0; font-size: 1rem">{{ task.title }}</h4>
+          <p style="color: #6b7280; font-size: 0.85rem; margin: 0">{{ task.description }}</p>
           <div class="unit-id" style="margin-top: 15px">{{ task.deadline }}</div>
         </div>
       </div>
@@ -67,7 +67,7 @@
 
     <div class="kanban-column">
       <div class="column-header">
-        <span class="tf-label">COMPLETED</span>
+        <span class="tf-label">COMPLETATE</span>
         <span class="count-badge">{{ doneTasks.length }}</span>
       </div>
       <div
@@ -88,8 +88,8 @@
             <div class="dot"></div>
             {{ task.projectName }}
           </div>
-          <h4 style="color: white; margin: 8px 0; font-size: 1rem">{{ task.title }}</h4>
-          <p style="color: #94a3b8; font-size: 0.85rem; margin: 0">{{ task.description }}</p>
+          <h4 style="color: #1f2937; margin: 8px 0; font-size: 1rem">{{ task.title }}</h4>
+          <p style="color: #6b7280; font-size: 0.85rem; margin: 0">{{ task.description }}</p>
           <div class="unit-id" style="margin-top: 15px">{{ task.deadline }}</div>
         </div>
       </div>

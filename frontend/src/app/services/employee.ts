@@ -11,7 +11,6 @@ export interface Department {
   employees?: any[];
 }
 
-// Interfața Employee - ALINIATĂ CU DTO-UL JAVA (EmployeeResponse)
 export interface Employee {
   id?: number;
   firstName: string;
@@ -25,9 +24,9 @@ export interface Employee {
   hireDate: string;
   role?: string;      
   temporaryPassword?: string;
-  isDeleted?: boolean;  
+  isDeleted?: boolean;
+  remainingLeaveDays?: number;  
   
-  // Opțional, dacă mai folosești obiectul întreg în alte părți
   department?: Department;
   isActive?: boolean;
 }
@@ -38,7 +37,6 @@ export interface Employee {
 export class EmployeeService {
   private http = inject(HttpClient);
   
-  // URL-urile de bază - curate, fără slash la final
   private apiUrl = 'http://localhost:8080/api/employees';
   private deptUrl = 'http://localhost:8080/api/departments';
 

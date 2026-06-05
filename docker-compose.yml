@@ -3,40 +3,40 @@ version: '3.8'
 services:
   mysql:
     image: mysql:8.4
-    container_name: techflow-mysql
+    container_name: fluxlog-mysql
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: techflow_erp
-      MYSQL_USER: techflow_user
-      MYSQL_PASSWORD: techflow123
+      MYSQL_DATABASE: fluxlog_erp
+      MYSQL_USER: fluxlog_user
+      MYSQL_PASSWORD: fluxlog123
     ports:
       - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
-      - techflow-network
+      - fluxlog-network
 
   adminer:
     image: adminer:latest
-    container_name: techflow-adminer
+    container_name: fluxlog-adminer
     restart: always
     ports:
       - "8081:8080"
     networks:
-      - techflow-network
+      - fluxlog-network
     depends_on:
       - mysql
 
   backend:
     build: ./backend
-    container_name: techflow-backend
+    container_name: fluxlog-backend
     ports:
       - "8080:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/techflow_erp?allowPublicKeyRetrieval=true&useSSL=false
-      - SPRING_DATASOURCE_USERNAME=techflow_user
-      - SPRING_DATASOURCE_PASSWORD=techflow123
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/fluxlog_erp?allowPublicKeyRetrieval=true&useSSL=false
+      - SPRING_DATASOURCE_USERNAME=fluxlog_user
+      - SPRING_DATASOURCE_PASSWORD=fluxlog123
       - SPRING_PROFILES_ACTIVE=dev
     volumes:
       - ./backend:/app
@@ -44,11 +44,11 @@ services:
     depends_on:
       - mysql
     networks:
-      - techflow-network
+      - fluxlog-network
 
   frontend:
     build: ./frontend
-    container_name: techflow-frontend
+    container_name: fluxlog-frontend
     ports:
       - "4200:4200"
     volumes:
@@ -57,7 +57,7 @@ services:
     environment:
       - CHOKIDAR_USEPOLLING=true
     networks:
-      - techflow-network
+      - fluxlog-network
     depends_on:
       - backend
 
@@ -65,5 +65,5 @@ volumes:
   mysql_data:
 
 networks:
-  techflow-network:
+  fluxlog-network:
     driver: bridge

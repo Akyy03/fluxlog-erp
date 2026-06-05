@@ -19,8 +19,8 @@ export class Reports {
 
   get roleDescription(): string {
     return this.isAdmin()
-      ? 'Generate and download system-wide exports for HR and Project analytics.'
-      : 'Generate and download team-specific reports for department performance tracking.';
+      ? 'Generează rapoarte globale pentru administrare.'
+      : 'Generează și descarcă rapoarte specifice echipei pentru urmărirea performanței departamentului.';
   }
 
   isManager(): boolean {

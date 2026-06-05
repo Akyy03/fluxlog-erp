@@ -2,31 +2,30 @@
   <div class="bento-card modal-content" (click)="$event.stopPropagation()">
     <div style="text-align: center; margin-bottom: 30px">
       <h2
-        style="color: white; margin: 0; font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px"
+        style="color: #1f2937; margin: 0; font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px"
       >
-        {{ taskModel.id ? 'UPDATE' : 'PROVISION' }} <span style="color: #6366f1">TASK</span>
+        {{ taskModel.id ? 'ACTUALIZEAZA' : 'CREEAZA' }} <span style="color: #1e40af">ACTIUNE</span>
       </h2>
       <div style="margin-top: 8px">
-        <span class="project-id">ID_PRJ_0{{ projectId }}</span>
       </div>
     </div>
 
     <div class="modal-body">
       <div style="margin-bottom: 24px">
-        <label class="tf-label">Task Identity <span style="color: #6366f1">*</span></label>
+        <label class="tf-label">Denumire <span style="color: #1e40af">*</span></label>
         <input
           type="text"
           name="title"
           [(ngModel)]="taskModel.title"
           class="tf-input"
           style="width: 100%; margin-top: 8px"
-          placeholder="e.g. Implement JWT Auth"
+          placeholder="e.g. 100 cutii farmacie"
         />
       </div>
 
       <div style="display: flex; gap: 20px; margin-bottom: 24px">
         <div style="flex: 1">
-          <label class="tf-label">Release Deadline <span style="color: #6366f1">*</span></label>
+          <label class="tf-label">Deadline <span style="color: #1e40af">*</span></label>
           <input
             type="date"
             name="deadline"
@@ -38,7 +37,7 @@
         </div>
 
         <div style="flex: 1">
-          <label class="tf-label">Operational Lead <span style="color: #6366f1">*</span></label>
+          <label class="tf-label">Angajat <span style="color: #1e40af">*</span></label>
           <select
             name="assignee"
             [(ngModel)]="selectedUser"
@@ -46,7 +45,7 @@
             class="tf-input"
             style="width: 100%; margin-top: 8px"
           >
-            <option [ngValue]="null">Select employee...</option>
+            <option [ngValue]="null">Selecteaza...</option>
             <option *ngFor="let user of filteredUsers" [ngValue]="user">
               {{ user.firstName }} {{ user.lastName }} {{ user.isDeleted ? '(Archived)' : '' }}
             </option>
@@ -56,27 +55,27 @@
             *ngIf="filteredUsers.length === 0"
             style="margin-top: 8px; color: #fb7185; font-size: 0.75rem; line-height: 1.2"
           >
-            ⚠️ No active members available. Please add the relevant departments to the project first.
+            ⚠️ Nu exista angajati disponibili pentru acest proiect. Te rugam sa adaugi angajati inainte de a crea task-uri.
           </div>
         </div>
       </div>
 
       <div style="margin-bottom: 32px">
-        <label class="tf-label">Operational Description</label>
+        <label class="tf-label">Descriere Operatională</label>
         <textarea
           name="description"
           [(ngModel)]="taskModel.description"
           class="tf-input"
           rows="4"
           style="width: 100%; margin-top: 8px; resize: none"
-          placeholder="Core requirements and technical specs..."
+          placeholder="Descriere..."
         ></textarea>
       </div>
     </div>
 
     <div style="display: flex; gap: 12px">
       <button type="button" (click)="close()" class="tf-btn-secondary" style="flex: 1">
-        Abort
+        Anulează
       </button>
 
       <button
@@ -88,8 +87,16 @@
         [style.opacity]="isFormValid ? '1' : '0.4'"
         [style.cursor]="isFormValid ? 'pointer' : 'not-allowed'"
       >
-        {{ taskModel.id ? 'Save Changes' : 'Finalize Initialization' }}
+        {{ taskModel.id ? 'Salvează Modificările' : 'Finalizează Inițializarea' }}
       </button>
     </div>
   </div>
 </div>
+
+
+
+
+
+
+
+

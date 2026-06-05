@@ -1,8 +1,12 @@
 <div class="tf-page-wrapper">
   <header class="tf-page-header">
     <div>
-      <h1>STAFF <span>MANAGEMENT</span></h1>
-      <p>Manage and monitor organization staff</p>
+      @if (userRole() === 'MANAGER') {
+        <h1>ECHIPA <span>MEA</span></h1>
+      } @else {
+        <h1>MANAGEMENT <span>PERSONAL</span></h1>
+      }
+      <p>Gestionați și monitorizați personalul organizației</p>
     </div>
   </header> 
 
@@ -22,25 +26,25 @@
         left: 15px;
         top: 50%;
         transform: translateY(-50%);
-        color: #6366f1;
+        color: #1e40af;
         font-weight: 800;
         font-size: 0.75rem;
         pointer-events: none;
         z-index: 10;
       "
     >
-      SEARCH_
+      CĂUTARE
     </span>
     <input
       type="text"
       (input)="onSearch($event)"
       [placeholder]="
-        userRole() === 'ADMIN' ? 'by name, position or department...' : 'by name or position...'
+        userRole() === 'ADMIN' ? 'după nume, funcție sau departament...' : 'după nume sau funcție...'
       "
       class="tf-input"
       style="
         padding-left: 85px !important;
-        background: rgba(15, 23, 42, 0.4) !important;
+        background: rgba(255, 255, 255, 0.4) !important;
         width: 100%;
       "
     />
@@ -49,7 +53,7 @@
   <div style="display: flex; gap: 4px; align-items: center">
     <button
       (click)="viewMode.set('grid')"
-      [style.color]="viewMode() === 'grid' ? '#6366f1' : '#475569'"
+      [style.color]="viewMode() === 'grid' ? '#1e40af' : '#d1d5db'"
       style="
         background: none;
         border: none;
@@ -67,7 +71,7 @@
     </button>
     <button
       (click)="viewMode.set('table')"
-      [style.color]="viewMode() === 'table' ? '#6366f1' : '#475569'"
+      [style.color]="viewMode() === 'table' ? '#1e40af' : '#d1d5db'"
       style="
         background: none;
         border: none;
@@ -94,19 +98,19 @@
     <div *ngIf="userRole() === 'ADMIN'" style="display: flex; gap: 10px; align-items: center">
       <button
         (click)="showDeleted.set(!showDeleted())"
-        [style.background]="showDeleted() ? '#ef4444' : 'rgba(99, 102, 241, 0.1)'"
+        [style.background]="showDeleted() ? '#ef4444' : 'rgba(30, 64, 175, 0.1)'"
         style="
           border: none;
           padding: 8px 15px;
           border-radius: 8px;
-          color: white;
+          color: #1f2937;
           cursor: pointer;
           font-weight: 700;
           font-size: 0.7rem;
           transition: 0.3s;
         "
       >
-        {{ showDeleted() ? '← VIEW ACTIVE' : '📁 VIEW ARCHIVE' }}
+        {{ showDeleted() ? '← ACTIVI' : '📁 ARHIVA' }}
       </button>
     </div>
   </div>
@@ -127,12 +131,12 @@
     "
     [style.flex]="userRole() === 'ADMIN' ? '2.3' : '1'"
   >
-    <p class="tf-label">Total Budget Allocation</p>
-    <h2 style="font-size: 2.5rem; margin-top: 10px; font-weight: 300; color: white">
-      {{ totalBudget() | currency: 'EUR' }}
+    <p class="tf-label">Total Budget Alocat</p>
+    <h2 style="font-size: 2.5rem; margin-top: 10px; font-weight: 300; color: #1f2937">
+      {{ (totalBudget() | number: '1.0-0') }} RON
     </h2>
-    <p style="color: #6366f1; font-size: 0.7rem; font-weight: 600; margin-top: 5px">
-      Avg. per employee: {{ avgSalary() | currency: 'EUR' }}
+    <p style="color: #1e40af; font-size: 0.7rem; font-weight: 600; margin-top: 5px">
+      Medie per angajat: {{ (avgSalary() | number: '1.0-0') }} RON
     </p>
   </div>
 
@@ -143,8 +147,8 @@
     style="
       flex: 1;
       min-width: 300px;
-      border: 2px dashed rgba(99, 102, 241, 0.2);
-      background: rgba(99, 102, 241, 0.02);
+      border: 2px dashed rgba(30, 64, 175, 0.2);
+      background: rgba(30, 64, 175, 0.02);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -154,12 +158,12 @@
       min-height: 160px;
     "
     onmouseover="
-      this.style.borderColor = 'rgba(99, 102, 241, 0.5)';
-      this.style.background = 'rgba(99, 102, 241, 0.05)';
+      this.style.borderColor = 'rgba(30, 64, 175, 0.5)';
+      this.style.background = 'rgba(30, 64, 175, 0.05)';
     "
     onmouseout="
-      this.style.borderColor = 'rgba(99, 102, 241, 0.2)';
-      this.style.background = 'rgba(99, 102, 241, 0.02)';
+      this.style.borderColor = 'rgba(30, 64, 175, 0.2)';
+      this.style.background = 'rgba(30, 64, 175, 0.02)';
     "
   >
     <div
@@ -167,11 +171,11 @@
         width: 42px;
         height: 42px;
         border-radius: 12px;
-        background: rgba(99, 102, 241, 0.1);
+        background: rgba(30, 64, 175, 0.1);
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #6366f1;
+        color: #1e40af;
         margin-bottom: 15px;
       "
     >
@@ -188,13 +192,13 @@
     </div>
     <span
       style="
-        color: #6366f1;
+        color: #1e40af;
         font-weight: 800;
         font-size: 0.75rem;
         text-transform: uppercase;
         letter-spacing: 1px;
       "
-      >Add New Employee</span
+      >Adaugă Angajat</span
     >
   </div>
 </div>
@@ -205,7 +209,7 @@
       class="bento-grid"
       style="
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
         gap: 25px;
         width: 100%;
       "
@@ -226,7 +230,7 @@
                 top: 10px;
                 left: 10px;
                 background: #ef4444;
-                color: white;
+                color: #1f2937;
                 padding: 2px 8px;
                 border-radius: 4px;
                 font-size: 0.6rem;
@@ -234,15 +238,7 @@
                 z-index: 20;
               "
             >
-              ARCHIVED
-            </div>
-            <div style="position: absolute; top: 10px; right: 10px; z-index: 30">
-              <button
-                (click)="$event.stopPropagation(); restoreEmployee(emp.id!)"
-                class="restore-btn"
-              >
-                RESTORE
-              </button>
+              ARHIVAT
             </div>
           }
 
@@ -302,27 +298,28 @@
             <div style="position: relative">
               <div
                 [style.border-color]="
-                  emp.role === 'MANAGER' ? 'rgba(129, 140, 248, 0.6)' : 'transparent'
+                  emp.role === 'MANAGER' ? 'rgba(16, 185, 129, 0.6)' : 'transparent'
                 "
                 style="
                   width: 52px;
                   height: 52px;
-                  background: linear-gradient(135deg, #6366f1, #a855f7);
+                  background: linear-gradient(135deg, #1e40af, #3b82f6);
                   border-radius: 14px;
                   display: flex;
                   align-items: center;
                   justify-content: center;
                   font-weight: 800;
-                  color: white;
+                  color: #1f2937;
                   font-size: 1.2rem;
-                  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+                  box-shadow: 0 4px 12px rgba(30, 64, 175, 0.2);
                   border: 2px solid;
                 "
               >
                 {{ emp.firstName ? emp.firstName[0] : '?' }}
               </div>
               <div
-                [style.background]="emp.role === 'MANAGER' ? '#6366f1' : '#1e293b'"
+                [style.background]="emp.role === 'MANAGER' ? '#059669' : '#f0f4f8'"
+                [style.color]="emp.role === 'MANAGER' ? 'white' : '#1f2937'"
                 style="
                   position: absolute;
                   bottom: -4px;
@@ -335,7 +332,7 @@
                   justify-content: center;
                   font-size: 0.65rem;
                   font-weight: 900;
-                  border: 2px solid #0f172a;
+                  border: 2px solid #ffffff;
                   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
                 "
               >
@@ -344,14 +341,14 @@
             </div>
 
             <div>
-              <h3 style="margin: 0; font-size: 1.05rem; color: #f8fafc; font-weight: 700">
+              <h3 style="margin: 0; font-size: 1.05rem; color: #1f2937; font-weight: 700">
                 {{ emp.firstName }} {{ emp.lastName }}
               </h3>
               <div style="display: flex; align-items: center; gap: 5px; margin-top: 2px">
                 <p
                   style="
                     margin: 0;
-                    color: #6366f1;
+                    color: #1e40af;
                     font-size: 0.65rem;
                     font-weight: 700;
                     text-transform: uppercase;
@@ -360,15 +357,15 @@
                 >
                   {{ emp.departmentName || 'Unassigned' }}
                 </p>
-                <span style="color: #334155; font-size: 0.6rem">•</span>
-                <p style="margin: 0; color: #64748b; font-size: 0.75rem; font-weight: 500">
+                <span style="color: #cbd5e1; font-size: 0.6rem">•</span>
+                <p style="margin: 0; color: #9ca3af; font-size: 0.75rem; font-weight: 500">
                   {{ emp.position }}
                 </p>
               </div>
               <p
                 style="
                   margin: 4px 0 0 0;
-                  color: #475569;
+                  color: #d1d5db;
                   font-size: 0.7rem;
                   font-family: 'JetBrains Mono', monospace;
                 "
@@ -380,33 +377,39 @@
 
           <div
             style="
-              border-top: 1px solid rgba(255, 255, 255, 0.05);
+              border-top: 1px solid rgba(200, 200, 200, 0.2);
               padding-top: 15px;
               display: flex;
               justify-content: space-between;
               align-items: center;
+              gap: 12px;
             "
           >
             <span
               *ngIf="userRole() === 'ADMIN' || emp.role !== 'MANAGER'"
               style="
-                color: #818cf8;
+                color: #3b82f6;
                 font-family: 'JetBrains Mono', monospace;
                 font-size: 0.9rem;
                 font-weight: 600;
               "
             >
-              {{ emp.salary | currency: 'EUR' }}
+              {{ emp.salary | currency: 'RON' }}
             </span>
             <span
               *ngIf="userRole() === 'MANAGER' && emp.role === 'MANAGER'"
-              style="color: #475569; font-size: 0.75rem; font-style: italic"
+              style="color: #d1d5db; font-size: 0.75rem; font-style: italic"
             >
               Confidential
             </span>
-            <span style="color: #334155; font-size: 0.6rem; font-weight: 700; letter-spacing: 1px">
-              REF: #0{{ emp.id }}
-            </span>
+            @if (emp.isDeleted && userRole() === 'ADMIN') {
+              <button
+                (click)="$event.stopPropagation(); restoreEmployee(emp.id!)"
+                class="restore-btn restore-btn--compact"
+              >
+                Restaurare
+              </button>
+            }
           </div>
         </div>
       } @empty {
@@ -415,15 +418,15 @@
             grid-column: 1 / -1;
             text-align: center;
             padding: 60px;
-            background: rgba(15, 23, 42, 0.2);
+            background: rgba(255, 255, 255, 0.2);
             border-radius: 20px;
-            border: 1px dashed rgba(99, 102, 241, 0.1);
+            border: 1px dashed rgba(30, 64, 175, 0.1);
           "
         >
           @if (searchQuery()) {
-            <p style="color: #64748b; font-size: 1rem; margin: 0">
-              No talent matching
-              <span style="color: #6366f1; font-weight: 700">"{{ searchQuery() }}"</span> found.
+            <p style="color: #9ca3af; font-size: 1rem; margin: 0">
+              Nu s-au găsit angajați pentru căutarea:
+              <span style="color: #1e40af; font-weight: 700">"{{ searchQuery() }}"</span>
             </p>
             <button
               (click)="searchQuery.set(''); onSearch($any({ target: { value: '' } }))"
@@ -431,23 +434,23 @@
                 margin-top: 10px;
                 background: none;
                 border: none;
-                color: #6366f1;
+                color: #1e40af;
                 cursor: pointer;
                 font-weight: 700;
                 text-decoration: underline;
               "
             >
-              Clear Search
+              Resetare Căutare
             </button>
           } @else {
-            <p style="color: #64748b; font-size: 1rem; margin: 0">No employees available.</p>
+            <p style="color: #9ca3af; font-size: 1rem; margin: 0">Nu există angajați disponibili.</p>
             <button
               *ngIf="userRole() === 'ADMIN'"
               (click)="openAddModal()"
               style="
                 margin-top: 10px;
-                background: #6366f1;
-                color: white;
+                background: #1e40af;
+                color: #1f2937;
                 border: none;
                 padding: 8px 16px;
                 border-radius: 8px;
@@ -455,7 +458,7 @@
                 font-weight: 600;
               "
             >
-              + Add First Employee
+              + Adaugă Angajat
             </button>
           }
         </div>
@@ -467,19 +470,19 @@
       style="
         width: 100%;
         overflow-x: auto;
-        background: rgba(15, 23, 42, 0.3);
+        background: rgba(255, 255, 255, 0.3);
         border-radius: 16px;
-        border: 1px solid rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(200, 200, 200, 0.2);
       "
     >
       <table style="width: 100%; border-collapse: collapse; min-width: 800px">
         <thead>
           <tr>
-            <th>Employee</th>
-            <th>Position</th>
-            <th>Department</th>
-            <th>Salary</th>
-            <th style="text-align: right; padding-right: 25px">Actions</th>
+            <th>Angajat</th>
+            <th>Poziție</th>
+            <th>Departament</th>
+            <th>Salariu</th>
+            <th style="text-align: right; padding-right: 25px">Acțiuni</th>
           </tr>
         </thead>
         <tbody>
@@ -490,7 +493,7 @@
               [style.filter]="emp.isDeleted ? 'grayscale(1)' : 'none'"
               style="
                 cursor: pointer;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+                border-bottom: 1px solid rgba(200, 200, 200, 0.1);
                 transition: 0.3s;
               "
             >
@@ -504,7 +507,7 @@
                     style="
                       width: 32px;
                       height: 32px;
-                      background: linear-gradient(135deg, #6366f1, #a855f7);
+                      background: linear-gradient(135deg, #1e40af, #3b82f6);
                       border-radius: 8px;
                       display: flex;
                       align-items: center;
@@ -519,14 +522,14 @@
                     <div style="display: flex; align-items: center; gap: 8px">
                       <span style="font-weight: 600">{{ emp.firstName }} {{ emp.lastName }}</span>
                       <span
-                        [style.color]="emp.role === 'MANAGER' ? '#818cf8' : '#475569'"
+                        [style.color]="emp.role === 'MANAGER' ? 'white' : '#d1d5db'"
                         [style.background]="
-                          emp.role === 'MANAGER' ? 'rgba(99, 102, 241, 0.1)' : 'transparent'
+                          emp.role === 'MANAGER' ? '#059669' : 'transparent'
                         "
                         [style.border]="
                           emp.role === 'MANAGER'
-                            ? '1px solid rgba(99, 102, 241, 0.2)'
-                            : '1px solid rgba(255,255,255,0.05)'
+                            ? '1px solid #059669'
+                            : '1px solid rgba(200,200,200,0.2)'
                         "
                         style="
                           font-size: 0.6rem;
@@ -539,7 +542,7 @@
                       </span>
                     </div>
                     <span
-                      style="font-size: 0.7rem; color: #475569; font-family: 'JetBrains Mono'"
+                      style="font-size: 0.7rem; color: #d1d5db; font-family: 'JetBrains Mono'"
                       >{{ emp.email }}</span
                     >
                   </div>
@@ -549,27 +552,27 @@
               <td style="padding: 12px">
                 <span class="dept-badge">{{ emp.departmentName || 'Unassigned' }}</span>
               </td>
-              <td style="padding: 12px; font-family: 'JetBrains Mono'; color: #818cf8">
+              <td style="padding: 12px; font-family: 'JetBrains Mono'; color: #3b82f6">
                 <ng-container
                   *ngIf="userRole() === 'ADMIN' || emp.role !== 'MANAGER'; else hiddenSalary"
                 >
-                  {{ emp.salary | currency: 'EUR' }}
+                  {{ (emp.salary | number: '1.0-0') }} RON
                 </ng-container>
                 <ng-template #hiddenSalary>
-                  <span style="color: #475569; font-size: 0.75rem">***</span>
+                  <span style="color: #d1d5db; font-size: 0.75rem">***</span>
                 </ng-template>
               </td>
               <td style="text-align: right; padding-right: 20px">
                 @if (!emp.isDeleted) {
                   <button (click)="$event.stopPropagation(); openEditModal(emp)" class="action-btn">
-                    Edit
+                    Editare
                   </button>
                   <button
                     *ngIf="userRole() === 'ADMIN'"
                     (click)="$event.stopPropagation(); deleteEmployee(emp.id!)"
                     class="action-btn delete"
                   >
-                    Delete
+                    Ștergere
                   </button>
                 } @else {
                   <button
@@ -577,15 +580,15 @@
                     (click)="$event.stopPropagation(); restoreEmployee(emp.id!)"
                     class="restore-btn"
                   >
-                    RESTORE
+                    Restaurare
                   </button>
                 }
               </td>
             </tr>
           } @empty {
             <tr>
-              <td colspan="5" style="text-align: center; padding: 40px; color: #64748b">
-                No employees found.
+              <td colspan="5" style="text-align: center; padding: 40px; color: #9ca3af">
+                Nu s-au găsit angajați.
               </td>
             </tr>
           }
@@ -606,9 +609,9 @@
       "
     >
       <h2
-        style="margin: 0; font-size: 1.5rem; font-weight: 800; letter-spacing: -1px; color: white"
+        style="margin: 0; font-size: 1.5rem; font-weight: 800; letter-spacing: -1px; color: #1f2937"
       >
-        {{ isEditMode() ? 'UPDATE EMPLOYEE' : 'NEW EMPLOYEE' }}<span style="color: #6366f1">.</span>
+        {{ isEditMode() ? 'Actualizare Angajat' : 'Adăugare Angajat' }}
       </h2>
       <button (click)="closeModal()" class="close-btn">&times;</button>
     </div>
@@ -617,65 +620,65 @@
       <div style="display: grid; gap: 20px">
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px">
           <div>
-            <label class="tf-label">First Name</label>
+            <label class="tf-label">Prenume</label>
             <input
               [(ngModel)]="newEmployee.firstName"
               name="firstName"
               required
               class="tf-input"
-              placeholder="John"
+              placeholder="Ion"
             />
           </div>
           <div>
-            <label class="tf-label">Last Name</label>
+            <label class="tf-label">Nume</label>
             <input
               [(ngModel)]="newEmployee.lastName"
               name="lastName"
               required
               class="tf-input"
-              placeholder="Doe"
+              placeholder="Popescu"
             />
           </div>
         </div>
 
         <div>
-          <label class="tf-label">Corporate Email</label>
+          <label class="tf-label">Email Corporativ</label>
           <input
             [(ngModel)]="newEmployee.email"
             name="email"
             type="text"
             required
-            pattern="^[a-zA-Z0-9._%+-]+@techflow\.com$"
+            pattern=".+@fluxlog\.ro$"
             #emailModel="ngModel"
             class="tf-input"
             [class.tf-input-error]="emailModel.invalid && emailModel.touched"
-            placeholder="j.doe@techflow.com"
+            placeholder="i.popescu@fluxlog.ro"
           />
           <div
             *ngIf="emailModel.invalid && emailModel.touched"
             style="color: #ef4444; font-size: 0.65rem; margin-top: 5px; font-weight: 600"
           >
-            <span *ngIf="emailModel.errors?.['required']">Email is required.</span>
+            <span *ngIf="emailModel.errors?.['required']">Emailul este obligatoriu.</span>
             <span *ngIf="emailModel.errors?.['pattern']"
-              >Identity Error: Use @techflow.com domain only.</span
+              >Eroare: Email-ul trebuie să se termine în @fluxlog.ro</span
             >
           </div>
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px">
           <div>
-            <label class="tf-label">Phone Number</label>
+            <label class="tf-label">Număr de Telefon</label>
             <input
               [(ngModel)]="newEmployee.phone"
               name="phone"
               (input)="validatePhone($event)"
               required
               class="tf-input"
-              placeholder="+40 7xx ..."
+              placeholder="07xx ..."
             />
           </div>
           <div>
-            <label class="tf-label">Department</label>
+            <label class="tf-label">Departament</label>
             <select
               [(ngModel)]="newEmployee.department.id"
               name="empDept"
@@ -683,7 +686,7 @@
               class="tf-input"
               style="appearance: auto"
             >
-              <option [ngValue]="undefined" disabled selected>Assign Dept</option>
+              <option [ngValue]="undefined" disabled selected>Departament</option>
               @for (dept of departments(); track dept.id) {
                 <option [value]="dept.id">{{ dept.name }}</option>
               }
@@ -693,17 +696,17 @@
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px">
           <div>
-            <label class="tf-label">Position</label>
+            <label class="tf-label">Poziție</label>
             <input
               [(ngModel)]="newEmployee.position"
               name="position"
               required
               class="tf-input"
-              placeholder="Software Engineer"
+              placeholder="Manager Logistică"
             />
           </div>
           <div>
-            <label class="tf-label">Salary (EUR)</label>
+            <label class="tf-label">Salariu (RON)</label>
 
             <input
               *ngIf="userRole() === 'ADMIN' || newEmployee.role !== 'MANAGER'"
@@ -720,8 +723,8 @@
               *ngIf="userRole() === 'MANAGER' && newEmployee.role === 'MANAGER'"
               class="tf-input"
               style="
-                background: rgba(15, 23, 42, 0.6);
-                color: #64748b;
+                background: rgba(255, 255, 255, 0.6);
+                color: #9ca3af;
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
@@ -735,18 +738,18 @@
                 style="
                   font-size: 0.6rem;
                   font-weight: 800;
-                  color: #475569;
+                  color: #d1d5db;
                   text-transform: uppercase;
                 "
               >
-                Protected
+                Protejat
               </span>
             </div>
           </div>
         </div>
 
         <div>
-          <label class="tf-label">Hire Date</label>
+          <label class="tf-label">Data Angajării</label>
           <input [(ngModel)]="newEmployee.hireDate" name="hireDate" type="date" class="tf-input" />
         </div>
 
@@ -775,12 +778,21 @@
         </div>
 
         <div style="margin-top: 10px; display: grid; grid-template-columns: 1fr 2fr; gap: 15px">
-          <button type="button" (click)="closeModal()" class="tf-btn-secondary">Cancel</button>
+          <button type="button" (click)="closeModal()" class="tf-btn-secondary">Anulează</button>
           <button type="submit" [disabled]="!empForm.form.valid" class="tf-btn-primary">
-            {{ isEditMode() ? 'Save Changes' : 'Deploy to System' }}
+            {{ isEditMode() ? 'Salvează modificările' : 'Adaugă în sistem' }}
           </button>
         </div>
       </div>
     </form>
   </div>
 </div>
+
+
+
+
+
+
+
+
+

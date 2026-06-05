@@ -28,12 +28,12 @@
   font-size: 1.8rem;
   letter-spacing: -0.5px;
   margin: 0 0 10px 0;
-  color: white;
+  color: #1f2937;
   font-weight: 800;
 }
 
 .project-desc {
-  color: #94a3b8;
+  color: #6b7280;
   margin-top: 15px;
   line-height: 1.6;
   max-width: 850px;
@@ -50,7 +50,7 @@
 
 .project-id-badge {
   background: var(--color-indigo-faint);
-  color: #818cf8;
+  color: #3b82f6;
   padding: 4px 12px;
   border-radius: 8px;
   font-family: 'JetBrains Mono', monospace;
@@ -59,12 +59,13 @@
 }
 
 .deadline-badge {
-  background: rgba(255, 255, 255, 0.05);
-  color: #a5b4fc;
+  background: rgba(200, 200, 200, 0.2);
+  color: #1f2937;
   padding: 4px 12px;
   border-radius: 8px;
   font-size: 0.85rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(200, 200, 200, 0.3);
+  font-weight: 600;
 }
 
 .dept-badges {
@@ -78,12 +79,13 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(99, 102, 241, 0.15);
-  color: #a5b4fc;
+  background: rgba(30, 64, 175, 0.15);
+  color: #1f2937;
   padding: 3px 12px;
   border-radius: 12px;
   font-size: 0.75rem;
   border: 1px solid var(--color-border-indigo);
+  font-weight: 600;
 }
 
 .btn-remove-dept {
@@ -102,14 +104,15 @@
 }
 
 .add-dept-select {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px dashed rgba(255, 255, 255, 0.2);
-  color: #94a3b8;
+  background: rgba(200, 200, 200, 0.2);
+  border: 1px dashed rgba(200, 200, 200, 0.4);
+  color: #1f2937;
   border-radius: 10px;
   font-size: 0.75rem;
   padding: 3px 8px;
   outline: none;
   cursor: pointer;
+  font-weight: 600;
 }
 
 /* --- KANBAN BOARD & COLUMNS --- */
@@ -121,10 +124,10 @@
 }
 
 .kanban-column {
-  background: rgba(15, 23, 42, 0.3);
+  background: rgba(240, 244, 248, 0.4);
   border-radius: 20px;
   padding: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(30, 64, 175, 0.1);
   min-height: 70vh;
 }
 
@@ -134,14 +137,14 @@
   gap: 12px;
   margin-bottom: 20px;
   padding-bottom: 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(200, 200, 200, 0.2);
 }
 
 .column-header h3 {
   margin: 0;
   font-size: 0.85rem;
   font-weight: 700;
-  color: #94a3b8;
+  color: #6b7280;
   letter-spacing: 1px;
 }
 
@@ -154,10 +157,10 @@
 }
 
 .task-card {
-  background: rgba(30, 41, 59, 0.7);
+  background: rgba(255, 255, 255, 0.7);
   border-radius: 16px;
   padding: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(200, 200, 200, 0.2);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   backdrop-filter: blur(5px);
   position: relative;
@@ -166,28 +169,28 @@
 
 .task-card:hover {
   transform: translateY(-5px) scale(1.01);
-  background: rgba(30, 41, 59, 0.9);
-  border-color: rgba(99, 102, 241, 0.4);
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(30, 64, 175, 0.4);
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
   z-index: 10;
 }
 
 .task-card h4 {
   margin: 0 0 10px 0;
-  color: #f1f5f9;
+  color: #1f2937;
   font-size: 1rem;
   font-weight: 600;
 }
 
 .task-card p {
-  color: #94a3b8;
+  color: #6b7280;
   font-size: 0.85rem;
   line-height: 1.5;
   margin-bottom: 15px;
 }
 
 .task-footer {
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(200, 200, 200, 0.2);
   padding-top: 12px;
 }
 
@@ -210,44 +213,48 @@
 }
 
 .task-action-btn {
-  background: rgba(255, 255, 255, 0.05);
-  border: none;
-  border-radius: 4px;
-  color: #94a3b8;
-  padding: 2px 6px;
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 6px;
+  color: #3b82f6;
+  padding: 4px 8px;
   cursor: pointer;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   transition: all 0.2s;
 }
 
 .task-action-btn.edit:hover {
-  background: #6366f1;
+  background: #3b82f6;
   color: white;
+  border-color: #3b82f6;
 }
 
 .task-action-btn.delete:hover {
-  background: #ef4444;
+  background: #b91c1c;
   color: white;
+  border-color: #b91c1c;
 }
 
 .assignee-tag {
   font-size: 0.75rem;
-  color: #cbd5e1;
-  background: rgba(255, 255, 255, 0.03);
+  color: #1f2937;
+  background: rgba(59, 130, 246, 0.1);
   padding: 4px 10px;
   border-radius: 6px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  font-weight: 600;
+  border: 1px solid rgba(59, 130, 246, 0.2);
 }
 
 /* Status Borders */
 .in-progress-border {
-  border-left: 4px solid #f59e0b;
+  border-left: 4px solid #b45309;
 }
 
 .done-border {
-  border-left: 4px solid #10b981;
+  border-left: 4px solid #1f7e4f;
 }
 
 /* --- BUTTONS RE-POLISH --- */
@@ -276,40 +283,40 @@
 }
 
 .btn-add-task {
-  background: #6366f1;
+  background: #1e40af;
   color: white;
 }
 
 .btn-add-task:hover {
-  background: #4f46e5;
+  background: #1e3a8a;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
 }
 
 .btn-edit-project {
-  background: rgba(255, 255, 255, 0.05);
-  color: #a5b4fc;
-  border-color: rgba(255, 255, 255, 0.1);
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
 }
 
 .btn-edit-project:hover {
-  background: rgba(99, 102, 241, 0.15);
-  border-color: rgba(99, 102, 241, 0.3);
+  background: #1e40af;
+  border-color: #1e40af;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
 }
 
 .btn-delete-project {
-  background: rgba(239, 68, 68, 0.05);
-  color: #f87171;
-  border-color: rgba(239, 68, 68, 0.1);
+  background: #b91c1c;
+  color: white;
+  border-color: #b91c1c;
 }
 
 .btn-delete-project:hover {
-  background: rgba(239, 68, 68, 0.15);
+  background: #991b1b;
   color: white;
-}
-  background: #ef4444;
-  color: white;
-  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(185, 28, 28, 0.3);
 }
 
 .btn-save-project {
@@ -319,25 +326,25 @@
 }
 .btn-save-project:hover {
   background: #10b981;
-  color: white;
+  color: #1f2937;
   box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
 }
 
 .btn-cancel-project {
-  background: rgba(255, 255, 255, 0.05);
-  color: #94a3b8;
-  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(200, 200, 200, 0.2);
+  color: #6b7280;
+  border-color: rgba(200, 200, 200, 0.3);
 }
 .btn-cancel-project:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
+  background: rgba(200, 200, 200, 0.3);
+  color: #1f2937;
 }
 
 /* --- EDIT MODE INPUTS (MODERNIZED) --- */
 .edit-input-title {
   background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(99, 102, 241, 0.4);
-  color: white;
+  border: 1px solid rgba(30, 64, 175, 0.4);
+  color: #1f2937;
   font-size: 1.8rem;
   font-weight: 800;
   border-radius: 12px;
@@ -349,13 +356,13 @@
   box-sizing: border-box;
 }
 .edit-input-title:focus {
-  background: rgba(99, 102, 241, 0.05);
-  border-color: #6366f1;
+  background: rgba(30, 64, 175, 0.05);
+  border-color: #1e40af;
 }
 
 .edit-input-date {
-  background: rgba(15, 23, 42, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(200, 200, 200, 0.3);
   color: #a5b4fc;
   border-radius: 10px;
   padding: 6px 12px;
@@ -365,8 +372,8 @@
 
 .edit-input-desc {
   background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #94a3b8;
+  border: 1px solid rgba(200, 200, 200, 0.3);
+  color: #6b7280;
   width: 100%;
   max-width: 800px; /* O limităm și pe ea pentru un aspect mai "profy" */
   min-height: 80px;
@@ -377,8 +384,8 @@
   resize: vertical;
 }
 .edit-input-desc:focus {
-  border-color: rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(200, 200, 200, 0.4);
+  background: rgba(200, 200, 200, 0.2);
 }
 
 /* --- INDICATORS & BADGES --- */
@@ -388,8 +395,8 @@
   border-radius: 50%;
 }
 .todo {
-  background: #6366f1;
-  box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+  background: #1e40af;
+  box-shadow: 0 0 10px rgba(30, 64, 175, 0.5);
 }
 .progress {
   background: #f59e0b;
@@ -402,11 +409,13 @@
 
 .count-badge {
   margin-left: auto;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(30, 64, 175, 0.15);
   padding: 2px 10px;
   border-radius: 10px;
   font-size: 0.8rem;
-  color: #64748b;
+  color: #1f2937;
+  font-weight: 700;
+  border: 1px solid rgba(30, 64, 175, 0.2);
 }
 
 .cdk-drag-preview {
@@ -418,8 +427,8 @@
 }
 
 .drag-placeholder {
-  background: rgba(99, 102, 241, 0.03);
-  border: 2px dashed rgba(255, 255, 255, 0.1);
+  background: rgba(30, 64, 175, 0.03);
+  border: 2px dashed rgba(200, 200, 200, 0.3);
   border-radius: 16px;
   min-height: 100px;
   opacity: 0.3;
@@ -428,8 +437,8 @@
 /* Stil pentru spațiul gol unde va ateriza cardul */
 .cdk-drop-list-dragging .cdk-drag-placeholder {
   opacity: 0.3;
-  background: rgba(99, 102, 241, 0.1);
-  border: 2px dashed rgba(99, 102, 241, 0.3);
+  background: rgba(30, 64, 175, 0.1);
+  border: 2px dashed rgba(30, 64, 175, 0.3);
   border-radius: 16px;
   margin-bottom: 15px;
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
@@ -444,3 +453,9 @@
 .task-list.cdk-drop-list-dragging .task-card:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
+
+
+
+
+
+

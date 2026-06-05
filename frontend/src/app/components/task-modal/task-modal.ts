@@ -42,7 +42,6 @@ export class TaskModalComponent implements OnInit {
         assignedToId: this.task.assignedTo?.id || this.task.assignedToId || null,
       };
 
-      // Setăm obiectul selectat inițial pentru a popula dropdown-ul
       if (this.taskModel.assignedToId) {
         this.selectedUser = this.users.find(u => u.id === this.taskModel.assignedToId) || null;
       }
@@ -60,7 +59,6 @@ export class TaskModalComponent implements OnInit {
   this.selectedUser = user;
   this.taskModel.assignedToId = user.id;
   
-  // Această linie forțează Angular să verifice din nou [disabled] de pe buton
   this.cdr.detectChanges(); 
 }
 

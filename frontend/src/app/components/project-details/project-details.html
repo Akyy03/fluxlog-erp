@@ -7,7 +7,6 @@
       <input *ngIf="isEditing" [(ngModel)]="editModel.name" class="edit-input-title" placeholder="Project Name">
 
       <div class="project-meta">
-        <span class="project-id-badge">ID_PRJ_0{{projectId}}</span>
         
         <span class="deadline-badge" *ngIf="!isEditing">📅 {{project.deadline || 'No deadline'}}</span>
         <input *ngIf="isEditing" type="date" [(ngModel)]="editModel.deadline" [min]="today" class="edit-input-date">
@@ -19,7 +18,7 @@
           </span>
 
           <select *ngIf="userRole === 'ADMIN'" (change)="assignDepartment($event)" class="add-dept-select">
-            <option value="" disabled selected>+ Add Department</option>
+            <option value="" disabled selected>+ Adaugă Departament</option>
             <option *ngFor="let d of getAvailableDepartments()" [value]="d.id">
               {{d.name}}
             </option>
@@ -33,15 +32,15 @@
 
     <div class="project-actions">
       <ng-container *ngIf="!isEditing">
-        <button *ngIf="userRole === 'ADMIN'" class="btn-edit-project" (click)="startEdit()">✏️ Edit</button>
-        <button *ngIf="userRole === 'ADMIN'" class="btn-delete-project" (click)="deleteProject()">🗑️ Delete</button>
+        <button *ngIf="userRole === 'ADMIN'" class="btn-edit-project" (click)="startEdit()">✏️ Editare</button>
+        <button *ngIf="userRole === 'ADMIN'" class="btn-delete-project" (click)="deleteProject()">🗑️ Stergere</button>
         
-        <button class="btn-add-task" (click)="openAddTaskModal()">+ New Task</button>
+        <button class="btn-add-task" (click)="openAddTaskModal()">+ Actiune Noua</button>
       </ng-container>
       
       <ng-container *ngIf="isEditing">
-        <button class="btn-save-project" (click)="saveProjectChanges()">💾 Save</button>
-        <button class="btn-cancel-project" (click)="cancelEdit()">❌ Cancel</button>
+        <button class="btn-save-project" (click)="saveProjectChanges()">💾 Salvează</button>
+        <button class="btn-cancel-project" (click)="cancelEdit()">❌ Anulează</button>
       </ng-container>
     </div>
   </div>
@@ -51,7 +50,7 @@
     <div class="kanban-column">
       <div class="column-header">
         <div class="status-indicator todo"></div>
-        <h3>TO DO</h3>
+        <h3>DE FĂCUT</h3>
         <span class="count-badge">{{todoTasks.length}}</span>
       </div>
       <div class="task-list" id="TODO" cdkDropList [cdkDropListData]="todoTasks" [cdkDropListConnectedTo]="['IN_PROGRESS', 'DONE']" (cdkDropListDropped)="drop($event)">
@@ -75,7 +74,7 @@
     <div class="kanban-column">
       <div class="column-header">
         <div class="status-indicator progress"></div>
-        <h3>IN PROGRESS</h3>
+        <h3>IN PROGRES</h3>
         <span class="count-badge">{{inProgressTasks.length}}</span>
       </div>
       <div class="task-list" id="IN_PROGRESS" cdkDropList [cdkDropListData]="inProgressTasks" [cdkDropListConnectedTo]="['TODO', 'DONE']" (cdkDropListDropped)="drop($event)">
@@ -99,7 +98,7 @@
     <div class="kanban-column">
       <div class="column-header">
         <div class="status-indicator done"></div>
-        <h3>COMPLETED</h3>
+        <h3>COMPLETATE</h3>
         <span class="count-badge">{{doneTasks.length}}</span>
       </div>
       <div class="task-list" id="DONE" cdkDropList [cdkDropListData]="doneTasks" [cdkDropListConnectedTo]="['TODO', 'IN_PROGRESS']" (cdkDropListDropped)="drop($event)">
@@ -130,3 +129,11 @@
   (closed)="showTaskModal = false"
   (taskCreated)="handleTaskCreated($event)">
 </app-task-modal>
+
+
+
+
+
+
+
+

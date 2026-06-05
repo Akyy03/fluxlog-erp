@@ -1,58 +1,65 @@
 <div class="quantum-sidebar">
-  <div class="brand">TECHFLOW<span>.</span></div>
+  <a routerLink="/dashboard" class="brand">
+    FluxLog<span>.</span>
+  </a>
 
   <nav class="nav-menu">
     <a routerLink="/dashboard" routerLinkActive="active-link" class="nav-item">
-      <span class="icon">📊</span> Dashboard
+      <span class="icon"></span> Dashboard
     </a>
 
     @if (authService.isAdmin()) {
       <a routerLink="/departments" routerLinkActive="active-link" class="nav-item">
-        <span class="icon">🏢</span> Departments
+        <span class="icon"></span> Departamente
       </a>
     }
 
     @if (authService.isManager()) {
       <a routerLink="/my-department" routerLinkActive="active-link" class="nav-item">
-        <span class="icon">🏢</span> My Department
+        <span class="icon"></span> Departament
       </a>
     }
 
     @if (authService.isAdmin() || authService.isManager()) {
       <a routerLink="/employees" routerLinkActive="active-link" class="nav-item">
-        <span class="icon">👥</span>
-        {{ authService.isAdmin() ? 'Staff Management' : 'My Team' }}
+        <span class="icon"></span>
+        {{ authService.isAdmin() ? 'Management Personal' : 'Echipa Mea' }}
       </a>
     }
 
     @if (authService.isAdmin() || authService.isManager()) {
       <a routerLink="/projects" routerLinkActive="active-link" class="nav-item">
-        <span class="icon">🚀</span>
-        {{ authService.isAdmin() ? 'Projects' : 'Team Projects' }}
+        <span class="icon"></span> Comenzi
       </a>
     }
 
     @if (authService.isEmployee()) {
       <a routerLink="/my-tasks" routerLinkActive="active-link" class="nav-item">
-        <span class="icon">🚀</span> My Tasks
+        <span class="icon"></span> Actiunile Mele
       </a>
     }
 
     <a routerLink="/leaves" routerLinkActive="active-link" class="nav-item">
-      <span class="icon">📅</span>
+      <span class="icon"></span>
       @if (authService.isAdmin()) {
-        Global Leaves
+        Cereri de Concediu
       } @else if (authService.isManager()) {
-        Approval Center
+        Cereri de Concediu
       } @else {
-        My Requests
+        Cereri de Concediu
       }
     </a>
 
     @if (authService.isAdmin() || authService.isManager()) {
       <a routerLink="/reports" routerLinkActive="active-link" class="nav-item">
-        <span class="icon">📈</span>
-        {{ authService.isAdmin() ? 'Global Reports' : 'Team Reports' }}
+        <span class="icon"></span>
+        {{ authService.isAdmin() ? 'Rapoarte Globale' : 'Rapoarte Echipă' }}
+      </a>
+    }
+
+    @if (authService.isAdmin()) {
+      <a routerLink="/invoices" routerLinkActive="active-link" class="nav-item">
+        <span class="icon"></span> Facturare
       </a>
     }
   </nav>
@@ -61,10 +68,10 @@
 
   <div class="user-control-panel">
     @if (!authService.isAdmin()) {
-      <button class="control-btn" (click)="openPhoneModal()" title="Update Phone">
+      <button class="control-btn" (click)="openPhoneModal()" title="Actualizează Contact">
         <span class="control-icon">📞</span>
       </button>
-      <button class="control-btn" (click)="openPasswordModal()" title="Security">
+      <button class="control-btn" (click)="openPasswordModal()" title="Schimba Parola">
         <span class="control-icon">🔒</span>
       </button>
     }
@@ -73,12 +80,12 @@
       class="control-btn"
       [class.full-width]="authService.isAdmin()"
       (click)="openLogoutConfirm()"
-      title="Logout"
+      title="Log out"
     >
       <div class="logout-content-wrapper">
         <span class="control-icon">➔</span>
         @if (authService.isAdmin()) {
-          <span class="logout-text">LOG OUT</span>
+          <span class="logout-text">Deconectare</span>
         }
       </div>
     </button>
@@ -87,14 +94,13 @@
   <div class="modal-overlay" *ngIf="showLogoutModal()">
     <div class="modal-card">
       <div class="modal-icon-header logout-warn"><span>⚠️</span></div>
-      <h3>Sign Out</h3>
+      <h3>Deconectare</h3>
       <p>
-        Are you sure you want to end your session? You will need to re-authenticate to access
-        TechFlow.
+        Sunteti sigur ca doriti sa va deconectati? Asigurati-va ca ati salvat toate modificarile inainte de a continua.
       </p>
       <div class="modal-actions horizontal">
-        <button (click)="cancelLogout()" class="btn-ghost">Stay</button>
-        <button (click)="confirmLogout()" class="btn-danger-gradient">Logout</button>
+        <button (click)="cancelLogout()" class="btn-ghost">Anuleaza</button>
+        <button (click)="confirmLogout()" class="btn-danger-gradient">Deconectare</button>
       </div>
     </div>
   </div>
@@ -102,8 +108,8 @@
   <div class="modal-overlay" *ngIf="showPhoneModal()">
     <div class="modal-card">
       <div class="modal-icon-header info"><span>📞</span></div>
-      <h3>Update Contact</h3>
-      <p>Enter your new contact number below.</p>
+      <h3>Actualizează Contact</h3>
+      <p>Introduceți noul număr de telefon mai jos.</p>
       <input 
         type="text" 
         class="modal-input" 
@@ -113,11 +119,11 @@
         placeholder="07xxxxxxxx"
         required
         pattern="^07\d{8}$"
-        title="Must be in format 07xxxxxxxx with exactly 10 digits"
+        title="Trebuie să fie în formatul 07xxxxxxxx cu exact 10 cifre"
       />
       <div class="modal-actions">
-        <button (click)="closeModals()" class="btn-ghost">Cancel</button>
-        <button (click)="savePhone()" class="btn-primary-gradient" [disabled]="!isPhoneValid()">Update Number</button>
+        <button (click)="closeModals()" class="btn-ghost">Anuleaza</button>
+        <button (click)="savePhone()" class="btn-primary-gradient" [disabled]="!isPhoneValid()">Actualizează</button>
       </div>
     </div>
   </div>
@@ -125,20 +131,29 @@
   <div class="modal-overlay" *ngIf="showPasswordModal()">
     <div class="modal-card">
       <div class="modal-icon-header security"><span>🔒</span></div>
-      <h3>Security Update</h3>
-      <p>Set a new secure password for your account.</p>
+      <h3>Securitate</h3>
+      <p>Setați o parolă nouă pentru contul dvs.</p>
       <input
         type="password"
         class="modal-input"
         [(ngModel)]="newPassword"
-        placeholder="New Password (min 5 characters)"
+        placeholder="Parola Nouă (min 5 caractere)"
         required
         minlength="5"
       />
       <div class="modal-actions">
-        <button (click)="closeModals()" class="btn-ghost">Cancel</button>
-        <button (click)="savePassword()" class="btn-primary-gradient" [disabled]="!isPasswordValid()">Change Password</button>
+        <button (click)="closeModals()" class="btn-ghost">Anuleaza</button>
+        <button (click)="savePassword()" class="btn-primary-gradient" [disabled]="!isPasswordValid()">Schimba Parola</button>
       </div>
     </div>
   </div>
 </div>
+
+
+
+
+
+
+
+
+

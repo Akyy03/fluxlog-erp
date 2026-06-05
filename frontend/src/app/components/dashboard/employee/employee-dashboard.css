@@ -14,7 +14,7 @@
 .stat-value-compact {
   font-size: 1.5rem;
   font-weight: 800;
-  color: white;
+  color: #1f2937;
   margin-top: 5px;
   font-family: 'JetBrains Mono', monospace;
 }
@@ -34,7 +34,7 @@
 }
 
 .task-title {
-  color: white;
+  color: #1f2937;
   font-weight: 600;
   font-size: 1rem;
   margin: 0;
@@ -47,9 +47,9 @@
 }
 
 .badge {
-  background: rgba(99, 102, 241, 0.08);
-  color: #818cf8;
-  border: 1px solid rgba(99, 102, 241, 0.1);
+  background: rgba(30, 64, 175, 0.08);
+  color: #3b82f6;
+  border: 1px solid rgba(30, 64, 175, 0.1);
   padding: 4px 10px;
   border-radius: 6px;
   font-size: 0.7rem;
@@ -58,7 +58,7 @@
 }
 
 .section-title {
-  color: white;
+  color: #1f2937;
   font-size: 1rem;
   margin-bottom: 15px;
   font-weight: 700;
@@ -66,11 +66,24 @@
   letter-spacing: -0.5px;
 }
 
-.bento-card {
-  transition: all 0.3s ease;
+.view-all-link {
+  display: inline-block;
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 700;
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 
-.bento-card:hover {
-  background: rgba(30, 41, 59, 0.6);
-  border-color: rgba(99, 102, 241, 0.3);
+.view-all-link:hover {
+  color: #2563eb;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  transform: translateX(3px);
 }
+
+
+
+
+
+
